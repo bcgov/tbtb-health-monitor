@@ -1,0 +1,104 @@
+#run oc process -f bc.yaml -p NAME=tbtb-demo IMAGE_TAG=latest OC_REPO_SECRET_USER=user-at-github | oc apply -f -
+kind: Template
+apiVersion: "template.openshift.io/v1"
+metadata:
+  name: ${NAME}
+  labels:
+    buildconfig: ${NAME}
+objects:
+  - apiVersion: v1
+    kind: BuildConfig
+    spec:
+      failedBuildsHistoryLimit: 5
+      nodeSelector: null
+      output:
+        to:
+          kind: ImageStreamTag
+          name: ${NAME}:${IMAGE_TAG}
+      postCommit: {}
+      resources:
+        requests:
+          cpu: 2
+          memory: 8Gi
+        limits:
+          cpu: 4
+          memory: 16Gi
+      runPolicy: Serial
+      source:
+        git:
+          ref: ${REPO_BRANCH}
+          uri: ${REPO_NAME}
+        type: Git
+      strategy:
+        dockerStrategy:
+          dockerfilePath: ./Dockerfile
+          env:
+            - name: "TEST_ARG"
+              value: "hi there"
+            - name: ENV_ARG
+              valueFrom:
+                secretKeyRef:
+                  name: tbtb-demo-env
+                  key: ".env"
+            - name: ENV_DB_CONNECTION
+              valueFrom:
+                secretKeyRef:
+                  name: tbtb-demo-env
+                  key: "db_connection"
+            - name: ENV_DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: tbtb-demo-env
+                  key: "db_host"
+            - name: ENV_DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: tbtb-demo-env
+                  key: "db_port"
+            - name: ENV_DB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: tbtb-demo-env
+                  key: "db_database"
+            - name: ENV_DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: tbtb-demo-env
+                  key: "db_username"
+            - name: ENV_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: tbtb-demo-env
+                  key: "db_password"
+        type: Docker
+      successfulBuildsHistoryLimit: 5
+    metadata:
+      generation: 2
+      labels:
+        build: ${NAME}
+        buildconfig: ${NAME}
+      name: ${NAME}
+  - apiVersion: v1
+    kind: ImageStream
+    spec:
+      lookupPolicy:
+        local: false
+    metadata:
+      generation: 1
+      labels:
+        build: ${NAME}
+        buildconfig: ${NAME}
+      name: ${NAME}
+parameters:
+  - name: NAME
+    required: true
+    description: some desc for this component
+  - name: IMAGE_TAG
+    required: true
+    description: some line to describe the image_tag_x parameter
+  - name: REPO_NAME
+    required: true
+    description: some line to describe the image_tag_x parameter
+  - name: REPO_BRANCH
+    required: true
+    description: some line to describe the image_tag_x parameter

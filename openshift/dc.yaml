@@ -1,0 +1,113 @@
+kind: Template
+apiVersion: v1
+objects:
+  - apiVersion: v1
+    kind: Service
+    spec:
+      clusterIPs:
+        - 10.98.66.127
+      ports:
+        - name: 8080-tcp
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+        - name: 8443-tcp
+          port: 8443
+          protocol: TCP
+          targetPort: 8443
+      selector:
+        deployment: ${NAME}
+      sessionAffinity: None
+      type: ClusterIP
+    metadata:
+      annotations:
+        app.openshift.io/connects-to: >-
+          [{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"postgresql"}]
+        openshift.io/generated-by: OpenShiftNewApp
+      labels:
+        app: ${NAME}
+        app.kubernetes.io/component: ${NAME}
+        app.kubernetes.io/instance: ${NAME}
+      name: ${NAME}
+  - apiVersion: apps/v1
+    kind: Deployment
+    spec:
+      progressDeadlineSeconds: 600
+      replicas: 1
+      revisionHistoryLimit: 10
+      selector:
+        matchLabels:
+          deployment: ${NAME}
+      strategy:
+        rollingUpdate:
+          maxSurge: 25%
+          maxUnavailable: 25%
+        type: RollingUpdate
+      template:
+        metadata:
+          annotations:
+            openshift.io/generated-by: OpenShiftNewApp
+          creationTimestamp: null
+          labels:
+            deployment: ${NAME}
+        spec:
+          containers:
+            - image: >-
+                image-registry.openshift-image-registry.svc:5000/06cb9b-dev/${NAME}@sha256:21641c1f1af8f5aee47f90dd6e391839ab3b24e36e8fcb3fa5888882683a99df
+              imagePullPolicy: IfNotPresent
+              name: ${NAME}
+              ports:
+                - containerPort: 8080
+                  protocol: TCP
+                - containerPort: 8443
+                  protocol: TCP
+              resources: {}
+              terminationMessagePath: /dev/termination-log
+              terminationMessagePolicy: File
+          dnsPolicy: ClusterFirst
+          restartPolicy: Always
+          schedulerName: default-scheduler
+          securityContext: {}
+          terminationGracePeriodSeconds: 30
+    metadata:
+      annotations:
+        app.openshift.io/connects-to: >-
+          [{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"postgresql"}]
+        deployment.kubernetes.io/revision: '18'
+        image.openshift.io/triggers: >-
+          [{"from":{"kind":"ImageStreamTag","name":"${NAME}:${IMAGE_TAG}","namespace":"06cb9b-dev"},"fieldPath":"spec.template.spec.containers[?(@.name==\"${NAME}\")].image"}]
+        openshift.io/generated-by: OpenShiftNewApp
+      generation: 18
+      labels:
+        app: ${NAME}
+        app.kubernetes.io/component: ${NAME}
+        app.kubernetes.io/instance: ${NAME}
+      name: ${NAME}
+  - apiVersion: route.openshift.io/v1
+    kind: Route
+    spec:
+      host: ${NAME}-06cb9b-dev.apps.silver.devops.gov.bc.ca
+      port:
+        targetPort: 8080-tcp
+      to:
+        kind: Service
+        name: ${NAME}
+        weight: 100
+      wildcardPolicy: None
+    metadata:
+      annotations:
+        app.openshift.io/connects-to: >-
+          [{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"postgresql"}]
+        openshift.io/host.generated: 'true'
+      labels:
+        app: ${NAME}
+        app.kubernetes.io/component: ${NAME}
+        app.kubernetes.io/instance: ${NAME}
+      name: ${NAME}
+parameters:
+  - name: NAME
+    required: true
+    description: some desc for this component
+  - name: IMAGE_TAG
+    required: true
+    description: some line to describe the image_tag_x parameter
