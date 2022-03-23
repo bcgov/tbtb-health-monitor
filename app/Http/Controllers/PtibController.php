@@ -149,6 +149,7 @@ class PtibController extends Controller
         foreach ($sabc_tests as $test){
             $tests['env']['production']['cases'][$test->name] = $test;
             $tests['env']['production']['cases'][$test->name]['expanded'] = false;
+            $tests['env']['production']['last_test'] = $test->updated_at;
         }
 
 
@@ -157,6 +158,7 @@ class PtibController extends Controller
         foreach ($sabc_tests as $test){
             $tests['env']['uat']['cases'][$test->name] = $test;
             $tests['env']['uat']['cases'][$test->name]['expanded'] = false;
+            $tests['env']['uat']['last_test'] = $test->updated_at;
         }
 
         return Response::json(['status' => true, 'tests' => $tests, 'user_auth' => Auth::check()], 200); // Status code here

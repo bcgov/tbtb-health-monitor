@@ -4,7 +4,7 @@
             <h1 v-if="envList === ''">Loading</h1>
             <template v-else>
                 <div v-for="env in envList.env" class="card mb-3">
-                    <div class="card-header bg-primary text-white text-uppercase">{{ env.name }}</div>
+                    <div class="card-header bg-primary text-white text-uppercase">{{ env.name }}<small class="float-end">last tested: {{env.last_test | cleanLastTestRun}}</small></div>
                     <div class="card-body">
                         <ul class="list-group">
 
@@ -33,7 +33,7 @@
 
                         </ul>
                     </div>
-                    <div v-if="lastUpdate !== ''" class="card-footer"><small>last update: {{lastUpdate}}</small></div>
+                    <div v-if="lastUpdate !== ''" class="card-footer"><small>last refresh: {{lastUpdate}}</small></div>
                 </div>
             </template>
 
@@ -62,7 +62,12 @@ import axios from 'axios';
 
 export default {
     filters: {
-
+        cleanLastTestRun: function (test){
+            if(test == '') return '';
+            let d = test.split('T');
+            let t = d[1].split('.');
+            return d[0] + " " + t[0];
+        },
         formatAppNumber: function(value){
             let year = value.slice(0, 4);
             let extra = value.slice(4);
@@ -77,6 +82,7 @@ export default {
         lastUpdate: '',
         userAuth: false,
         timeoutVar: '',
+        lastTestRun: '',
     }),
     props: [],
     methods: {

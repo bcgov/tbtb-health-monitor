@@ -128,6 +128,7 @@ class JiraController extends Controller
         foreach ($test_cases as $test){
             $tests['env']['production']['cases'][$test->name] = $test;
             $tests['env']['production']['cases'][$test->name]['expanded'] = false;
+            $tests['env']['production']['last_test'] = $test->updated_at;
         }
 
         $test_cases = TbtbTest::where('group', 'JIRA')->where('env', 'dev')->with('contacts')->get();
@@ -135,6 +136,7 @@ class JiraController extends Controller
         foreach ($test_cases as $test){
             $tests['env']['dev']['cases'][$test->name] = $test;
             $tests['env']['dev']['cases'][$test->name]['expanded'] = false;
+            $tests['env']['dev']['last_test'] = $test->updated_at;
         }
 
         return Response::json(['status' => true, 'tests' => $tests, 'user_auth' => Auth::check()], 200); // Status code here
