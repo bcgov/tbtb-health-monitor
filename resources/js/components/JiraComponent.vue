@@ -62,7 +62,12 @@ import axios from 'axios';
 
 export default {
     filters: {
-
+        cleanLastTestRun: function (test){
+            if(test == '') return '';
+            let d = test.split('T');
+            let t = d[1].split('.');
+            return d[0] + " " + t[0];
+        },
         formatAppNumber: function(value){
             let year = value.slice(0, 4);
             let extra = value.slice(4);
