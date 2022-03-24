@@ -213,7 +213,7 @@ class SabcController extends Controller
 
             if($result['status'] != 200){
                 Log::channel('monitor')->info(" ");
-                Log::channel('monitor')->info("SABC Test: " . $service . " failed ");
+                Log::channel('monitor')->info("SABC Test: " . $service . " on the env (" . $test->env . ") failed. Number of attempts: " . $test->attempt);
                 Log::channel('monitor')->info($result['result']);
                 Log::channel('monitor')->info(" ");
 
@@ -223,9 +223,7 @@ class SabcController extends Controller
                         //get Contact info related to the test for notification
 
                         Log::debug("SABC Test: " . $service . " failed " . $test->attempt . " times. SMS User.");
-                        //echo "\n\rSABC Test: " . $service . " failed " . $test->attempt . " times. SMS User.\n\r";
                         $t = TbtbTest::where('id', $test->id)->with('contacts')->first();
-                        //$contacts = Contact::where('group', 'SABC')->where('status', 'active')->where('mute', false)->get();
                         foreach($t->contacts as $contact){
                             if($contact->mute == false && $contact->status == 'active'){
                                 $send_sms = $this->smsUser($contact->cell_number, $contact->name, $service, "Failure for this service on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt);
@@ -235,12 +233,10 @@ class SabcController extends Controller
                         $test->attempt = 0;
                     }else{
                         Log::debug("SABC Test: " . $service . " failed " . $test->attempt . " times. ");
-                        //echo "\n\rSABC Test: " . $service . " failed " . $test->attempt . " times.\n\r";
                         $test->attempt += 1;
                     }
                 }else{
                     Log::debug("SABC Test: " . $service . " failed " . $test->attempt . " times. Service Muted");
-                    //echo "\n\rSABC Test: " . $service . " failed " . $test->attempt . " times. Service Muted\n\r";
                     $test->attempt += 1;
                 }
 
