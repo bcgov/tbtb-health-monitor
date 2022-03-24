@@ -117,7 +117,7 @@ class PtibController extends Controller
                          $t = TbtbTest::where('id', $test->id)->with('contacts')->first();
                          foreach($t->contacts as $contact){
                              if($contact->mute == false && $contact->status == 'active'){
-                                 $send_sms = $this->smsUser($contact->cell_number, $contact->name, $service, "Failure for this service on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt);
+                                 $send_sms = $this->smsUser($contact->cell_number, $contact->name, $service, "FAILED on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt_total);
                              }
                          }
                          $test->attempt = 0;
@@ -129,8 +129,10 @@ class PtibController extends Controller
                      Log::debug("PTIB Test: " . $service . " failed " . $test->attempt . " times. Service Muted");
                      $test->attempt += 1;
                  }
+                 $test->attempt_total += 1;
              }else{
                  $test->attempt = 0;
+                 $test->attempt_total = 0;
              }
          }
 

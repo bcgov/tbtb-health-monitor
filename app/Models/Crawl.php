@@ -103,7 +103,7 @@ class Crawl extends Model
                     Log::debug("SABC Dusk Test: " . $test->cmd . " failed " . $test->attempt . " times. SMS User.");
                     foreach($test->contacts as $contact){
                         if($contact->mute == false && $contact->status == 'active'){
-                            $send_sms = $controller->smsUser($contact->cell_number, $contact->name, $test->cmd, "Failure for this service on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt);
+                            $send_sms = $controller->smsUser($contact->cell_number, $contact->name, $test->cmd, "FAILED on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt_total);
                         }
                     }
                     $test->attempt = 0;
@@ -115,10 +115,11 @@ class Crawl extends Model
                 Log::debug("SABC Dusk Test: " . $test->cmd . " failed " . $test->attempt . " times. Service Muted");
                 $test->attempt += 1;
             }
-
+            $test->attempt_total += 1;
         }else{
             Log::debug("SABC Dusk Test: " . $test->cmd . " PASSED " . $test->attempt . " times. Service Muted");
             $test->attempt = 0;
+            $test->attempt_total = 0;
         }
         $test->save();
     }
