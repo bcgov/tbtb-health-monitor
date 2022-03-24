@@ -105,7 +105,8 @@ class PtibController extends Controller
 
              if($result['status'] != 200){
                  Log::channel('monitor')->info(" ");
-                 Log::channel('monitor')->info("PTIB Test: " . $service . " on the env (" . $test->env . ") failed. Number of attempts: " . $test->attempt);
+                 $attempt = $test->attempt+1;
+                 Log::channel('monitor')->info("PTIB Test: " . $service . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
                  Log::channel('monitor')->info($result['result']);
                  Log::channel('monitor')->info(" ");
                  if( $test->mute == false ){

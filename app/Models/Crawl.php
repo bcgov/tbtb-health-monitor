@@ -92,7 +92,8 @@ class Crawl extends Model
         $service = $test->cmd;
         if($test->status == 'Fail'){
             Log::channel('monitor')->info(" ");
-            Log::channel('monitor')->info($test->group . " Test: " . $service . " on the env (" . $test->env . ") failed. Number of attempts: " . $test->attempt);
+            $attempt = $test->attempt+1;
+            Log::channel('monitor')->info($test->group . " Test: " . $service . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
             Log::channel('monitor')->info($test->response);
             Log::channel('monitor')->info(" ");
             if( $test->mute == false ){
