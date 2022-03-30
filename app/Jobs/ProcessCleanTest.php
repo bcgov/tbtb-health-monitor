@@ -37,15 +37,19 @@ class ProcessCleanTest implements ShouldQueue
 
 
         exec('rm -R ' . public_path() . '/../tests/Browser/screenshots/*.png');
-        exec('rm -R ' . public_path() . '/../storage/logs/laravel-*.log');
+        //exec('rm -R ' . public_path() . '/../storage/logs/laravel-*.log');
         exec('rm -R /tmp/.com.google.Chrome.*');
         exec('rm -R /tmp/php*');
+        exec('> /var/log/apache2/error*');
+        exec('> /var/log/apache2/access*');
 
         $this->killall('chromium');
         $this->killall('apache2');
         exec('/usr/sbin/apache2ctl start');
         Log::debug('Finished Clean Tests: ' . time());
-
+        //$this->killall('sh');
+        $this->killall('php');
+        exec('/usr/sbin/apache2ctl restart');
         //show all memory consumption
 //        ps -e -o pid,vsz,comm= | sort -n -k 2
 
@@ -56,6 +60,7 @@ class ProcessCleanTest implements ShouldQueue
         $match = escapeshellarg($match);
         exec("ps x|grep $match|grep -v grep|awk '{print $1}'", $output, $ret);
         if($ret) return 'you need ps, grep, and awk installed for this to work';
+        $killed = false;
         foreach($output as $out) {
             if(preg_match('/^([0-9]+)/', $out, $r)) {
                 system('kill '. $r[1], $k);

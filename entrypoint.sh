@@ -17,7 +17,7 @@ echo "Install composer"
 composer install && composer dump-auto && php artisan key:generate
 
 echo "Starting queue 1:"
-php /var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=360 --tries=3 &
+php /var/www/html/artisan queue:listen --memory=514 --sleep=5 --timeout=360 --tries=3 &
 
 echo "Starting schedule list 1:"
 php /var/www/html/artisan schedule:list &
