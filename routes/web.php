@@ -62,6 +62,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/fetch-accounts/{account?}', [App\Http\Controllers\TestCaseController::class, 'fetchAccounts'])->name('fetch-accounts');
         Route::post('/update-contacts/{contact}', [App\Http\Controllers\TestCaseController::class, 'updateContacts'])->name('update-contacts');
         Route::post('/add-contacts', [App\Http\Controllers\TestCaseController::class, 'addContacts'])->name('add-contacts');
+
+        Route::post('/update-services/{serv}', [App\Http\Controllers\TestCaseController::class, 'updateServices'])->name('update-services');
+
     });
 
 });

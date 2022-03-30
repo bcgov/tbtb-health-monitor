@@ -5478,9 +5478,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -5737,6 +5734,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
+    cleanLastTestRun: function cleanLastTestRun(test) {
+      if (test == '') return '';
+      var d = test.split('T');
+      var t = d[1].split('.');
+      return d[0] + " " + t[0];
+    },
     formatAppNumber: function formatAppNumber(value) {
       var year = value.slice(0, 4);
       var extra = value.slice(4);
@@ -5749,7 +5752,8 @@ __webpack_require__.r(__webpack_exports__);
       envList: '',
       lastUpdate: '',
       userAuth: false,
-      timeoutVar: ''
+      timeoutVar: '',
+      lastTestRun: ''
     };
   },
   props: [],
@@ -6120,6 +6124,12 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
+    cleanLastTestRun: function cleanLastTestRun(test) {
+      if (test == '') return '';
+      var d = test.split('T');
+      var t = d[1].split('.');
+      return d[0] + " " + t[0];
+    },
     formatAppNumber: function formatAppNumber(value) {
       var year = value.slice(0, 4);
       var extra = value.slice(4);
@@ -6132,7 +6142,8 @@ __webpack_require__.r(__webpack_exports__);
       envList: '',
       lastUpdate: '',
       userAuth: false,
-      timeoutVar: ''
+      timeoutVar: '',
+      lastTestRun: ''
     };
   },
   props: [],
@@ -6589,6 +6600,64 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -6601,11 +6670,26 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      envList: ''
+      envList: '',
+      serv: '',
+      formSubmitting: false
     };
   },
   props: [],
   methods: {
+    validateForm2: function validateForm2() {
+      this.serv.name = this.serv.name.trim();
+
+      if (this.serv.name == null || this.serv.group == null || this.serv.env == null || this.serv.test_type == null) {
+        return false;
+      }
+
+      this.updateService();
+    },
+    showService: function showService(serv) {
+      this.serv = serv;
+      $('#showService').modal('toggle');
+    },
     toggleAlert: function toggleAlert(state, val) {
       if (state == 0) val.expanded = true;else val.expanded = false;
     },
@@ -6643,6 +6727,28 @@ __webpack_require__.r(__webpack_exports__);
         }
       }) //axios.get( '/fetch-dashboard' )
       .then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    updateService: function updateService() {
+      var vm = this;
+      vm.formSubmitting = true;
+      var formData = new FormData();
+      formData.append('serv', JSON.stringify(this.serv));
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/update-services/' + this.serv.id,
+        data: formData,
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        vm.formSubmitting = false;
+        vm.serv = '';
+        $('#showService').modal('toggle');
+        vm.fetchData();
       })["catch"](function (error) {
         console.log(error);
       });
@@ -43427,7 +43533,15 @@ var render = function () {
                     staticClass:
                       "card-header bg-primary text-white text-uppercase",
                   },
-                  [_vm._v(_vm._s(env.name))]
+                  [
+                    _vm._v(_vm._s(env.name)),
+                    _c("small", { staticClass: "float-end" }, [
+                      _vm._v(
+                        "last tested: " +
+                          _vm._s(_vm._f("cleanLastTestRun")(env.last_test))
+                      ),
+                    ]),
+                  ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
@@ -43585,7 +43699,7 @@ var render = function () {
                 _vm.lastUpdate !== ""
                   ? _c("div", { staticClass: "card-footer" }, [
                       _c("small", [
-                        _vm._v("last update: " + _vm._s(_vm.lastUpdate)),
+                        _vm._v("last refresh: " + _vm._s(_vm.lastUpdate)),
                       ]),
                     ])
                   : _vm._e(),
@@ -44040,7 +44154,15 @@ var render = function () {
                     staticClass:
                       "card-header bg-primary text-white text-uppercase",
                   },
-                  [_vm._v(_vm._s(env.name))]
+                  [
+                    _vm._v(_vm._s(env.name)),
+                    _c("small", { staticClass: "float-end" }, [
+                      _vm._v(
+                        "last tested: " +
+                          _vm._s(_vm._f("cleanLastTestRun")(env.last_test))
+                      ),
+                    ]),
+                  ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
@@ -44198,7 +44320,7 @@ var render = function () {
                 _vm.lastUpdate !== ""
                   ? _c("div", { staticClass: "card-footer" }, [
                       _c("small", [
-                        _vm._v("last update: " + _vm._s(_vm.lastUpdate)),
+                        _vm._v("last refresh: " + _vm._s(_vm.lastUpdate)),
                       ]),
                     ])
                   : _vm._e(),
@@ -44476,7 +44598,10 @@ var render = function () {
                   [
                     _vm._v(_vm._s(env.name)),
                     _c("small", { staticClass: "float-end" }, [
-                      _vm._v(_vm._s(_vm._f("cleanLastTestRun")(env.last_test))),
+                      _vm._v(
+                        "last tested: " +
+                          _vm._s(_vm._f("cleanLastTestRun")(env.last_test))
+                      ),
                     ]),
                   ]
                 ),
@@ -44637,7 +44762,7 @@ var render = function () {
                 _vm.lastUpdate !== ""
                   ? _c("div", { staticClass: "card-footer" }, [
                       _c("small", [
-                        _vm._v("last update: " + _vm._s(_vm.lastUpdate)),
+                        _vm._v("last refresh: " + _vm._s(_vm.lastUpdate)),
                       ]),
                     ])
                   : _vm._e(),
@@ -44695,11 +44820,20 @@ var render = function () {
                     { staticClass: "list-group" },
                     _vm._l(env.cases, function (value, test) {
                       return _c("li", { staticClass: "list-group-item" }, [
-                        _vm._v(
-                          "\n                            " +
-                            _vm._s(test) +
-                            "\n\n                            "
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-link",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.showService(value)
+                              },
+                            },
+                          },
+                          [_vm._v(_vm._s(test))]
                         ),
+                        _vm._v(" "),
                         value.mute === true
                           ? _c(
                               "svg",
@@ -44869,12 +45003,383 @@ var render = function () {
                 ]),
               ])
             }),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "modal fade in",
+            attrs: {
+              id: "showService",
+              tabindex: "-1",
+              role: "dialog",
+              "aria-hidden": "false",
+              "aria-labelledby": "showServiceLabel",
+            },
+          },
+          [
+            _c("div", { staticClass: "modal-dialog" }, [
+              _c("div", { staticClass: "modal-content" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-body" }, [
+                  _vm.serv != ""
+                    ? _c("form", [
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.serv.name,
+                                expression: "serv.name",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            class: _vm.serv.name != "" ? "" : "is-invalid",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Service Name",
+                              disabled: _vm.formSubmitting == true,
+                            },
+                            domProps: { value: _vm.serv.name },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.serv, "name", $event.target.value)
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.serv.group,
+                                  expression: "serv.group",
+                                },
+                              ],
+                              staticClass: "form-select",
+                              class: _vm.serv.group != "" ? "" : "is-invalid",
+                              attrs: { disabled: _vm.formSubmitting == true },
+                              on: {
+                                change: function ($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function (o) {
+                                      return o.selected
+                                    })
+                                    .map(function (o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.serv,
+                                    "group",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                              },
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Select Group"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "SABC" } }, [
+                                _vm._v("SABC"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "PTIB" } }, [
+                                _vm._v("PTIB"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "JIRA" } }, [
+                                _vm._v("JIRA"),
+                              ]),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.serv.env,
+                                  expression: "serv.env",
+                                },
+                              ],
+                              staticClass: "form-select",
+                              class: _vm.serv.env != "" ? "" : "is-invalid",
+                              attrs: { disabled: _vm.formSubmitting == true },
+                              on: {
+                                change: function ($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function (o) {
+                                      return o.selected
+                                    })
+                                    .map(function (o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.serv,
+                                    "env",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                              },
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Select Environment"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "production" } }, [
+                                _vm._v("PRODUCTION"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "dev" } }, [
+                                _vm._v("DEV"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "uat" } }, [
+                                _vm._v("UAT"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "test" } }, [
+                                _vm._v("TEST"),
+                              ]),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.serv.test_type,
+                                  expression: "serv.test_type",
+                                },
+                              ],
+                              staticClass: "form-select",
+                              class:
+                                _vm.serv.test_type != "" ? "" : "is-invalid",
+                              attrs: { disabled: _vm.formSubmitting == true },
+                              on: {
+                                change: function ($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function (o) {
+                                      return o.selected
+                                    })
+                                    .map(function (o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.$set(
+                                    _vm.serv,
+                                    "test_type",
+                                    $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
+                                  )
+                                },
+                              },
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("Test Type"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "wsdl" } }, [
+                                _vm._v("WSDL"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "curl" } }, [
+                                _vm._v("cURL"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "db" } }, [
+                                _vm._v("Database"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "html" } }, [
+                                _vm._v("HTML"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "crawl" } }, [
+                                _vm._v("Crawl"),
+                              ]),
+                            ]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "textarea",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.serv.post_data,
+                                  expression: "serv.post_data",
+                                },
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                placeholder: "JSON Post Data",
+                                disabled: _vm.formSubmitting == true,
+                              },
+                              domProps: { value: _vm.serv.post_data },
+                              on: {
+                                input: function ($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.serv,
+                                    "post_data",
+                                    $event.target.value
+                                  )
+                                },
+                              },
+                            },
+                            [_vm._v(_vm._s(_vm.serv.post_data))]
+                          ),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.serv.url,
+                                expression: "serv.url",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder: "Service URL",
+                              disabled: _vm.formSubmitting == true,
+                            },
+                            domProps: { value: _vm.serv.url },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(_vm.serv, "url", $event.target.value)
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.serv.assert_text,
+                                expression: "serv.assert_text",
+                              },
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              placeholder:
+                                "Service Validation Text (assert text)",
+                              disabled: _vm.formSubmitting == true,
+                            },
+                            domProps: { value: _vm.serv.assert_text },
+                            on: {
+                              input: function ($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.serv,
+                                  "assert_text",
+                                  $event.target.value
+                                )
+                              },
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-12" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              attrs: { type: "button" },
+                              on: {
+                                click: function ($event) {
+                                  return _vm.validateForm2()
+                                },
+                              },
+                            },
+                            [_vm._v("Update")]
+                          ),
+                        ]),
+                      ])
+                    : _vm._e(),
+                ]),
+              ]),
+            ]),
+          ]
+        ),
       ],
       2
     ),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "showServiceLabel" } },
+        [_vm._v("Update Service")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
+    ])
+  },
+]
 render._withStripped = true
 
 

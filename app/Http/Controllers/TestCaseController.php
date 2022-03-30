@@ -136,6 +136,29 @@ class TestCaseController extends Controller
         return Response::json(['status' => true], 200);
     }
 
+
+    public function updateServices(Request $request, TbtbTest $serv)
+    {
+        $validated = $request->validate([
+            'serv' => 'required',
+        ]);
+        $formData = json_decode($request->serv, true);
+
+        $name = Str::of($formData['name'])->trim();
+        $serv->name = $name;
+        $serv->group = Str::upper($formData['group']);
+        $serv->env = Str::lower($formData['env']);
+        $serv->cmd = Str::replace(" ", "_", $name);
+        $serv->test_type = Str::lower($formData['test_type']);
+        $serv->assert_text = isset($formData['assert_text']) ? Str::of($formData['assert_text'])->trim() : null;
+        $serv->post_data = isset($formData['post_data']) ? Str::of($formData['post_data'])->trim() : null;
+        $serv->url = isset($formData['url']) ? Str::of($formData['url'])->trim() : null;
+
+        $serv->save();
+
+        return Response::json(['status' => true], 200);
+    }
+
     public function addContacts(Request $request)
     {
         $validated = $request->validate([

@@ -116,9 +116,6 @@
                             </div>
                         </form>
                     </div>
-                    <!--                    <div class="modal-footer">-->
-                    <!--                        <button type="button" class="btn btn-light" data-dismiss="modal" @click="openModal(0)">Close</button>-->
-                    <!--                    </div>-->
                 </div>
             </div>
         </div>

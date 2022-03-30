@@ -203,9 +203,6 @@ RUN mkdir -p /.config/psysh
 RUN chown -R ${USER_ID}:root /.config && chmod -R 755 /.config
 RUN echo "<?php return ['runtimeDir' => '/tmp'];" >> /.config/psysh/config.php
 
-#allow write access to cache
-RUN chown -R ${USER_ID}:root /proc/sys/vm/drop_caches && chmod -R 766 /proc/sys/vm/drop_caches
-
 #openshift will complaine about permission
 RUN chmod +x /sbin/entrypoint.sh
 USER ${USER_ID}
