@@ -66,7 +66,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="service_type" class="form-label">Service Type <i class="text-danger">*</i></label>
-                                    <select @change="checkSelect" id="service_type" class="form-select" :class="serv.test_type != '' ? '' : 'is-invalid'" v-model="serv.test_type" :disabled="formSubmitting == true">
+                                    <select id="service_type" class="form-select" :class="serv.test_type != '' ? '' : 'is-invalid'" v-model="serv.test_type" :disabled="formSubmitting == true">
                                         <option value="">Select Type</option>
                                         <option value="wsdl">WSDL</option>
                                         <option value="curl">cURL</option>
@@ -74,7 +74,7 @@
                                         <option value="html">HTML</option>
                                         <option value="crawl">Crawl</option>
                                     </select>
-                                    <p v-if="serv.test_type" class="alert alert-warning">Crawl services require Unit Tests being created under tests/Browser</p>
+                                    <p v-if="serv.test_type" class="alert alert-warning mt-3">Crawl services require Unit Tests being created under tests/Browser</p>
                                 </div>
                                 <div class="mb-3">
                                     <label for="service_url" class="form-label">Service URL</label>
