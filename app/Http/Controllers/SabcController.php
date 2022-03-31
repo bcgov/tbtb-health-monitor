@@ -65,6 +65,7 @@ class SabcController extends Controller
             $response = $this->makeApiCall($test->url, $test->post_data);
             if($response['curl_error'] == ''){
                 $obj = json_decode($response['body']);
+//                var_dump($obj);
                 if($obj->res->fail == true){
                     $result['status'] = 500;
                     $result['result'] = $obj->res->faultstring;
@@ -95,7 +96,6 @@ class SabcController extends Controller
                 sleep(3);
                 $response = Http::withOptions(['verify' => false])->get($test->url);
             }
-//var_dump($response->body());
             if($response != false){
                 $result['status'] = $response->status();
                 $result['result'] = strpos($response->body(), $test->assert_text);

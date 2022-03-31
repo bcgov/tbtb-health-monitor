@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\TestCase as TbtbTest;
 use Illuminate\Http\Request;
-use App\Http\Controllers\JiraController;
+use App\Http\Controllers\TestCaseController;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -36,13 +36,13 @@ class ProcessJiraTest implements ShouldQueue
     public function handle()
     {
         Log::debug('Starting JIRA Tests: ' . time());
-        $t = new JiraController();
+        $t = new TestCaseController();
         $request = new Request();
 
         $tests = TbtbTest::where('group', 'JIRA')->where('paused', false)->get();
         foreach ($tests as $test){
             Log::debug('Starting JIRA Process: ' . $test->cmd);
-            $process = $t->runJiraTest($request, $test);
+            $process = $t->runServiceTest($request, $test);
             Log::debug($process['status'] . " " . $process['result']);
             Log::debug('End JIRA Process: ' . $test->cmd);
         }

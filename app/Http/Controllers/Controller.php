@@ -139,6 +139,10 @@ class Controller extends BaseController
 
     public function makeApiCall($url, $postData){
 
+        if (!is_object(json_decode($postData))){
+            $postData = json_encode($postData);
+        }
+
         $header = array('HTTP_X_API_TOKEN: ' . env('API_TOKEN'), 'Accept: application/json, text/plain, */*', 'Content-Type: application/json;charset=utf-8');
         $curlOptions = [
             CURLOPT_URL => $url,
@@ -148,7 +152,7 @@ class Controller extends BaseController
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_FRESH_CONNECT => true,
             CURLOPT_TIMEOUT => 15,
-            CURLOPT_POSTFIELDS => json_encode($postData),
+            CURLOPT_POSTFIELDS => $postData,
         ];
         $return = $this->makeCurlCall($curlOptions);
         //var_dump($return);

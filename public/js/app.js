@@ -6658,6 +6658,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -45025,6 +45032,8 @@ var render = function () {
                   _vm.serv != ""
                     ? _c("form", [
                         _c("div", { staticClass: "mb-3" }, [
+                          _vm._m(1),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -45037,6 +45046,7 @@ var render = function () {
                             staticClass: "form-control",
                             class: _vm.serv.name != "" ? "" : "is-invalid",
                             attrs: {
+                              id: "service_name",
                               type: "text",
                               placeholder: "Service Name",
                               disabled: _vm.formSubmitting == true,
@@ -45054,6 +45064,8 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "mb-3" }, [
+                          _vm._m(2),
+                          _vm._v(" "),
                           _c(
                             "select",
                             {
@@ -45067,7 +45079,10 @@ var render = function () {
                               ],
                               staticClass: "form-select",
                               class: _vm.serv.group != "" ? "" : "is-invalid",
-                              attrs: { disabled: _vm.formSubmitting == true },
+                              attrs: {
+                                id: "service_group",
+                                disabled: _vm.formSubmitting == true,
+                              },
                               on: {
                                 change: function ($event) {
                                   var $$selectedVal = Array.prototype.filter
@@ -45110,6 +45125,8 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "mb-3" }, [
+                          _vm._m(3),
+                          _vm._v(" "),
                           _c(
                             "select",
                             {
@@ -45123,7 +45140,10 @@ var render = function () {
                               ],
                               staticClass: "form-select",
                               class: _vm.serv.env != "" ? "" : "is-invalid",
-                              attrs: { disabled: _vm.formSubmitting == true },
+                              attrs: {
+                                id: "service_env",
+                                disabled: _vm.formSubmitting == true,
+                              },
                               on: {
                                 change: function ($event) {
                                   var $$selectedVal = Array.prototype.filter
@@ -45170,6 +45190,8 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "mb-3" }, [
+                          _vm._m(4),
+                          _vm._v(" "),
                           _c(
                             "select",
                             {
@@ -45184,7 +45206,10 @@ var render = function () {
                               staticClass: "form-select",
                               class:
                                 _vm.serv.test_type != "" ? "" : "is-invalid",
-                              attrs: { disabled: _vm.formSubmitting == true },
+                              attrs: {
+                                id: "service_type",
+                                disabled: _vm.formSubmitting == true,
+                              },
                               on: {
                                 change: function ($event) {
                                   var $$selectedVal = Array.prototype.filter
@@ -45208,7 +45233,7 @@ var render = function () {
                             },
                             [
                               _c("option", { attrs: { value: "" } }, [
-                                _vm._v("Test Type"),
+                                _vm._v("Select Type"),
                               ]),
                               _vm._v(" "),
                               _c("option", { attrs: { value: "wsdl" } }, [
@@ -45236,40 +45261,14 @@ var render = function () {
                         _vm._v(" "),
                         _c("div", { staticClass: "mb-3" }, [
                           _c(
-                            "textarea",
+                            "label",
                             {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: _vm.serv.post_data,
-                                  expression: "serv.post_data",
-                                },
-                              ],
-                              staticClass: "form-control",
-                              attrs: {
-                                placeholder: "JSON Post Data",
-                                disabled: _vm.formSubmitting == true,
-                              },
-                              domProps: { value: _vm.serv.post_data },
-                              on: {
-                                input: function ($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(
-                                    _vm.serv,
-                                    "post_data",
-                                    $event.target.value
-                                  )
-                                },
-                              },
+                              staticClass: "form-label",
+                              attrs: { for: "service_url" },
                             },
-                            [_vm._v(_vm._s(_vm.serv.post_data))]
+                            [_vm._v("Service URL")]
                           ),
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "mb-3" }, [
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -45281,6 +45280,7 @@ var render = function () {
                             ],
                             staticClass: "form-control",
                             attrs: {
+                              id: "service_url",
                               type: "text",
                               placeholder: "Service URL",
                               disabled: _vm.formSubmitting == true,
@@ -45298,6 +45298,15 @@ var render = function () {
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "service_assert" },
+                            },
+                            [_vm._v("Validation Text")]
+                          ),
+                          _vm._v(" "),
                           _c("input", {
                             directives: [
                               {
@@ -45309,6 +45318,7 @@ var render = function () {
                             ],
                             staticClass: "form-control",
                             attrs: {
+                              id: "service_assert",
                               type: "text",
                               placeholder:
                                 "Service Validation Text (assert text)",
@@ -45328,6 +45338,52 @@ var render = function () {
                               },
                             },
                           }),
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "mb-3" }, [
+                          _c(
+                            "label",
+                            {
+                              staticClass: "form-label",
+                              attrs: { for: "service_post_data" },
+                            },
+                            [_vm._v("Extra POST Params")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "textarea",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.serv.post_data,
+                                  expression: "serv.post_data",
+                                },
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                id: "service_post_data",
+                                placeholder:
+                                  "JSON Object to pass as param when POSTing data",
+                                disabled: _vm.formSubmitting == true,
+                              },
+                              domProps: { value: _vm.serv.post_data },
+                              on: {
+                                input: function ($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(
+                                    _vm.serv,
+                                    "post_data",
+                                    $event.target.value
+                                  )
+                                },
+                              },
+                            },
+                            [_vm._v(_vm._s(_vm.serv.post_data))]
+                          ),
                         ]),
                         _vm._v(" "),
                         _c("div", { staticClass: "col-12" }, [
@@ -45378,6 +45434,58 @@ var staticRenderFns = [
         },
       }),
     ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-label", attrs: { for: "service_name" } },
+      [
+        _vm._v("Service Name "),
+        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-label", attrs: { for: "service_group" } },
+      [
+        _vm._v("Service Group "),
+        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-label", attrs: { for: "service_env" } },
+      [
+        _vm._v("Environment "),
+        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+      ]
+    )
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "form-label", attrs: { for: "service_type" } },
+      [
+        _vm._v("Service Type "),
+        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+      ]
+    )
   },
 ]
 render._withStripped = true

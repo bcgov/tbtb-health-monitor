@@ -42,10 +42,12 @@
                         <div class="modal-body">
                             <form v-if="serv != ''">
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" :class="serv.name != '' ? '' : 'is-invalid'" placeholder="Service Name" v-model="serv.name" :disabled="formSubmitting == true">
+                                    <label for="service_name" class="form-label">Service Name <i class="text-danger">*</i></label>
+                                    <input id="service_name" type="text" class="form-control" :class="serv.name != '' ? '' : 'is-invalid'" placeholder="Service Name" v-model="serv.name" :disabled="formSubmitting == true">
                                 </div>
                                 <div class="mb-3">
-                                    <select class="form-select" :class="serv.group != '' ? '' : 'is-invalid'" v-model="serv.group" :disabled="formSubmitting == true">
+                                    <label for="service_group" class="form-label">Service Group <i class="text-danger">*</i></label>
+                                    <select id="service_group" class="form-select" :class="serv.group != '' ? '' : 'is-invalid'" v-model="serv.group" :disabled="formSubmitting == true">
                                         <option value="">Select Group</option>
                                         <option value="SABC">SABC</option>
                                         <option value="PTIB">PTIB</option>
@@ -53,7 +55,8 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <select class="form-select" :class="serv.env != '' ? '' : 'is-invalid'" v-model="serv.env" :disabled="formSubmitting == true">
+                                    <label for="service_env" class="form-label">Environment <i class="text-danger">*</i></label>
+                                    <select id="service_env" class="form-select" :class="serv.env != '' ? '' : 'is-invalid'" v-model="serv.env" :disabled="formSubmitting == true">
                                         <option value="">Select Environment</option>
                                         <option value="production">PRODUCTION</option>
                                         <option value="dev">DEV</option>
@@ -62,8 +65,9 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <select class="form-select" :class="serv.test_type != '' ? '' : 'is-invalid'" v-model="serv.test_type" :disabled="formSubmitting == true">
-                                        <option value="">Test Type</option>
+                                    <label for="service_type" class="form-label">Service Type <i class="text-danger">*</i></label>
+                                    <select id="service_type" class="form-select" :class="serv.test_type != '' ? '' : 'is-invalid'" v-model="serv.test_type" :disabled="formSubmitting == true">
+                                        <option value="">Select Type</option>
                                         <option value="wsdl">WSDL</option>
                                         <option value="curl">cURL</option>
                                         <option value="db">Database</option>
@@ -72,13 +76,16 @@
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <textarea class="form-control" placeholder="JSON Post Data" v-model="serv.post_data" :disabled="formSubmitting == true">{{serv.post_data}}</textarea>
+                                    <label for="service_url" class="form-label">Service URL</label>
+                                    <input id="service_url" type="text" class="form-control" placeholder="Service URL" v-model="serv.url" :disabled="formSubmitting == true">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="Service URL" v-model="serv.url" :disabled="formSubmitting == true">
+                                    <label for="service_assert" class="form-label">Validation Text</label>
+                                    <input id="service_assert" type="text" class="form-control" placeholder="Service Validation Text (assert text)" v-model="serv.assert_text" :disabled="formSubmitting == true">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="Service Validation Text (assert text)" v-model="serv.assert_text" :disabled="formSubmitting == true">
+                                    <label for="service_post_data" class="form-label">Extra POST Params</label>
+                                    <textarea id="service_post_data" class="form-control" placeholder="JSON Object to pass as param when POSTing data" v-model="serv.post_data" :disabled="formSubmitting == true">{{serv.post_data}}</textarea>
                                 </div>
 
                                 <div class="col-12">

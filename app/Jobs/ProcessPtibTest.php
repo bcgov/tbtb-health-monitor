@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\TestCase as TbtbTest;
 use Illuminate\Http\Request;
-use App\Http\Controllers\PtibController;
+use App\Http\Controllers\TestCaseController;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -36,13 +36,13 @@ class ProcessPtibTest implements ShouldQueue
     public function handle()
     {
         Log::debug('Starting PTIB Tests: ' . time());
-        $t = new PtibController();
+        $t = new TestCaseController();
         $request = new Request();
 
         $tests = TbtbTest::where('group', 'PTIB')->where('paused', false)->get();
         foreach ($tests as $test){
             Log::debug('Starting PTIB Process: ' . $test->cmd);
-            $process = $t->runPtibTest($request, $test);
+            $process = $t->runServiceTest($request, $test);
             Log::debug($process['status'] . " " . $process['result']);
             Log::debug('End PTIB Process: ' . $test->cmd);
         }

@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\TestCase as TbtbTest;
 use Illuminate\Http\Request;
-use App\Http\Controllers\SabcController;
+use App\Http\Controllers\TestCaseController;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -36,13 +36,13 @@ class ProcessSabcTest implements ShouldQueue
     public function handle()
     {
         Log::debug('Starting SABC Tests: ' . time());
-        $t = new SabcController();
+        $t = new TestCaseController();
         $request = new Request();
 
         $tests = TbtbTest::where('group', 'SABC')->where('paused', false)->get();
         foreach ($tests as $test){
             Log::debug("Start " . $test->env . " SABC Process: " . $test->cmd);
-            $process = $t->runSabcTest($request, $test);
+            $process = $t->runServiceTest($request, $test);
             Log::debug($process['status'] . " " . $process['result']);
             Log::debug("End " . $test->env . " SABC Process: " . $test->cmd);
         }

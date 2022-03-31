@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Crawl;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Response;
 use App\Models\TestCase as TbtbTest;
 use Illuminate\Http\Request;
@@ -29,6 +33,132 @@ class TestCaseController extends Controller
         return redirect('/');
     }
 
+
+    public function runServiceTest(Request $request, $test)
+    {
+        $result = ['status' => 500, 'result' => false];
+        $test = TbtbTest::where('id', $test->id)->first();
+        if($test->paused == true){
+            $result['status'] = 200;
+            $result['result'] = true;
+            return $result;
+        }
+
+        $test->status = 'Pending';
+        $test->save();
+
+
+        if($test->test_type == 'wsdl'){
+            $response = $this->makeApiCall($test->url, $test->post_data);
+            if($response['curl_error'] == ''){
+                $obj = json_decode($response['body']);
+//                var_dump($obj);
+                if($obj->res->fail == true){
+                    $result['status'] = 500;
+                    $result['result'] = $obj->res->faultstring;
+                }else{
+                    $result['status'] = $response['http_code'];
+                    $result['result'] = $response['body'];
+                }
+            }else{
+                $result['result'] = $response['curl_error'];
+            }
+        }
+
+        if($test->test_type == 'curl' || $test->test_type == 'db'){
+            $response = $this->makeApiCall($test->url, $test->post_data);
+
+            if($response['curl_error'] == ''){
+                $result['status'] = $response['http_code'];
+                $result['result'] = $response['body'];
+            }else{
+                $result['result'] = $response['curl_error'];
+            }
+        }
+
+        if($test->test_type == 'html'){
+            $response = Http::withOptions(['verify' => false])->get($test->url);
+            //try again if false
+            if($response == false){
+                sleep(3);
+                $response = Http::withOptions(['verify' => false])->get($test->url);
+            }
+            if($response != false){
+                $result['status'] = $response->status();
+                $result['result'] = strpos($response->body(), $test->assert_text);
+            }
+
+            if($response == false || $response->status() == 500){
+                $result['status'] = 500;
+                $result['result'] = "Failed to connect to: " . $test->url;
+            }
+        }
+
+        if($test->test_type == 'crawl'){
+            $limit = 8;
+            while((App::runningUnitTests())){
+                sleep(5);
+                if($limit == 0){
+                    break;
+                }
+                if($limit > 0){
+                    $limit--;
+                }
+            }
+
+            $crawl = new Crawl();
+            $response =  $crawl->runCrawler($test);
+
+            $result['status'] = $response['pass'];
+            $result['result'] = $response['error'];
+        }
+
+
+        //DUSK tests must be updated in the dusk test file
+        if($test->test_type !== 'crawl') {
+            $test->status = $result['status'] == 200 ? 'Pass' : 'Fail';
+            $test->response = $result['result'];
+
+            if($result['status'] != 200){
+                Log::channel('monitor')->info(" ");
+                $attempt = $test->attempt+1;
+                Log::channel('monitor')->info($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
+                Log::channel('monitor')->info($result['result']);
+                Log::channel('monitor')->info(" ");
+
+                if( $test->mute == false ){
+                    //if test failed 5+ times and testing is not paused
+                    if($test->attempt >= 5){
+                        //get Contact info related to the test for notification
+
+                        Log::debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. SMS User.");
+                        $t = TbtbTest::where('id', $test->id)->with('contacts')->first();
+                        foreach($t->contacts as $contact){
+                            if($contact->mute == false && $contact->status == 'active'){
+                                $send_sms = $this->smsUser($contact->cell_number, $contact->name, $test->cmd, "FAILED on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt_total);
+                            }
+
+                        }
+                        $test->attempt = 0;
+                    }else{
+                        Log::debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. ");
+                        $test->attempt += 1;
+                    }
+                }else{
+                    Log::debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. Service Muted");
+                    $test->attempt += 1;
+                }
+                $test->attempt_total += 1;
+            }else{
+                $test->attempt = 0;
+                $test->attempt_total = 0;
+            }
+        }
+
+        $test->save();
+        return $result;
+    }
+
     public function rerunSingleTest(Request $request, $group, $env, $service)
     {
         $group = mb_strtoupper(filter_var(trim($group), FILTER_SANITIZE_STRING));
@@ -43,11 +173,7 @@ class TestCaseController extends Controller
             return Response::json(['status' => 'Paused', 'response' => ''], 200);
         }
 
-        switch ($test->group){
-            case "SABC": $group_class = new SabcController(); $process = $group_class->runSabcTest($request, $test); break;
-            case "PTIB": $group_class = new PtibController(); $process = $group_class->runPtibTest($request, $test); break;
-            case "JIRA": $group_class = new JiraController(); $process = $group_class->runJiraTest($request, $test); break;
-        }
+        $process = $this->runServiceTest($request, $test);
         $retest = TbtbTest::where('group', mb_strtoupper($group))->where('env', $env)
             ->where('cmd', 'ilike', $service)
             ->first();
