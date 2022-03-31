@@ -47,9 +47,12 @@ class ProcessCleanTest implements ShouldQueue
         $this->killall('apache2');
         exec('/usr/sbin/apache2ctl start');
         Log::debug('Finished Clean Tests: ' . time());
-        //$this->killall('sh');
-//        $this->killall('php');
-//        exec('/usr/sbin/apache2ctl restart');
+        $this->killall('sh');
+        $this->killall('php');
+        exec('/var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=400 --tries=3 > /dev/null &');
+        exec('/var/www/html/artisan schedule:list > /dev/null &');
+        exec('/var/www/html/artisan schedule:work > /dev/null &');
+        exec('/usr/sbin/apache2ctl restart');
         //show all memory consumption
 //        ps -e -o pid,vsz,comm= | sort -n -k 2
 
