@@ -48,8 +48,8 @@ class ProcessCleanTest implements ShouldQueue
         exec('/usr/sbin/apache2ctl start');
         Log::debug('Finished Clean Tests: ' . time());
         //$this->killall('sh');
-        $this->killall('php');
-        exec('/usr/sbin/apache2ctl restart');
+//        $this->killall('php');
+//        exec('/usr/sbin/apache2ctl restart');
         //show all memory consumption
 //        ps -e -o pid,vsz,comm= | sort -n -k 2
 
