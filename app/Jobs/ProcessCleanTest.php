@@ -48,7 +48,7 @@ class ProcessCleanTest implements ShouldQueue
 //        exec('/usr/sbin/apache2ctl restart');
         $this->killall('chromium');
         $this->killall('apache2');
-        $this->killall('sh ');
+        $this->killall('sh');
         $this->killall('schedule:list');
         $this->killall('queue:listen');
         $this->killall('schedule:work');
