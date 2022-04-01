@@ -42,7 +42,6 @@ class ProcessCleanTest implements ShouldQueue
         exec('rm /tmp/php*');
         exec('> /var/log/apache2/error*');
         exec('> /var/log/apache2/access*');
-        exec('> /var/log/php');
 //        killall('chromium');
 //        killall('apache2');
 //        exec('/usr/sbin/apache2ctl restart');
