@@ -3,7 +3,6 @@
 namespace App\Console;
 
 use App\Jobs\ProcessCleanTest;
-use App\Jobs\ProcessCleanPhp;
 use App\Jobs\ProcessSabcTest;
 use App\Jobs\ProcessPtibTest;
 use App\Jobs\ProcessJiraTest;
@@ -28,7 +27,6 @@ class Kernel extends ConsoleKernel
         $schedule->job(new ProcessJiraTest)->everyFifteenMinutes();
 //        $schedule->job(new ProcessCleanTest)->hourlyAt('*/17');
         $schedule->job(new ProcessCleanTest)->everyFiveMinutes();
-        $schedule->job(new ProcessCleanPhp)->everyMinute();
     }
 
     /**
