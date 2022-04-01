@@ -48,10 +48,13 @@ class ProcessCleanTest implements ShouldQueue
 //        exec('/usr/sbin/apache2ctl restart');
         $this->killall('chromium');
         $this->killall('apache2');
+        $this->killall('sh ');
+        $this->killall('schedule:list');
+        $this->killall('queue:listen');
+        $this->killall('schedule:work');
+
         exec('/usr/sbin/apache2ctl restart');
         Log::debug('Finished Clean Tests: ' . time());
-//        $this->killall('sh');
-//        $this->killall('php');
 
         if($this->touchPs('artisan queue:listen') == false)
             exec('/var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=400 --tries=3 > /dev/null &');
