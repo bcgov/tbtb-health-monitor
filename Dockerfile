@@ -2,7 +2,7 @@ FROM php:7.4-apache
 ARG DEBIAN_VERSION=20.04
 ARG APACHE_OPENIDC_VERSION=2.4.10
 ARG USER_ID=1009370000
-ARG TZ=Canada/Pacific
+ARG TZ=America/Vancouver
 ARG CA_HOSTS_LIST
 ARG TEST_ARG
 ARG ENV_ARG
@@ -115,7 +115,7 @@ ENV TZ=${TZ}
 #RUN mkdir -p /etc/php/7.4/cli/conf.d
 RUN mkdir -p /var/log/php
 RUN printf 'error_log=/var/log/php/error.log\nlog_errors=1\nerror_reporting=E_ALL\n' > /usr/local/etc/php/conf.d/custom.ini
-RUN printf "date.timezone = \"${TZ}\"\n" > /usr/local/etc/php/conf.d/tzone.ini
+#RUN printf "date.timezone = \"${TZ}\"\n" > /usr/local/etc/php/conf.d/tzone.ini
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
@@ -183,8 +183,8 @@ RUN cd /var/www && chown -R ${USER_ID}:root html && chmod -R ug+rw html
 
 RUN cd ~ && chown -R ${USER_ID}:root .npm && chmod -R 766 .npm
 
-RUN npm config list
-RUN npm config ls -l
+#RUN npm config list
+#RUN npm config ls -l
 
 
 RUN npm cache clean --force

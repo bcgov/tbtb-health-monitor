@@ -36,23 +36,32 @@ class ProcessCleanTest implements ShouldQueue
 //        echo "\n\rStarting Clean Tests\n\r";
 
 
-        exec('rm -R ' . public_path() . '/../tests/Browser/screenshots/*.png');
         //exec('rm -R ' . public_path() . '/../storage/logs/laravel-*.log');
-        exec('rm -R /tmp/.com.google.Chrome.*');
-        exec('rm -R /tmp/php*');
+        exec('rm -R /var/www/html/tests/Browser/screenshots/*.png');
+        exec('rm /tmp/.com.google.Chrome.*');
+        exec('rm /tmp/php*');
         exec('> /var/log/apache2/error*');
         exec('> /var/log/apache2/access*');
-
+        exec('> /var/log/php');
+//        killall('chromium');
+//        killall('apache2');
+//        exec('/usr/sbin/apache2ctl restart');
         $this->killall('chromium');
         $this->killall('apache2');
         exec('/usr/sbin/apache2ctl restart');
         Log::debug('Finished Clean Tests: ' . time());
 //        $this->killall('sh');
 //        $this->killall('php');
-//        exec('/var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=400 --tries=3 > /dev/null &');
-//        exec('/var/www/html/artisan schedule:list > /dev/null &');
-//        exec('/var/www/html/artisan schedule:work > /dev/null &');
-//        exec('/usr/sbin/apache2ctl restart');
+
+        if($this->touchPs('artisan queue:listen') == false)
+            exec('/var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=400 --tries=3 > /dev/null &');
+        if($this->touchPs('artisan schedule:list') == false)
+            exec('/var/www/html/artisan schedule:list > /dev/null &');
+        if($this->touchPs('artisan schedule:work') == false)
+            exec('/var/www/html/artisan schedule:work > /dev/null &');
+//
+//
+        exec('/usr/sbin/apache2ctl restart');
         //show all memory consumption
 //        ps -e -o pid,vsz,comm= | sort -n -k 2
 
@@ -75,5 +84,14 @@ class ProcessCleanTest implements ShouldQueue
         } else {
             return "$match: no process killed";
         }
+    }
+
+    private function touchPs($match) {
+        if($match=='') return 'no pattern specified';
+        $match = escapeshellarg($match);
+        exec('ps aux|grep "' . $match . '"|grep -v grep|awk "{print $1}"', $output, $ret);
+        if(sizeof($output) > 0)
+            return true;
+        return false;
     }
 }

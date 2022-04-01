@@ -8,6 +8,7 @@ echo "APACHE_REMOTE_IP_INTERNAL_PROXY: ${APACHE_REMOTE_IP_INTERNAL_PROXY}"
 
 echo "Setup TZ"
 php -r "date_default_timezone_set('${TZ}');"
+php -r "echo date_default_timezone_get();"
 
 echo "symlink to screenshots"
 ln -snf "/var/www/html/tests/Browser/screenshots" "/var/www/html/public/screenshots"
