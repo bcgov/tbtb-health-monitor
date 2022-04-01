@@ -15,6 +15,7 @@ ln -snf "/var/www/html/tests/Browser/screenshots" "/var/www/html/public/screensh
 
 echo "Install composer"
 composer install && composer dump-auto && php artisan key:generate
+chmod 764 artisan
 
 echo "Starting queue 1:"
 php /var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=400 --tries=3 &
