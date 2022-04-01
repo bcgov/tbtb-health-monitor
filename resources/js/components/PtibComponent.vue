@@ -65,6 +65,7 @@ export default {
         cleanLastTestRun: function (test){
             if(test == '') return '';
             let d = test.split('T');
+            if(d.length == 1) return d[0];
             let t = d[1].split('.');
             return d[0] + " " + t[0];
         },
