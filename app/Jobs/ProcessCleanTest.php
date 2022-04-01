@@ -38,7 +38,7 @@ class ProcessCleanTest implements ShouldQueue
 
         //exec('rm -R ' . public_path() . '/../storage/logs/laravel-*.log');
         exec('rm -R /var/www/html/tests/Browser/screenshots/*.png');
-        exec('rm /tmp/.com.google.Chrome.*');
+        exec('rm -R /tmp/.com.google.Chrome.*');
         exec('rm /tmp/php*');
         exec('> /var/log/apache2/error*');
         exec('> /var/log/apache2/access*');
