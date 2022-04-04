@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Models\TestCase as TbtbTest;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 class Crawl extends Model
 {
@@ -23,10 +24,23 @@ class Crawl extends Model
         $path = exec("pwd");
         $artisan = file_exists($path . '/artisan') ? 'php artisan' : 'cd .. && php artisan';
         Log::debug("artisan: " . $artisan);
-        exec($artisan . " dusk:chrome-driver --detect");
+        try {
+            exec($artisan . " dusk:chrome-driver --detect");
+        } catch (ProcessTimedOutException $e) {
+            // do nothing, the pdf is probably generated
+            Log::debug("Failed to check artisan: " . $artisan);
+        }
 
+        $last_line = "";
+        $output = [];
         Log::debug("dusk cmd: " . $artisan . " dusk --filter=" . $test->filter_name . " 2>&1");
-        $last_line = exec($artisan . " dusk --filter=" . $test->filter_name . " 2>&1", $output, $return_var);
+        try {
+            $last_line = exec($artisan . " dusk --filter=" . $test->filter_name . " 2>&1", $output, $return_var);
+        } catch (ProcessTimedOutException $e) {
+            // do nothing, the pdf is probably generated
+            Log::debug("Failed to exec: " . $artisan . " dusk --filter=" . $test->filter_name . " 2>&1");
+        }
+
         Log::debug("last_line = " . $last_line);
 
         $errors = [];

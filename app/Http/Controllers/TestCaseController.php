@@ -47,7 +47,7 @@ class TestCaseController extends Controller
         $test->status = 'Pending';
         $test->save();
 
-
+//        Log::debug("Service Test " . $test->cmd);
         if($test->test_type == 'wsdl'){
             $response = $this->makeApiCall($test->url, $test->post_data);
             if($response['curl_error'] == ''){
