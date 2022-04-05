@@ -37,6 +37,8 @@ Vue.component('sharepoint-services-component', require('./components/SharePointS
 Vue.component('service-contacts-component', require('./components/ServiceContactsComponent.vue').default);
 Vue.component('accounts-component', require('./components/AccountsComponent.vue').default);
 
+Vue.component('show-service-modal', require('./components/ShowServiceModal.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

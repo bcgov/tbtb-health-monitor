@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use App\Models\TestCase as TbtbTest;
 use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\Process\Exception\ProcessTimedOutException;
 
 class Crawl extends Model
 {
@@ -26,9 +25,10 @@ class Crawl extends Model
         Log::debug("artisan: " . $artisan);
         try {
             exec($artisan . " dusk:chrome-driver --detect");
-        } catch (ProcessTimedOutException $e) {
+        } catch (\Exception $e) {
             // do nothing, the pdf is probably generated
             Log::debug("Failed to check artisan: " . $artisan);
+            Log::error("Failed to check artisan: " . $e);
         }
 
         $last_line = "";
@@ -36,7 +36,7 @@ class Crawl extends Model
         Log::debug("dusk cmd: " . $artisan . " dusk --filter=" . $test->filter_name . " 2>&1");
         try {
             $last_line = exec($artisan . " dusk --filter=" . $test->filter_name . " 2>&1", $output, $return_var);
-        } catch (ProcessTimedOutException $e) {
+        } catch (\Exception $e) {
             // do nothing, the pdf is probably generated
             Log::debug("Failed to exec: " . $artisan . " dusk --filter=" . $test->filter_name . " 2>&1");
         }
