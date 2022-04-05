@@ -18,7 +18,7 @@ class JiraLoginTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('https://hive.aved.gov.bc.ca/jira/secure/Dashboard.jspa');
-            $browser->screenshot(mt_rand() . "-testProdJiraLoginPage-screenshot");
+            $browser->screenshot(time() . "-testProdJiraLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
         });
     }
@@ -27,7 +27,7 @@ class JiraLoginTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('https://dev.hive.aved.gov.bc.ca/jiradev/secure/Dashboard.jspa');
-            $browser->screenshot(mt_rand() . "-testDevJiraLoginPage-screenshot");
+            $browser->screenshot(time() . "-testDevJiraLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
         });
     }
@@ -36,7 +36,7 @@ class JiraLoginTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('https://hive.aved.gov.bc.ca/wiki/login.action');
-            $browser->screenshot(mt_rand() . "-testProdWikiLoginPage-screenshot");
+            $browser->screenshot(time() . "-testProdWikiLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
         });
     }
@@ -45,7 +45,7 @@ class JiraLoginTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('https://dev.hive.aved.gov.bc.ca/wikidev/login.action');
-            $browser->screenshot(mt_rand() . "-testDevWikiLoginPage-screenshot");
+            $browser->screenshot(time() . "-testDevWikiLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
         });
     }
