@@ -24,14 +24,14 @@ class SabcLoginTest extends DuskTestCase
             //$browser->resize('1960', '1500');
 
             $browser->visit('https://studentaidbc.ca/dashboard/login');
-            $browser->screenshot(rand() . "-testProdSabcAccessLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testProdSabcAccessLoginPage-screenshot");
             $browser->press('Option 2 - Login with a StudentAid BC User ID');
             $browser->waitFor('input[id="user_id"]', 5);
             $browser->type('input[id="user_id"]', env('PROD_SABC_ACCESS_LOGIN_USERID'));
             $browser->type('input[id="password"]', env('PROD_SABC_ACCESS_LOGIN_PASS'));
             $browser->press('Login with StudentAid BC User ID');
             $browser->waitFor("div[id='myTabContent']", 5);
-            $browser->screenshot(rand() . "-testPrdAccessLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testPrdAccessLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
 
         });
@@ -42,13 +42,13 @@ class SabcLoginTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
             //$browser->resize('1960', '1500');
             $browser->visit('https://uat.studentaidbc.ca/dashboard/login');
-            $browser->screenshot(rand() . "-testUatAccessLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testUatAccessLoginPage-screenshot");
             $browser->press('Option 2 - Login with a StudentAid BC User ID');
             $browser->type('input[id="user_id"]', env('UAT_SABC_ACCESS_LOGIN_USERID'));
             $browser->type('input[id="password"]', env('UAT_SABC_ACCESS_LOGIN_PASS'));
             $browser->press('Login with StudentAid BC User ID');
             $browser->waitFor("div[id='myTabContent']", 5);
-            $browser->screenshot(rand() . "-testUatAccessLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testUatAccessLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
 
         });
@@ -59,13 +59,13 @@ class SabcLoginTest extends DuskTestCase
         $browse = $this->browse(function (Browser $browser) {
             //$browser->resize('1960', '1500');
             $browser->visit('https://dev.studentaidbc.ca/dashboard/login');
-            $browser->screenshot(rand() . "-testDevAccessLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testDevAccessLoginPage-screenshot");
             $browser->press('Option 2 - Login with a StudentAid BC User ID');
             $browser->type('input[id="user_id"]', env('DEV_SABC_ACCESS_LOGIN_USERID'));
             $browser->type('input[id="password"]', env('DEV_SABC_ACCESS_LOGIN_PASS'));
             $browser->press('Login with StudentAid BC User ID');
             $browser->waitFor("div[id='myTabContent']", 5);
-            $browser->screenshot(rand() . "-testDevAccessLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testDevAccessLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
 
         });
@@ -79,13 +79,13 @@ class SabcLoginTest extends DuskTestCase
             //$browser->resize('1960', '1500');
 
             $browser->visit('https://studentaidbc.ca/ords/cds/cds_html_main_pkg.cds');
-            $browser->screenshot(rand() . "-testProdSabcCdsLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testProdSabcCdsLoginPage-screenshot");
 
             $browser->driver->switchTo()->frame(6);
 
             $browser->clickAtXPath('//*[@id="bNext"]');
             //$browser->waitFor('form[name="data_form"]', 5);
-            $browser->screenshot(rand() . "-testProdSabcCdsLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testProdSabcCdsLoginPage-screenshot");
             $browser->assertSee('Login Form');
             $test = $browser->driver->getPageSource();
 
@@ -95,16 +95,14 @@ class SabcLoginTest extends DuskTestCase
     public function testUatSabcCdsLoginPage()
     {
         $this->browse(function (Browser $browser) {
-            //$browser->resize('1960', '1500');
 
             $browser->visit('https://uat.studentaidbc.ca/ords/cds/cds_html_main_pkg.cds');
-            $browser->screenshot(rand() . "-testUatSabcCdsLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testUatSabcCdsLoginPage-screenshot");
 
             $browser->driver->switchTo()->frame(6);
 
             $browser->clickAtXPath('//*[@id="bNext"]');
-            //$browser->waitFor('form[name="data_form"]', 5);
-            $browser->screenshot(rand() . "-testUatSabcCdsLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testUatSabcCdsLoginPage-screenshot");
             $browser->assertSee('Login Form');
             $test = $browser->driver->getPageSource();
 
@@ -117,13 +115,13 @@ class SabcLoginTest extends DuskTestCase
             //$browser->resize('1960', '1500');
 
             $browser->visit('https://dev.studentaidbc.ca/ords/cds/cds_html_main_pkg.cds');
-            $browser->screenshot(rand() . "-testDevSabcCdsLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testDevSabcCdsLoginPage-screenshot");
 
             $browser->driver->switchTo()->frame(6);
 
             $browser->clickAtXPath('//*[@id="bNext"]');
             //$browser->waitFor('form[name="data_form"]', 5);
-            $browser->screenshot(rand() . "-testDevSabcCdsLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testDevSabcCdsLoginPage-screenshot");
             $browser->assertSee('Login Form');
             $test = $browser->driver->getPageSource();
 

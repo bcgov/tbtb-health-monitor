@@ -35,7 +35,7 @@
                     <div class="card mb-3">
                         <div class="card-header bg-primary text-white text-uppercase">contacts</div>
                         <div class="card-body">
-                            <table class="table">
+                            <table class="table" aria-label="accounts table">
                                 <thead>
                                     <tr>
                                         <th scope="col">Name</th>

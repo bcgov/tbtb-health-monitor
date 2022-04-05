@@ -20,12 +20,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
-        //$schedule->command('inspire')->everyMinute();
         $schedule->job(new ProcessSabcTest)->everyFourMinutes();
         $schedule->job(new ProcessPtibTest)->everyTenMinutes();
         $schedule->job(new ProcessJiraTest)->everyFifteenMinutes();
-//        $schedule->job(new ProcessCleanTest)->hourlyAt('*/17');
         $schedule->job(new ProcessCleanTest)->everyFiveMinutes();
     }
 

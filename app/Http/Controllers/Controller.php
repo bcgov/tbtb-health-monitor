@@ -155,15 +155,12 @@ class Controller extends BaseController
             CURLOPT_POSTFIELDS => $postData,
         ];
         $return = $this->makeCurlCall($curlOptions);
-        //var_dump($return);
         return $return;
     }
     public function makeCurlCall($curlOptions){
         $ch = curl_init();
         curl_setopt_array($ch, $curlOptions);
         $response = curl_exec($ch);
-        //$info = curl_getinfo($ch);
-        //var_dump($info);
 
         $error = curl_error($ch);
         $result = array( 'header' => '',
@@ -185,44 +182,6 @@ class Controller extends BaseController
 
         curl_close($ch);
         return $result;
-    }
-
-    public function fnRequest($action, $wsdl, $params = array(), $debug = false){
-        if($debug == true){
-            ini_set('display_errors', 1);
-            $options = array('trace' => 1, 'exception' => true);
-        }else{
-            $options = array('trace' => 1, 'exceptions' => false);
-        }
-        try {
-            if(!empty($options)){
-                $client = new \SoapClient($wsdl, $options);
-            }else{
-                $client = new \SoapClient($wsdl);
-            }
-        }catch(\SoapFault $e){
-            return ['faultcode' => '', 'falutstring' => '', 'response' => $e, 'fail' => true];
-        }
-        try {
-            if(count($params) > 0){
-                $response = $client->{$action}($params);
-            }else{
-                $response = $client->{$action}();
-            }
-        }catch(\Exception $e){
-            return ['faultcode' => '', 'falutstring' => '', 'response' => $e, 'fail' => true];
-        }
-
-        if(isset($response) && !empty($response)){
-            if(is_soap_fault($response)){
-                return ['faultcode' => $response->faultcode, 'falutstring' => $response->faultstring, 'response' => $response, 'fail' => true];
-            }else{
-                if(is_object($response) && !empty($response)){
-                    return ['faultcode' => '', 'falutstring' => '', 'response' => $response, 'fail' => false];
-                }
-            }
-        }
-        return ['faultcode' => '', 'falutstring' => '', 'response' => 'no idea', 'fail' => false];
     }
 
 }

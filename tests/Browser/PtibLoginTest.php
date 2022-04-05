@@ -20,11 +20,11 @@ class PtibLoginTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('https://logon.gov.bc.ca/clp-cgi/int/logon.cgi?TARGET=https://admin.privatetraininginstitutions.gov.bc.ca/&flags=1100:1,7&toggle=1');
-            $browser->screenshot(rand() . "-testProdPtipAdminLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testProdPtipAdminLoginPage-screenshot");
             $browser->type('input[id="user"]', env('PROD_PTIP_ADMIN_LOGIN_USERID'));
             $browser->type('input[id="password"]', env('PROD_PTIP_ADMIN_LOGIN_PASS'));
             $browser->press('Continue');
-            $browser->screenshot(rand() . "-testProdPtipAdminLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testProdPtipAdminLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
         });
     }
@@ -33,11 +33,11 @@ class PtibLoginTest extends DuskTestCase
     {
         $this->browse(function (Browser $browser) {
             $browser->visit('https://logontest7.gov.bc.ca/clp-cgi/int/logon.cgi?TARGET=https://uat.admin.privatetraininginstitutions.gov.bc.ca/&flags=1100:1,7&toggle=1');
-            $browser->screenshot(rand() . "-testUatPtipAdminLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testUatPtipAdminLoginPage-screenshot");
             $browser->type('input[id="user"]', env('UAT_PTIP_ADMIN_LOGIN_USERID'));
             $browser->type('input[id="password"]', env('UAT_PTIP_ADMIN_LOGIN_PASS'));
             $browser->press('Continue');
-            $browser->screenshot(rand() . "-testUatPtipAdminLoginPage-screenshot");
+            $browser->screenshot(mt_rand() . "-testUatPtipAdminLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
         });
     }

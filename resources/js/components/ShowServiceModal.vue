@@ -10,11 +10,11 @@
                 <div class="modal-body">
                     <form v-if="serv != ''">
                         <div class="mb-3">
-                            <label for="service_name" class="form-label">Service Name <i class="text-danger">*</i></label>
+                            <label for="service_name" class="form-label">Service Name <em class="text-danger">*</em></label>
                             <input id="service_name" type="text" class="form-control" :class="serv.name != '' ? '' : 'is-invalid'" placeholder="Service Name" v-model="serv.name" :disabled="formSubmitting == true">
                         </div>
                         <div class="mb-3">
-                            <label for="service_group" class="form-label">Service Group <i class="text-danger">*</i></label>
+                            <label for="service_group" class="form-label">Service Group <em class="text-danger">*</em></label>
                             <select id="service_group" class="form-select" :class="serv.group != '' ? '' : 'is-invalid'" v-model="serv.group" :disabled="formSubmitting == true">
                                 <option value="">Select Group</option>
                                 <option value="SABC">SABC</option>
@@ -23,7 +23,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="service_env" class="form-label">Environment <i class="text-danger">*</i></label>
+                            <label for="service_env" class="form-label">Environment <em class="text-danger">*</em></label>
                             <select id="service_env" class="form-select" :class="serv.env != '' ? '' : 'is-invalid'" v-model="serv.env" :disabled="formSubmitting == true">
                                 <option value="">Select Environment</option>
                                 <option value="production">PRODUCTION</option>
@@ -33,7 +33,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="service_type" class="form-label">Service Type <i class="text-danger">*</i></label>
+                            <label for="service_type" class="form-label">Service Type <em class="text-danger">*</em></label>
                             <select id="service_type" class="form-select" :class="serv.test_type != '' ? '' : 'is-invalid'" v-model="serv.test_type" :disabled="formSubmitting == true">
                                 <option value="">Select Type</option>
                                 <option value="wsdl">WSDL</option>
