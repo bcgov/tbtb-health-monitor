@@ -46,6 +46,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/accounts', function () {
             return view('accounts');
         });
+        Route::get('/logs', function () {
+            return view('logs');
+        });
 
         Route::get('/rerun-single-test/{group}/{environment}/{service}', [App\Http\Controllers\TestCaseController::class, 'rerunSingleTest'])->name('rerun-single-test');
 
