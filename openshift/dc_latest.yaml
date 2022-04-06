@@ -38,18 +38,6 @@ objects:
               namespace: ${BUILD_NAMESPACE}
             containerNames:
               - ${NAME}
-      livenessProbe:
-        exec:
-          command:
-            - php
-            - /var/www/html/artisan
-            - dusk:chrome-driver
-            - --detect
-        periodSeconds: 30
-        initialDelaySeconds: 10
-        timeoutSeconds: 15
-        successThreshold: 1
-        failureThreshold: 2
       replicas: 1
       revisionHistoryLimit: 5
       selector:
@@ -85,6 +73,18 @@ objects:
                 requests:
                   cpu: 250m
                   memory: 512Mi
+              livenessProbe:
+                exec:
+                  command:
+                    - php
+                    - /var/www/html/artisan
+                    - dusk:chrome-driver
+                    - --detect
+                periodSeconds: 30
+                initialDelaySeconds: 10
+                timeoutSeconds: 15
+                successThreshold: 1
+                failureThreshold: 2
   - apiVersion: route.openshift.io/v1
     kind: Route
     spec:
