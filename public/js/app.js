@@ -5735,7 +5735,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
     cleanLastTestRun: function cleanLastTestRun(test) {
-      if (test == '') return '';
+      if (test == null) return '';
       var d = test.split('T');
       if (d.length == 1) return d[0];
       var t = d[1].split('.');
@@ -5795,7 +5795,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var vm = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-jira-tests',
+        url: '/fetch-tests?group=jira',
         method: 'get',
         headers: {
           'Accept': 'application/json'
@@ -6134,7 +6134,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
     cleanLastTestRun: function cleanLastTestRun(test) {
-      if (test == '') return '';
+      if (test == null) return '';
       var d = test.split('T');
       if (d.length == 1) return d[0];
       var t = d[1].split('.');
@@ -6194,7 +6194,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var vm = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-ptib-tests',
+        url: '/fetch-tests?group=ptib',
         method: 'get',
         headers: {
           'Accept': 'application/json'
@@ -6462,7 +6462,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
     cleanLastTestRun: function cleanLastTestRun(test) {
-      if (test == '') return '';
+      if (test == null) return '';
       var d = test.split('T');
       if (d.length == 1) return d[0];
       var t = d[1].split('.');
@@ -6522,7 +6522,7 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var vm = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-sabc-tests',
+        url: '/fetch-tests?group=sabc',
         method: 'get',
         headers: {
           'Accept': 'application/json'

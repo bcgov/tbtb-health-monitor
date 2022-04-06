@@ -26,22 +26,4 @@ class JiraController extends Controller
     {
         return view('home');
     }
-
-    public function fetchJiraTests(Request $request)
-    {
-        $tests = [
-            'branch' => 'JIRA',
-        ];
-        $test_cases = TbtbTest::where('group', 'JIRA')->whereIn('env', ['production','dev'])->with('contacts')->get();
-        $tests['env']['production']['name'] = 'PRODUCTION';
-        $tests['env']['uat']['name'] = 'DEV';
-        foreach ($test_cases as $test){
-            $tests['env'][$test->env]['cases'][$test->name] = $test;
-            $tests['env'][$test->env]['cases'][$test->name]['expanded'] = false;
-            $tests['env'][$test->env]['last_test'] = $test->updated_at->toDateTimeString();
-        }
-
-        return Response::json(['status' => true, 'tests' => $tests, 'user_auth' => Auth::check()], 200); // Status code here
-
-    }
 }

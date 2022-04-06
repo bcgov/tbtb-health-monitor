@@ -26,24 +26,4 @@ class SabcController extends Controller
     {
         return view('home');
     }
-
-    public function fetchSabcTests(Request $request)
-    {
-        $tests = [
-            'branch' => 'SABC',
-        ];
-
-        $sabc_tests = TbtbTest::where('group', 'SABC')->whereIn('env', ['production','dev','uat'])->with('contacts')->get();
-        $tests['env']['production']['name'] = 'PRODUCTION';
-        $tests['env']['dev']['name'] = 'DEV';
-        $tests['env']['uat']['name'] = 'UAT';
-        foreach ($sabc_tests as $test){
-            $tests['env'][$test->env]['cases'][$test->name] = $test;
-            $tests['env'][$test->env]['cases'][$test->name]['expanded'] = false;
-            $tests['env'][$test->env]['last_test'] = $test->updated_at->toDateTimeString();
-        }
-
-        return Response::json(['status' => true, 'tests' => $tests, 'user_auth' => Auth::check()], 200); // Status code here
-    }
-
 }

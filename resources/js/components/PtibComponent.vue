@@ -63,7 +63,7 @@ import axios from 'axios';
 export default {
     filters: {
         cleanLastTestRun: function (test){
-            if(test == '') return '';
+            if(test == null) return '';
             let d = test.split('T');
             if(d.length == 1) return d[0];
             let t = d[1].split('.');
@@ -125,7 +125,7 @@ export default {
         fetchData: function(){
             let vm = this;
             axios({
-                url: '/fetch-ptib-tests',
+                url: '/fetch-tests?group=ptib',
                 method: 'get',
                 headers: {'Accept': 'application/json'}
             })

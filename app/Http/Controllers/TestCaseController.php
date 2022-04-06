@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AjaxRequest;
 use App\Models\Contact;
 use App\Models\Crawl;
 use Illuminate\Support\Facades\App;
@@ -33,6 +34,26 @@ class TestCaseController extends Controller
         return redirect('/');
     }
 
+    public function fetchTests(AjaxRequest $request){
+        $validated = $request->validate([
+            'group' => 'required|in:ptib,jira,sabc',
+        ]);
+
+        $group = Str::upper($request->group);
+        $tests = [
+            'branch' => $group,
+        ];
+        $test_cases = TbtbTest::where('group', $group)->with('contacts')->get();
+        foreach ($test_cases as $test){
+            $tests['env'][$test->env]['name'] = Str::upper($test->env);
+            $tests['env'][$test->env]['cases'][$test->name] = $test;
+            $tests['env'][$test->env]['cases'][$test->name]['expanded'] = false;
+            $tests['env'][$test->env]['last_test'] = $test->updated_at->toDateTimeString();
+        }
+
+        return Response::json(['status' => true, 'tests' => $tests, 'user_auth' => Auth::check()], 200); // Status code here
+
+    }
 
     public function runServiceTest(Request $request, $test)
     {
@@ -165,7 +186,6 @@ class TestCaseController extends Controller
         $env = mb_strtolower(filter_var(trim($env), FILTER_SANITIZE_STRING));
         $service = filter_var(trim($service), FILTER_SANITIZE_STRING);
 
-//        $group_class = new SabcController();
         $test = TbtbTest::where('group', mb_strtoupper($group))->where('env', $env)
             ->where('cmd', 'ilike', $service)
             ->first();
