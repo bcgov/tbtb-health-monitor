@@ -43229,49 +43229,56 @@ var render = function () {
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
-                  _c("table", { staticClass: "table" }, [
-                    _vm._m(0),
-                    _vm._v(" "),
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.accounts, function (contact) {
-                        return _c("tr", [
-                          _c("th", { attrs: { scope: "row" } }, [
-                            _vm._v(_vm._s(contact.name)),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(contact.email))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(contact.cell_number))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(contact.level))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(contact.status))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(contact.sms_enabled))]),
-                          _vm._v(" "),
-                          _c("td", [_vm._v(_vm._s(contact.email_enabled))]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-sm btn-info",
-                                attrs: { type: "button" },
-                                on: {
-                                  click: function ($event) {
-                                    return _vm.showContact(contact)
+                  _c(
+                    "table",
+                    {
+                      staticClass: "table",
+                      attrs: { "aria-label": "accounts table" },
+                    },
+                    [
+                      _vm._m(0),
+                      _vm._v(" "),
+                      _c(
+                        "tbody",
+                        _vm._l(_vm.accounts, function (contact) {
+                          return _c("tr", [
+                            _c("th", { attrs: { scope: "row" } }, [
+                              _vm._v(_vm._s(contact.name)),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(contact.email))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(contact.cell_number))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(contact.level))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(contact.status))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(contact.sms_enabled))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(contact.email_enabled))]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c(
+                                "button",
+                                {
+                                  staticClass: "btn btn-sm btn-info",
+                                  attrs: { type: "button" },
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.showContact(contact)
+                                    },
                                   },
                                 },
-                              },
-                              [_vm._v("edit")]
-                            ),
-                          ]),
-                        ])
-                      }),
-                      0
-                    ),
-                  ]),
+                                [_vm._v("edit")]
+                              ),
+                            ]),
+                          ])
+                        }),
+                        0
+                      ),
+                    ]
+                  ),
                 ]),
               ]),
             ],
@@ -46460,7 +46467,7 @@ var staticRenderFns = [
       { staticClass: "form-label", attrs: { for: "service_name" } },
       [
         _vm._v("Service Name "),
-        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _c("em", { staticClass: "text-danger" }, [_vm._v("*")]),
       ]
     )
   },
@@ -46473,7 +46480,7 @@ var staticRenderFns = [
       { staticClass: "form-label", attrs: { for: "service_group" } },
       [
         _vm._v("Service Group "),
-        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _c("em", { staticClass: "text-danger" }, [_vm._v("*")]),
       ]
     )
   },
@@ -46486,7 +46493,7 @@ var staticRenderFns = [
       { staticClass: "form-label", attrs: { for: "service_env" } },
       [
         _vm._v("Environment "),
-        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _c("em", { staticClass: "text-danger" }, [_vm._v("*")]),
       ]
     )
   },
@@ -46499,7 +46506,7 @@ var staticRenderFns = [
       { staticClass: "form-label", attrs: { for: "service_type" } },
       [
         _vm._v("Service Type "),
-        _c("i", { staticClass: "text-danger" }, [_vm._v("*")]),
+        _c("em", { staticClass: "text-danger" }, [_vm._v("*")]),
       ]
     )
   },
