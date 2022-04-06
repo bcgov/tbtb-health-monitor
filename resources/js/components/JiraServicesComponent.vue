@@ -87,19 +87,14 @@ export default {
             else val.expanded = false;
         },
         pauseService: function (env, test){
-            let vm = this;
             let url = test.paused == true ? '/unpause-test/' + test.id : '/pause-test/' + test.id;
             test.paused = !test.paused;
-            //test.status = 'Pending';
             axios({
                 url: url,
-                //data: formData,
                 method: 'get',
-                //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
                 headers: {'Accept': 'application/json'}
             })
 
-                //axios.get( '/fetch-dashboard' )
                 .then(function (response) {
                     // console.log('ENVLIST IS EMPTY 0');
                 })
@@ -108,19 +103,14 @@ export default {
                 });
         },
         muteService: function (env, test){
-            let vm = this;
             let url = test.mute == true ? '/unmute-test/' + test.id : '/mute-test/' + test.id;
             test.mute = !test.mute;
-            //test.status = 'Pending';
             axios({
                 url: url,
-                //data: formData,
                 method: 'get',
-                //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
                 headers: {'Accept': 'application/json'}
             })
 
-                //axios.get( '/fetch-dashboard' )
                 .then(function (response) {
                     // console.log('ENVLIST IS EMPTY 0');
                 })
@@ -132,14 +122,11 @@ export default {
         fetchData: function(){
             let vm = this;
             axios({
-                url: '/fetch-jira-tests',
-                //data: formData,
+                url: '/fetch-tests?group=jira',
                 method: 'get',
-                //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
                 headers: {'Accept': 'application/json'}
             })
 
-                //axios.get( '/fetch-dashboard' )
                 .then(function (response) {
                     vm.envList = response.data.tests;
                     document.refreshTooltips();
@@ -150,20 +137,9 @@ export default {
         },
 
     },
-    computed: {
-
-    },
-    created() {
-
-    },
     mounted: function () {
         this.fetchData();
-        // document.title = "StudentAidBC - Applicant Overview Info";
-
-    },
-    watch: {
     }
-
 }
 
 </script>

@@ -5921,39 +5921,29 @@ __webpack_require__.r(__webpack_exports__);
       if (state == 0) val.expanded = true;else val.expanded = false;
     },
     pauseService: function pauseService(env, test) {
-      var vm = this;
       var url = test.paused == true ? '/unpause-test/' + test.id : '/pause-test/' + test.id;
-      test.paused = !test.paused; //test.status = 'Pending';
-
+      test.paused = !test.paused;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         url: url,
-        //data: formData,
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
       })["catch"](function (error) {
         console.log(error);
       });
     },
     muteService: function muteService(env, test) {
-      var vm = this;
       var url = test.mute == true ? '/unmute-test/' + test.id : '/mute-test/' + test.id;
-      test.mute = !test.mute; //test.status = 'Pending';
-
+      test.mute = !test.mute;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         url: url,
-        //data: formData,
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5961,15 +5951,12 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var vm = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-jira-tests',
-        //data: formData,
+        url: '/fetch-tests?group=jira',
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {
+      }).then(function (response) {
         vm.envList = response.data.tests;
         document.refreshTooltips();
       })["catch"](function (error) {
@@ -5977,12 +5964,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  computed: {},
-  created: function created() {},
   mounted: function mounted() {
-    this.fetchData(); // document.title = "StudentAidBC - Applicant Overview Info";
-  },
-  watch: {}
+    this.fetchData();
+  }
 });
 
 /***/ }),
@@ -6320,39 +6304,29 @@ __webpack_require__.r(__webpack_exports__);
       if (state == 0) val.expanded = true;else val.expanded = false;
     },
     pauseService: function pauseService(env, test) {
-      var vm = this;
       var url = test.paused == true ? '/unpause-test/' + test.id : '/pause-test/' + test.id;
-      test.paused = !test.paused; //test.status = 'Pending';
-
+      test.paused = !test.paused;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         url: url,
-        //data: formData,
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
       })["catch"](function (error) {
         console.log(error);
       });
     },
     muteService: function muteService(env, test) {
-      var vm = this;
       var url = test.mute == true ? '/unmute-test/' + test.id : '/mute-test/' + test.id;
-      test.mute = !test.mute; //test.status = 'Pending';
-
+      test.mute = !test.mute;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         url: url,
-        //data: formData,
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -6360,15 +6334,12 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var vm = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-ptib-tests',
-        //data: formData,
+        url: '/fetch-tests?group=ptib',
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {
+      }).then(function (response) {
         vm.envList = response.data.tests;
         document.refreshTooltips();
       })["catch"](function (error) {
@@ -6376,12 +6347,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  computed: {},
-  created: function created() {},
   mounted: function mounted() {
-    this.fetchData(); // document.title = "StudentAidBC - Applicant Overview Info";
-  },
-  watch: {}
+    this.fetchData();
+  }
 });
 
 /***/ }),
@@ -6647,39 +6615,30 @@ __webpack_require__.r(__webpack_exports__);
       if (state == 0) val.expanded = true;else val.expanded = false;
     },
     pauseService: function pauseService(env, test) {
-      var vm = this;
       var url = test.paused == true ? '/unpause-test/' + test.id : '/pause-test/' + test.id;
-      test.paused = !test.paused; //test.status = 'Pending';
-
+      test.paused = !test.paused;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         url: url,
-        //data: formData,
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
       })["catch"](function (error) {
         console.log(error);
       });
     },
     muteService: function muteService(env, test) {
-      var vm = this;
       var url = test.mute == true ? '/unmute-test/' + test.id : '/mute-test/' + test.id;
       test.mute = !test.mute; //test.status = 'Pending';
 
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
         url: url,
-        //data: formData,
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
       })["catch"](function (error) {
         console.log(error);
       });
@@ -6687,15 +6646,12 @@ __webpack_require__.r(__webpack_exports__);
     fetchData: function fetchData() {
       var vm = this;
       axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-sabc-tests',
-        //data: formData,
+        url: '/fetch-tests?group=sabc',
         method: 'get',
-        //headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
         headers: {
           'Accept': 'application/json'
         }
-      }) //axios.get( '/fetch-dashboard' )
-      .then(function (response) {
+      }).then(function (response) {
         vm.envList = response.data.tests;
         document.refreshTooltips();
       })["catch"](function (error) {
@@ -6703,12 +6659,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  computed: {},
-  created: function created() {},
   mounted: function mounted() {
     this.fetchData();
-  },
-  watch: {}
+  }
 });
 
 /***/ }),

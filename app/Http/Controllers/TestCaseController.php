@@ -328,16 +328,14 @@ class TestCaseController extends Controller
         return Response::json(['status' => true], 200);
     }
 
-    public function fetchServiceContacts(Request $request, $service = null)
+    public function fetchServiceContacts(AjaxRequest $request, $service = null)
     {
-        $sabc = new SabcController();
-        $sabc_tests = $sabc->fetchSabcTests($request);
-
-        $jira = new JiraController();
-        $jira_tests = $jira->fetchJiraTests($request);
-
-        $ptib = new PtibController();
-        $ptib_tests = $ptib->fetchPtibTests($request);
+        $request->merge(['group' => 'sabc']);
+        $sabc_tests = $this->fetchTests($request);
+        $request->merge(['group' => 'jira']);
+        $jira_tests = $this->fetchTests($request);
+        $request->merge(['group' => 'ptib']);
+        $ptib_tests = $this->fetchTests($request);
 
         $lists = [
             'sabc' => $sabc_tests->original['tests'],

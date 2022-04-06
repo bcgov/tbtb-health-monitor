@@ -23,9 +23,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/fetch-sabc-tests', [App\Http\Controllers\SabcController::class, 'fetchSabcTests'])->name('fetch-sabc-tests');
-Route::get('/fetch-ptib-tests', [App\Http\Controllers\PtibController::class, 'fetchPtibTests'])->name('fetch-ptib-tests');
-Route::get('/fetch-jira-tests', [App\Http\Controllers\JiraController::class, 'fetchJiraTests'])->name('fetch-jira-tests');
 Route::get('/fetch-tests', [App\Http\Controllers\TestCaseController::class, 'fetchTests'])->name('fetch-tests');
 
 Route::get('/fetch-single-test/{group}/{environment}/{service}', [App\Http\Controllers\TestCaseController::class, 'fetchSingleTest'])->name('fetch-single-test');
