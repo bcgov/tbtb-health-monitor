@@ -30,7 +30,7 @@ RUN apt-get install -y \
         git nano \
 		gnupg yarn \
 		netcat curl apache2 dialog locate \
-		libcurl4 libcurl3-dev zip
+		libcurl4 libcurl3-dev zip psmisc
 
 #resolve /usr/sbin/apache2ctl: 113: www-browser: not found
 RUN apt-get install -y lynx

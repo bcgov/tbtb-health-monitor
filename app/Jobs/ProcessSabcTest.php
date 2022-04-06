@@ -43,7 +43,8 @@ class ProcessSabcTest implements ShouldQueue
         foreach ($tests as $test){
             Log::debug("Start " . $test->env . " SABC Process: " . $test->cmd);
             $process = $t->runServiceTest($request, $test);
-            Log::debug($process['status'] . " " . $process['result']);
+//            Log::debug($process['status'] . " " . $process['result']);
+            Log::debug($process['status']);
             Log::debug("End " . $test->env . " SABC Process: " . $test->cmd);
         }
 

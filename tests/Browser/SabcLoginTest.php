@@ -31,7 +31,7 @@ class SabcLoginTest extends DuskTestCase
             $browser->type('input[id="password"]', env('PROD_SABC_ACCESS_LOGIN_PASS'));
             $browser->press('Login with StudentAid BC User ID');
             $browser->waitFor("div[id='myTabContent']", 5);
-            $browser->screenshot(time() . "-testPrdAccessLoginPage-screenshot");
+            $browser->screenshot(time() . "-testProdSabcAccessLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
 
         });

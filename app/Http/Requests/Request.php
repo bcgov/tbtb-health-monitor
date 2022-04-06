@@ -12,9 +12,5 @@ abstract class Request extends FormRequest
      *
      * @return bool
      */
-//    public function authorize()
-//    {
-//        Session::forget('DEBUG');
-//
-//    }
+
 }

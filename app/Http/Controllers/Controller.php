@@ -26,10 +26,8 @@ class Controller extends BaseController
             }
         }
 
-        if($trace == true){
-            if(headers_sent() == false){
-                header('Content-type: text/plain');
-            }
+        if($trace == true && headers_sent() == false){
+            header('Content-type: text/plain');
         }
 
         // create a new cURL resource
@@ -45,20 +43,21 @@ class Controller extends BaseController
             curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
         }
 
-        if($trace == true){
+        if($trace){
             curl_setopt($ch, CURLOPT_STDERR, fopen('php://output', 'w'));
             curl_setopt($ch, CURLOPT_VERBOSE, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 0);
-        }
-        else
+        }else{
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        }
 
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
-        if($trace == true)
+        if($trace){
             curl_setopt($ch, CURLOPT_HEADER, 1);
-        else
+        }else{
             curl_setopt($ch, CURLOPT_HEADER, 0);
+        }
 
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
 
@@ -85,9 +84,9 @@ class Controller extends BaseController
                 }
             }
 
-            if($httpcode == 200 ){
+            if($httpcode == 200){
 
-                if($get_vars == true){
+                if($get_vars){
                     $info = curl_getinfo($ch);
                     if(isset($info['url'])){
                         $url = parse_url($info['url']);
@@ -96,7 +95,7 @@ class Controller extends BaseController
                     }
                 }
 
-                if($ret_cookies == true){
+                if($ret_cookies){
                     // get cookie
                     preg_match('/^Set-Cookie:\s*([^;]*)/mi', $ret, $m);
                     $r['cookies'] = $m;
@@ -106,11 +105,10 @@ class Controller extends BaseController
                 $r['response_code'] = $httpcode;
                 return $r;
             }
-            return false;
         }
         catch (\Exception $e) {
-            return false;
         }
+        return false;
     }
 
 
@@ -133,7 +131,7 @@ class Controller extends BaseController
             CURLOPT_POSTFIELDS => json_encode($request),
         ];
 
-        $response = $this->makeCurlCall($curlOptions);
+        $this->makeCurlCall($curlOptions);
         return null;
     }
 
@@ -154,8 +152,7 @@ class Controller extends BaseController
             CURLOPT_TIMEOUT => 15,
             CURLOPT_POSTFIELDS => $postData,
         ];
-        $return = $this->makeCurlCall($curlOptions);
-        return $return;
+        return $this->makeCurlCall($curlOptions);
     }
     public function makeCurlCall($curlOptions){
         $ch = curl_init();

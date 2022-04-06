@@ -38,7 +38,7 @@ class TestCaseController extends Controller
     {
         $result = ['status' => 500, 'result' => false];
         $test = TbtbTest::where('id', $test->id)->first();
-        if($test->paused == true){
+        if($test->paused){
             $result['status'] = 200;
             $result['result'] = true;
             return $result;
@@ -53,7 +53,7 @@ class TestCaseController extends Controller
             if($response['curl_error'] == ''){
                 $obj = json_decode($response['body']);
 //                var_dump($obj);
-                if($obj->res->fail == true){
+                if($obj->res->fail){
                     $result['status'] = 500;
                     $result['result'] = $obj->res->faultstring;
                 }else{
@@ -169,7 +169,7 @@ class TestCaseController extends Controller
         $test = TbtbTest::where('group', mb_strtoupper($group))->where('env', $env)
             ->where('cmd', 'ilike', $service)
             ->first();
-        if($test->paused == true){
+        if($test->paused){
             return Response::json(['status' => 'Paused', 'response' => ''], 200);
         }
 
@@ -333,7 +333,6 @@ class TestCaseController extends Controller
 
         return Response::json(['lists' => $lists, 'alltests' => $all_tests, 'contacts' => $contacts], 200);
     }
-
 
     public function fetchAccounts(Request $request, $account = null)
     {

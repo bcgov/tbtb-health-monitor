@@ -33,28 +33,14 @@ class SabcController extends Controller
             'branch' => 'SABC',
         ];
 
-        $sabc_tests = TbtbTest::where('group', 'SABC')->where('env', 'production')->with('contacts')->get();
+        $sabc_tests = TbtbTest::where('group', 'SABC')->whereIn('env', ['production','dev','uat'])->with('contacts')->get();
         $tests['env']['production']['name'] = 'PRODUCTION';
-        foreach ($sabc_tests as $test){
-            $tests['env']['production']['cases'][$test->name] = $test;
-            $tests['env']['production']['cases'][$test->name]['expanded'] = false;
-            $tests['env']['production']['last_test'] = $test->updated_at->toDateTimeString();
-        }
-
-        $sabc_tests = TbtbTest::where('group', 'SABC')->where('env', 'dev')->with('contacts')->get();
         $tests['env']['dev']['name'] = 'DEV';
-        foreach ($sabc_tests as $test){
-            $tests['env']['dev']['cases'][$test->name] = $test;
-            $tests['env']['dev']['cases'][$test->name]['expanded'] = false;
-            $tests['env']['dev']['last_test'] = $test->updated_at->toDateTimeString();
-        }
-
-        $sabc_tests = TbtbTest::where('group', 'SABC')->where('env', 'uat')->with('contacts')->get();
         $tests['env']['uat']['name'] = 'UAT';
         foreach ($sabc_tests as $test){
-            $tests['env']['uat']['cases'][$test->name] = $test;
-            $tests['env']['uat']['cases'][$test->name]['expanded'] = false;
-            $tests['env']['uat']['last_test'] = $test->updated_at->toDateTimeString();
+            $tests['env'][$test->env]['cases'][$test->name] = $test;
+            $tests['env'][$test->env]['cases'][$test->name]['expanded'] = false;
+            $tests['env'][$test->env]['last_test'] = $test->updated_at->toDateTimeString();
         }
 
         return Response::json(['status' => true, 'tests' => $tests, 'user_auth' => Auth::check()], 200); // Status code here

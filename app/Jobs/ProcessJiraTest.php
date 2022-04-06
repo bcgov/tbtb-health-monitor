@@ -43,7 +43,8 @@ class ProcessJiraTest implements ShouldQueue
         foreach ($tests as $test){
             Log::debug('Starting JIRA Process: ' . $test->cmd);
             $process = $t->runServiceTest($request, $test);
-            Log::debug($process['status'] . " " . $process['result']);
+//            Log::debug($process['status'] . " " . $process['result']);
+            Log::debug($process['status']);
             Log::debug('End JIRA Process: ' . $test->cmd);
         }
 

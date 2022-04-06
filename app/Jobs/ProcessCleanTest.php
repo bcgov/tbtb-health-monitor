@@ -51,6 +51,8 @@ class ProcessCleanTest implements ShouldQueue
         $this->killall('schedule:list');
         $this->killall('queue:listen');
         $this->killall('schedule:work');
+//        $this->killall('[sh]');
+//        $this->killall('[php]');
 
         exec('/usr/sbin/apache2ctl restart');
         Log::debug('Finished Clean Tests: ' . time());

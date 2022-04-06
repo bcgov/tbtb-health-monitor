@@ -43,7 +43,8 @@ class ProcessPtibTest implements ShouldQueue
         foreach ($tests as $test){
             Log::debug('Starting PTIB Process: ' . $test->cmd);
             $process = $t->runServiceTest($request, $test);
-            Log::debug($process['status'] . " " . $process['result']);
+//            Log::debug($process['status'] . " " . $process['result']);
+            Log::debug($process['status']);
             Log::debug('End PTIB Process: ' . $test->cmd);
         }
 
