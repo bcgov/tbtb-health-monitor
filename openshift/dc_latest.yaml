@@ -69,7 +69,7 @@ objects:
               resources:
                 limits:
                   cpu: 500m
-                  memory: 2Gi
+                  memory: 612Mi
                 requests:
                   cpu: 250m
                   memory: 512Mi
@@ -80,10 +80,9 @@ objects:
                     - /var/www/html/artisan
                     - dusk:chrome-driver
                     - --detect
-                periodSeconds: 30
-                initialDelaySeconds: 10
+                periodSeconds: 15
                 timeoutSeconds: 15
-                successThreshold: 1
+                successThreshold: 3
                 failureThreshold: 2
   - apiVersion: route.openshift.io/v1
     kind: Route
