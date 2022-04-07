@@ -20,7 +20,7 @@
                                 <span v-if="value.paused == false && value.status === 'Fail'" class="badge bg-danger rounded-pill float-end">&nbsp;</span>
                                 <span v-if="value.paused == true" class="badge bg-primary rounded-pill float-end">&nbsp;</span>
 
-                                <small v-if="value.paused == false && userAuth != false" @click="reTest(env.name, value)" class="float-end retest pe-2 text-primary">re-test</small>
+                                <small v-if="value.paused == false && userAuth != false" @click="reTest(env.name, value, envList.branch)" class="float-end retest pe-2 text-primary">re-test</small>
 
                                 <!-- if the response failed (500) and an error message set then show it -->
                                 <div v-if="value.paused == false && value.status === 'Fail' && value.response != false" class="alert alert-danger" :class="value.expanded != undefined && value.expanded == true ? 'expanded' : 'collapsed'">
@@ -58,112 +58,16 @@
 }
 </style>
 <script>
-import axios from 'axios';
+import shared from '../home_mixin';
 
 export default {
-    filters: {
-        cleanLastTestRun: function (test){
-            if(test == null) return '';
-            let d = test.split('T');
-            if(d.length == 1) return d[0];
-            let t = d[1].split('.');
-            return d[0] + " " + t[0];
-        },
-        formatAppNumber: function(value){
-            let year = value.slice(0, 4);
-            let extra = value.slice(4);
-
-            return year + '-' + extra;
-        }
-    },
-
-    data: () => ({
-        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        envList: '',
-        lastUpdate: '',
-        userAuth: false,
-        timeoutVar: '',
-        lastTestRun: '',
-    }),
-    props: [],
-    methods: {
-        headerClass: function(env){
-          switch (env) {
-              case 'DEV': return 'bg-light';
-              case 'UAT': return 'bg-info text-white';
-              default: return 'bg-primary text-white';
-          }
-        },
-        toggleAlert: function (state, val){
-          if(state == 0)
-              val.expanded = true;
-          else val.expanded = false;
-        },
-        reTest: function (env, test){
-            let vm = this;
-            test.status = 'Pending';
-            axios({
-                url: '/rerun-single-test/sabc/' + env + '/' + test.cmd,
-                method: 'get',
-                headers: {'Accept': 'application/json'}
-            })
-
-                .then(function (response) {
-                    vm.fetchSingleTest(env, test);
-                    // console.log('ENVLIST IS EMPTY 0');
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-        fetchSingleTest: function (env, test){
-            let vm = this;
-            axios({
-                url: '/fetch-single-test/sabc/' + env + '/' + test.cmd,
-                method: 'get',
-                headers: {'Accept': 'application/json'}
-            })
-
-                .then(function (response) {
-                    test.status = response.data.status;
-                    test.response = response.data.response;
-                    // console.log('ENVLIST IS EMPTY 1');
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-        fetchData: function(){
-            let vm = this;
-            axios({
-                url: '/fetch-tests?group=sabc',
-                method: 'get',
-                headers: {'Accept': 'application/json'}
-            })
-                .then(function (response) {
-                    vm.envList = response.data.tests;
-                    vm.userAuth = response.data.user_auth;
-                    let today = new Date();
-                    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-                    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                    let dateTime = date+' '+time;
-                    vm.lastUpdate = dateTime;
-                    vm.timeoutVar = setTimeout(function (){
-                        vm.fetchData();
-                    }, 30000); //every 30s
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        },
-    },
+    mixins: [shared],
     mounted: function () {
-        this.fetchData();
+        this.fetchData('sabc');
     },
     beforeDestroy() {
-        clearTimeout(this.timeoutVar);
+        this.clearTimeout(this.timeoutVar);
     }
-
 }
 
 </script>

@@ -5670,8 +5670,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _home_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../home_mixin */ "./resources/js/home_mixin.js");
 //
 //
 //
@@ -5733,94 +5732,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  filters: {
-    cleanLastTestRun: function cleanLastTestRun(test) {
-      if (test == null) return '';
-      var d = test.split('T');
-      if (d.length == 1) return d[0];
-      var t = d[1].split('.');
-      return d[0] + " " + t[0];
-    },
-    formatAppNumber: function formatAppNumber(value) {
-      var year = value.slice(0, 4);
-      var extra = value.slice(4);
-      return year + '-' + extra;
-    }
-  },
-  data: function data() {
-    return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      envList: '',
-      lastUpdate: '',
-      userAuth: false,
-      timeoutVar: '',
-      lastTestRun: ''
-    };
-  },
-  props: [],
-  methods: {
-    toggleAlert: function toggleAlert(state, val) {
-      if (state == 0) val.expanded = true;else val.expanded = false;
-    },
-    reTest: function reTest(env, test) {
-      var vm = this;
-      test.status = 'Pending';
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/rerun-single-test/jira/' + env + '/' + test.cmd,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        vm.fetchSingleTest(env, test);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    fetchSingleTest: function fetchSingleTest(env, test) {
-      var vm = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-single-test/jira/' + env + '/' + test.cmd,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        test.status = response.data.status;
-        test.response = response.data.response;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    fetchData: function fetchData() {
-      var vm = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-tests?group=jira',
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        vm.envList = response.data.tests;
-        vm.userAuth = response.data.user_auth;
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date + ' ' + time;
-        vm.lastUpdate = dateTime;
-        vm.timeoutVar = setTimeout(function () {
-          vm.fetchData();
-        }, 30000); //every 30s
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  },
+  mixins: [_home_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   mounted: function mounted() {
-    this.fetchData();
+    this.fetchData('jira');
   },
   beforeDestroy: function beforeDestroy() {
-    clearTimeout(this.timeoutVar);
+    this.clearTimeout(this.timeoutVar);
   }
 });
 
@@ -6053,8 +5970,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _home_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../home_mixin */ "./resources/js/home_mixin.js");
 //
 //
 //
@@ -6116,94 +6032,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  filters: {
-    cleanLastTestRun: function cleanLastTestRun(test) {
-      if (test == null) return '';
-      var d = test.split('T');
-      if (d.length == 1) return d[0];
-      var t = d[1].split('.');
-      return d[0] + " " + t[0];
-    },
-    formatAppNumber: function formatAppNumber(value) {
-      var year = value.slice(0, 4);
-      var extra = value.slice(4);
-      return year + '-' + extra;
-    }
-  },
-  data: function data() {
-    return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      envList: '',
-      lastUpdate: '',
-      userAuth: false,
-      timeoutVar: '',
-      lastTestRun: ''
-    };
-  },
-  props: [],
-  methods: {
-    toggleAlert: function toggleAlert(state, val) {
-      if (state == 0) val.expanded = true;else val.expanded = false;
-    },
-    reTest: function reTest(env, test) {
-      var vm = this;
-      test.status = 'Pending';
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/rerun-single-test/ptib/' + env + '/' + test.cmd,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        vm.fetchSingleTest(env, test);
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    fetchSingleTest: function fetchSingleTest(env, test) {
-      var vm = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-single-test/ptib/' + env + '/' + test.cmd,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        test.status = response.data.status;
-        test.response = response.data.response;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    fetchData: function fetchData() {
-      var vm = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-tests?group=ptib',
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        vm.envList = response.data.tests;
-        vm.userAuth = response.data.user_auth;
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date + ' ' + time;
-        vm.lastUpdate = dateTime;
-        vm.timeoutVar = setTimeout(function () {
-          vm.fetchData();
-        }, 30000); //every 30s
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  },
+  mixins: [_home_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   mounted: function mounted() {
-    this.fetchData();
+    this.fetchData('ptib');
   },
   beforeDestroy: function beforeDestroy() {
-    clearTimeout(this.timeoutVar);
+    this.clearTimeout(this.timeoutVar);
   }
 });
 
@@ -6365,8 +6199,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _home_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../home_mixin */ "./resources/js/home_mixin.js");
 //
 //
 //
@@ -6428,94 +6261,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  filters: {
-    cleanLastTestRun: function cleanLastTestRun(test) {
-      if (test == null) return '';
-      var d = test.split('T');
-      if (d.length == 1) return d[0];
-      var t = d[1].split('.');
-      return d[0] + " " + t[0];
-    },
-    formatAppNumber: function formatAppNumber(value) {
-      var year = value.slice(0, 4);
-      var extra = value.slice(4);
-      return year + '-' + extra;
-    }
-  },
-  data: function data() {
-    return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      envList: '',
-      lastUpdate: '',
-      userAuth: false,
-      timeoutVar: '',
-      lastTestRun: ''
-    };
-  },
-  props: [],
-  methods: {
-    toggleAlert: function toggleAlert(state, val) {
-      if (state == 0) val.expanded = true;else val.expanded = false;
-    },
-    reTest: function reTest(env, test) {
-      var vm = this;
-      test.status = 'Pending';
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/rerun-single-test/sabc/' + env + '/' + test.cmd,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        vm.fetchSingleTest(env, test); // console.log('ENVLIST IS EMPTY 0');
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    fetchSingleTest: function fetchSingleTest(env, test) {
-      var vm = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-single-test/sabc/' + env + '/' + test.cmd,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        test.status = response.data.status;
-        test.response = response.data.response; // console.log('ENVLIST IS EMPTY 1');
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    fetchData: function fetchData() {
-      var vm = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-tests?group=sabc',
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        vm.envList = response.data.tests;
-        vm.userAuth = response.data.user_auth;
-        var today = new Date();
-        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date + ' ' + time;
-        vm.lastUpdate = dateTime;
-        vm.timeoutVar = setTimeout(function () {
-          vm.fetchData();
-        }, 30000); //every 30s
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  },
+  mixins: [_home_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   mounted: function mounted() {
-    this.fetchData();
+    this.fetchData('sabc');
   },
   beforeDestroy: function beforeDestroy() {
-    clearTimeout(this.timeoutVar);
+    this.clearTimeout(this.timeoutVar);
   }
 });
 
@@ -6532,15 +6283,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _services_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services_mixin */ "./resources/js/services_mixin.js");
 //
 //
 //
@@ -6589,78 +6332,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  filters: {
-    formatAppNumber: function formatAppNumber(value) {
-      var year = value.slice(0, 4);
-      var extra = value.slice(4);
-      return year + '-' + extra;
-    }
-  },
-  data: function data() {
-    return {
-      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      envList: '',
-      serv: ''
-    };
-  },
-  props: [],
-  methods: {
-    showService: function showService(serv) {
-      this.serv = serv;
-    },
-    clearService: function clearService() {
-      this.serv = '';
-    },
-    toggleAlert: function toggleAlert(state, val) {
-      if (state == 0) val.expanded = true;else val.expanded = false;
-    },
-    pauseService: function pauseService(env, test) {
-      var url = test.paused == true ? '/unpause-test/' + test.id : '/pause-test/' + test.id;
-      test.paused = !test.paused;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: url,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    muteService: function muteService(env, test) {
-      var url = test.mute == true ? '/unmute-test/' + test.id : '/mute-test/' + test.id;
-      test.mute = !test.mute; //test.status = 'Pending';
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: url,
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    },
-    fetchData: function fetchData() {
-      var vm = this;
-      axios__WEBPACK_IMPORTED_MODULE_0___default()({
-        url: '/fetch-tests?group=sabc',
-        method: 'get',
-        headers: {
-          'Accept': 'application/json'
-        }
-      }).then(function (response) {
-        vm.envList = response.data.tests;
-        document.refreshTooltips();
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    }
-  },
+  mixins: [_services_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   mounted: function mounted() {
-    this.fetchData();
+    this.fetchData('sabc');
   }
 });
 
@@ -7657,6 +7331,207 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/home_mixin.js":
+/*!************************************!*\
+  !*** ./resources/js/home_mixin.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  filters: {
+    cleanLastTestRun: function cleanLastTestRun(test) {
+      if (test == null) return '';
+      var d = test.split('T');
+      if (d.length == 1) return d[0];
+      var t = d[1].split('.');
+      return d[0] + " " + t[0];
+    },
+    formatAppNumber: function formatAppNumber(value) {
+      var year = value.slice(0, 4);
+      var extra = value.slice(4);
+      return year + '-' + extra;
+    }
+  },
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      envList: '',
+      lastUpdate: '',
+      userAuth: false,
+      timeoutVar: '',
+      lastTestRun: ''
+    };
+  },
+  props: [],
+  methods: {
+    headerClass: function headerClass(env) {
+      switch (env) {
+        case 'DEV':
+        case 'UAT':
+          return 'bg-light';
+
+        default:
+          return 'bg-primary text-white';
+      }
+    },
+    toggleAlert: function toggleAlert(state, val) {
+      if (state == 0) val.expanded = true;else val.expanded = false;
+    },
+    reTest: function reTest(env, test, branch) {
+      var vm = this;
+      test.status = 'Pending';
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/rerun-single-test/' + branch + '/' + env + '/' + test.cmd,
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {
+        vm.fetchSingleTest(env, test, vm.envList.branch); // console.log('ENVLIST IS EMPTY 0');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    fetchSingleTest: function fetchSingleTest(env, test, branch) {
+      var vm = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/fetch-single-test/' + branch + '/' + env + '/' + test.cmd,
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {
+        test.status = response.data.status;
+        test.response = response.data.response; // console.log('ENVLIST IS EMPTY 1');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    fetchData: function fetchData(branch) {
+      var vm = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/fetch-tests?group=' + branch,
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {
+        vm.envList = response.data.tests;
+        vm.userAuth = response.data.user_auth;
+        var today = new Date();
+        var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var dateTime = date + ' ' + time;
+        vm.lastUpdate = dateTime;
+        vm.timeoutVar = setTimeout(function () {
+          vm.fetchData(branch);
+        }, 30000); //every 30s
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/js/services_mixin.js":
+/*!****************************************!*\
+  !*** ./resources/js/services_mixin.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  filters: {
+    formatAppNumber: function formatAppNumber(value) {
+      var year = value.slice(0, 4);
+      var extra = value.slice(4);
+      return year + '-' + extra;
+    }
+  },
+  data: function data() {
+    return {
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+      envList: '',
+      serv: ''
+    };
+  },
+  props: [],
+  methods: {
+    showService: function showService(serv) {
+      this.serv = serv;
+    },
+    clearService: function clearService() {
+      this.serv = '';
+    },
+    toggleAlert: function toggleAlert(state, val) {
+      if (state == 0) val.expanded = true;else val.expanded = false;
+    },
+    pauseService: function pauseService(env, test) {
+      var url = test.paused == true ? '/unpause-test/' + test.id : '/pause-test/' + test.id;
+      test.paused = !test.paused;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: url,
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    muteService: function muteService(env, test) {
+      var url = test.mute == true ? '/unmute-test/' + test.id : '/mute-test/' + test.id;
+      test.mute = !test.mute; //test.status = 'Pending';
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: url,
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {// console.log('ENVLIST IS EMPTY 0');
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    fetchData: function fetchData(branch) {
+      var vm = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/fetch-tests?group=' + branch,
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {
+        vm.envList = response.data.tests;
+        document.refreshTooltips();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -23740,7 +23615,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.list-group-item small.retest[data-v-63d41d95]{\n    visibility: hidden;\n    cursor: pointer;\n}\n.list-group-item:hover small.retest[data-v-63d41d95]{\n    visibility: visible;\n}\n.alert.alert-danger.collapsed[data-v-63d41d95] {\n    height: 90px;\n    overflow: hidden;\n}\n.alert.alert-danger strong[data-v-63d41d95]{\n    cursor: pointer;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.alert.alert-danger.collapsed[data-v-63d41d95] {\n    height: 90px;\n    overflow: hidden;\n}\n.alert.alert-danger strong[data-v-63d41d95]{\n    cursor: pointer;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -43644,8 +43519,8 @@ var render = function () {
                 _c(
                   "div",
                   {
-                    staticClass:
-                      "card-header bg-primary text-white text-uppercase",
+                    staticClass: "card-header",
+                    class: _vm.headerClass(env.name),
                   },
                   [
                     _vm._v(_vm._s(env.name)),
@@ -43738,7 +43613,11 @@ var render = function () {
                                   "float-end retest pe-2 text-primary",
                                 on: {
                                   click: function ($event) {
-                                    return _vm.reTest(env.name, value)
+                                    return _vm.reTest(
+                                      env.name,
+                                      value,
+                                      _vm.envList.branch
+                                    )
                                   },
                                 },
                               },
@@ -44281,8 +44160,8 @@ var render = function () {
                 _c(
                   "div",
                   {
-                    staticClass:
-                      "card-header bg-primary text-white text-uppercase",
+                    staticClass: "card-header",
+                    class: _vm.headerClass(env.name),
                   },
                   [
                     _vm._v(_vm._s(env.name)),
@@ -44375,7 +44254,11 @@ var render = function () {
                                   "float-end retest pe-2 text-primary",
                                 on: {
                                   click: function ($event) {
-                                    return _vm.reTest(env.name, value)
+                                    return _vm.reTest(
+                                      env.name,
+                                      value,
+                                      _vm.envList.branch
+                                    )
                                   },
                                 },
                               },
@@ -44738,8 +44621,8 @@ var render = function () {
                 _c(
                   "div",
                   {
-                    staticClass:
-                      "card-header bg-primary text-white text-uppercase",
+                    staticClass: "card-header",
+                    class: _vm.headerClass(env.name),
                   },
                   [
                     _vm._v(_vm._s(env.name)),
@@ -44832,7 +44715,11 @@ var render = function () {
                                   "float-end retest pe-2 text-primary",
                                 on: {
                                   click: function ($event) {
-                                    return _vm.reTest(env.name, value)
+                                    return _vm.reTest(
+                                      env.name,
+                                      value,
+                                      _vm.envList.branch
+                                    )
                                   },
                                 },
                               },

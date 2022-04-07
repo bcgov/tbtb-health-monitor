@@ -38,7 +38,7 @@ objects:
               namespace: ${BUILD_NAMESPACE}
             containerNames:
               - ${NAME}
-      replicas: 1
+      replicas: 2
       revisionHistoryLimit: 5
       selector:
         deploymentconfig: ${NAME}
@@ -81,8 +81,8 @@ objects:
                     - dusk:chrome-driver
                     - --detect
                 periodSeconds: 15
-                timeoutSeconds: 15
-                successThreshold: 3
+                timeoutSeconds: 5
+                successThreshold: 1
                 failureThreshold: 2
   - apiVersion: route.openshift.io/v1
     kind: Route
