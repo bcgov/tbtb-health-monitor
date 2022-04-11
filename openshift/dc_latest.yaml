@@ -74,16 +74,14 @@ objects:
                   cpu: 250m
                   memory: 512Mi
               livenessProbe:
-                exec:
-                  command:
-                    - php
-                    - /var/www/html/artisan
-                    - dusk:chrome-driver
-                    - --detect
+                httpGet:
+                  path: /doc-checkup
+                  port: 8080
+                initialDelaySeconds: 35
                 periodSeconds: 15
-                timeoutSeconds: 5
+                timeoutSeconds: 1
                 successThreshold: 1
-                failureThreshold: 2
+                failureThreshold: 1
   - apiVersion: route.openshift.io/v1
     kind: Route
     spec:
