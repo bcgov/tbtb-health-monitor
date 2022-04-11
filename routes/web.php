@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //this is set for OC livenessProbe checks
-Route::get('/doc-checkup', [App\Http\Controllers\HomeController::class, 'duskStatus'])->name('doc-checkup');
+//Route::get('/doc-checkup', [App\Http\Controllers\HomeController::class, 'duskStatus'])->name('doc-checkup');
 
 Route::get('/', function () {
     return view('welcome');

@@ -74,14 +74,16 @@ objects:
                   cpu: 250m
                   memory: 512Mi
               livenessProbe:
-                httpGet:
-                  path: /doc-checkup
-                  port: 8080
-                initialDelaySeconds: 35
+                exec:
+                  command:
+                  - /bin/sh
+                  - -c
+                  - /var/www/html/probe-check.sh
+                initialDelaySeconds: 45
                 periodSeconds: 15
-                timeoutSeconds: 1
+                timeoutSeconds: 5
                 successThreshold: 1
-                failureThreshold: 1
+                failureThreshold: 3
   - apiVersion: route.openshift.io/v1
     kind: Route
     spec:
