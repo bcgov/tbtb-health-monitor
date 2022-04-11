@@ -28,6 +28,8 @@ echo "Starting schedule 2:"
 php /var/www/html/artisan schedule:work &
 echo "End schedule 2:"
 
+chmod 766 /var/www/html/probe-check.sh
+
 echo "Starting apache:"
 /usr/sbin/apache2ctl start
 
