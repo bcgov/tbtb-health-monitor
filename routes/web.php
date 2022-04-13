@@ -12,24 +12,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//this is set for OC livenessProbe checks
-//Route::get('/doc-checkup', [App\Http\Controllers\HomeController::class, 'duskStatus'])->name('doc-checkup');
+Auth::routes();
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/logout', [App\Http\Controllers\TestCaseController::class, 'logout'])->name('manual-logout');
-
-Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 Route::get('/fetch-tests', [App\Http\Controllers\TestCaseController::class, 'fetchTests'])->name('fetch-tests');
-
 Route::get('/fetch-single-test/{group}/{environment}/{service}', [App\Http\Controllers\TestCaseController::class, 'fetchSingleTest'])->name('fetch-single-test');
-#Route::post('/gc/webhook', [App\Http\Controllers\TestCaseController::class, 'gcCallback'])->name('gc-callback');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -67,8 +59,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/update-contacts/{contact}', [App\Http\Controllers\TestCaseController::class, 'updateContacts'])->name('update-contacts');
         Route::post('/add-contacts', [App\Http\Controllers\TestCaseController::class, 'addContacts'])->name('add-contacts');
 
+        Route::get('/delete-services/{serv}', [App\Http\Controllers\TestCaseController::class, 'deleteServices'])->name('delete-services');
         Route::post('/update-services/{serv}', [App\Http\Controllers\TestCaseController::class, 'updateServices'])->name('update-services');
-
+        Route::post('/create-services', [App\Http\Controllers\TestCaseController::class, 'createServices'])->name('create-services');
     });
-
 });

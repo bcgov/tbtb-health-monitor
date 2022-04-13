@@ -35,11 +35,11 @@ class TestCaseController extends Controller
     }
 
     public function fetchTests(AjaxRequest $request){
+        $group = is_null($request->group) ? '' : Str::upper($request->group);
         $validated = $request->validate([
-            'group' => 'required|in:ptib,jira,sabc',
+            'group' => 'required|in:PTIB,JIRA,SABC',
         ]);
 
-        $group = Str::upper($request->group);
         $tests = [
             'branch' => $group,
         ];
@@ -105,8 +105,13 @@ class TestCaseController extends Controller
                 $response = Http::withOptions(['verify' => false])->get($test->url);
             }
             if($response != false){
-                $result['status'] = $response->status();
-                $result['result'] = strpos($response->body(), $test->assert_text);
+                if(strpos($response->body(), $test->assert_text) === false){
+                    $result['status'] = 500;
+                    $result['result'] = "Failed to find asserted text.";
+                }else{
+                    $result['status'] = $response->status();
+                    $result['result'] = strpos($response->body(), $test->assert_text);
+                }
             }
 
             if($response == false || $response->status() == 500){
@@ -225,7 +230,6 @@ class TestCaseController extends Controller
         return Response::json(['status' => $test->status, 'response' => $test->response], 200);
     }
 
-
     public function muteTest(Request $request, TbtbTest $test)
     {
         $test->mute = true;
@@ -282,7 +286,6 @@ class TestCaseController extends Controller
         return Response::json(['status' => true], 200);
     }
 
-
     public function updateServices(Request $request, TbtbTest $serv)
     {
         $validated = $request->validate([
@@ -302,6 +305,40 @@ class TestCaseController extends Controller
 
         $serv->save();
 
+        return Response::json(['status' => true], 200);
+    }
+
+    public function createServices(Request $request)
+    {
+        $validated = $request->validate([
+            'serv' => 'required',
+        ]);
+        $formData = json_decode($request->serv, true);
+
+        $name = Str::of($formData['name']['val'])->trim();
+
+        $serv = new TbtbTest();
+        $serv->name = $name;
+        $serv->group = Str::upper($formData['group']['val']);
+        $serv->env = Str::lower($formData['env']['val']);
+        $serv->cmd = Str::replace(" ", "_", $name);
+        $serv->test_type = Str::lower($formData['test_type']['val']);
+        $serv->assert_text = isset($formData['assert_text']['val']) ? Str::of($formData['assert_text']['val'])->trim() : null;
+        $serv->post_data = isset($formData['post_data']['val']) ? Str::of($formData['post_data']['val'])->trim() : null;
+        $serv->paused = false;
+        $serv->mute = true;
+        $serv->status = 0;
+        $serv->response = false;
+        $serv->url = isset($formData['service_url']['val']) ? Str::of($formData['service_url']['val'])->trim() : null;
+
+        $serv->save();
+
+        return Response::json(['status' => true], 200);
+    }
+
+    public function deleteServices(Request $request, TbtbTest $serv)
+    {
+        $serv->delete();
         return Response::json(['status' => true], 200);
     }
 

@@ -59,6 +59,7 @@
 
                         <div class="col-12">
                             <button @click="validateForm2()" class="btn btn-success" :class="formSubmitting == true ? 'disabled' : ''" type="button" :disabled="formSubmitting == true">Update</button>
+                            <button @click="deleteService()" class="btn btn-outline-danger float-end" :class="formSubmitting == true ? 'disabled' : ''" type="button" :disabled="formSubmitting == true">Delete Service</button>
                         </div>
                     </form>
                 </div>
@@ -91,6 +92,25 @@ export default {
     }),
     props: ['servp'],
     methods: {
+        deleteService: function (){
+            let conf = confirm("Are you sure you want to delete this service?");
+            if(conf === true){
+                let vm = this;
+                axios({
+                    url: '/delete-services/' + this.serv.id,
+                    method: 'get',
+                    headers: {'Accept': 'application/json'}
+                })
+
+                    .then(function (response) {
+                        $('#showService').modal('toggle');
+                        vm.$emit("update", vm.serv.group);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
         validateForm2: function (){
             this.serv.name = this.serv.name.trim();
 
@@ -115,7 +135,7 @@ export default {
                     vm.formSubmitting = false;
                     vm.serv = '';
                     $('#showService').modal('toggle');
-                    vm.$emit("update");
+                    vm.$emit("update", vm.serv.group);
                 })
                 .catch(function (error) {
                     console.log(error);

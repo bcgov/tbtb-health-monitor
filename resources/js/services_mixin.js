@@ -15,6 +15,7 @@ export default {
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
         envList: '',
         serv: '',
+        servToAddEnv: '',
     }),
     props: [],
     methods: {
@@ -23,6 +24,7 @@ export default {
         },
         clearService: function (){
             this.serv = '';
+            this.servToAddEnv = '';
         },
         toggleAlert: function (state, val){
             if(state == 0)
@@ -79,6 +81,9 @@ export default {
                     console.log(error);
                 });
         },
+        addService: function (env){
+            this.servToAddEnv = env;
+        }
 
     }
 }
