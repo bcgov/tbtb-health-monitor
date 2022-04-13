@@ -35,15 +35,17 @@ class TestCaseController extends Controller
     }
 
     public function fetchTests(AjaxRequest $request){
-        $group = is_null($request->group) ? '' : Str::upper($request->group);
+        if(!is_null($request->group)){
+            $request->merge(['group' => Str::upper($request->group)]);
+        }
         $validated = $request->validate([
             'group' => 'required|in:PTIB,JIRA,SABC',
         ]);
 
         $tests = [
-            'branch' => $group,
+            'branch' => $request->group,
         ];
-        $test_cases = TbtbTest::where('group', $group)->with('contacts')->get();
+        $test_cases = TbtbTest::where('group', $request->group)->with('contacts')->get();
         foreach ($test_cases as $test){
             $tests['env'][$test->env]['name'] = Str::upper($test->env);
             $tests['env'][$test->env]['cases'][$test->name] = $test;
