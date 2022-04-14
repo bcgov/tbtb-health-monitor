@@ -217,7 +217,6 @@ export default {
                 return false;
             }
             this.updateContact();
-
         },
         validateForm: function (){
             this.frm.name.txt = this.frm.name.txt.trim();
@@ -341,22 +340,9 @@ export default {
                 console.log(error);
             });
         },
-
-    },
-    computed: {
-
-    },
-    created() {
-
     },
     mounted: function () {
         this.fetchData();
-        // document.title = "StudentAidBC - Applicant Overview Info";
-
-    },
-    watch: {
     }
-
 }
-
 </script>
