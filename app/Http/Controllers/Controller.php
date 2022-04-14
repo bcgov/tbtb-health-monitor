@@ -112,15 +112,29 @@ class Controller extends BaseController
     }
 
 
+    public function customSms($phone, $username, $message)
+    {
+        $request = ["phone_number" => $phone, "template_id" => env('GC_NOTIFICATION_CUSTOM_MSG_TEMPLATE'),
+            "personalisation" => [
+                "name" => $username, "message" => $message
+            ]
+        ];
+        return $this->sendSms($request);
+    }
+
     public function smsUser($phone, $username, $service_name, $service_status)
     {
-        $token = env('GC_NOTIFICATION_LIVE_TOKEN');
         $request = ["phone_number" => $phone, "template_id" => env('GC_NOTIFICATION_SMS_TEMPLATE'),
             "personalisation" => [
                 "name" => $username, "service_name" => $service_name, "service_status" => $service_status
             ]
         ];
+        return $this->sendSms($request);
+    }
 
+    private function sendSms($request){
+
+        $token = env('GC_NOTIFICATION_LIVE_TOKEN');
         $header = array('Content-Type: application/json', 'Authorization: ApiKey-v1 ' . $token);
         $curlOptions = [
             CURLOPT_URL => "https://api.notification.canada.ca/v2/notifications/sms",

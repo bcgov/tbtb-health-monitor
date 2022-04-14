@@ -62,5 +62,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/delete-services/{serv}', [App\Http\Controllers\TestCaseController::class, 'deleteServices'])->name('delete-services');
         Route::post('/update-services/{serv}', [App\Http\Controllers\TestCaseController::class, 'updateServices'])->name('update-services');
         Route::post('/create-services', [App\Http\Controllers\TestCaseController::class, 'createServices'])->name('create-services');
+
+        Route::post('/send-message', [App\Http\Controllers\TestCaseController::class, 'messageContact'])->name('message-contact');
     });
 });

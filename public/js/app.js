@@ -5478,6 +5478,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -5517,6 +5542,10 @@ __webpack_require__.r(__webpack_exports__);
           'valid': true
         }
       },
+      msg: {
+        contactIndex: '',
+        body: ''
+      },
       accounts: [],
       formSubmitting: false,
       contact: ''
@@ -5527,6 +5556,18 @@ __webpack_require__.r(__webpack_exports__);
     showContact: function showContact(con) {
       this.contact = con;
       $('#showContact').modal('toggle');
+    },
+    sendMsg: function sendMsg() {
+      $('#sendMsg').modal('toggle');
+    },
+    validateForm3: function validateForm3() {
+      this.msg.body = this.msg.body.trim();
+
+      if (this.msg.body == '' || this.msg.contactIndex == '') {
+        return false;
+      }
+
+      this.submitMsg();
     },
     validateForm2: function validateForm2() {
       this.contact.name = this.contact.name.trim();
@@ -5570,13 +5611,33 @@ __webpack_require__.r(__webpack_exports__);
         return false;
       }
 
-      this.frm.lvl.valid = true; // if(this.frm.service.txt === ''){
-      //     this.frm.service.valid = false;
-      //     return false;
-      // }
-      // this.frm.service.valid = true;
-
+      this.frm.lvl.valid = true;
       this.submitForm();
+    },
+    submitMsg: function submitMsg() {
+      var vm = this;
+      vm.formSubmitting = true;
+      var formData = new FormData();
+      formData.append('msg', this.msg.body);
+      formData.append('contact', this.accounts[this.msg.contactIndex].id);
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/send-message',
+        data: formData,
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        vm.formSubmitting = false;
+        $('#sendMsg').modal('toggle');
+        vm.msg = {
+          contactIndex: '',
+          body: ''
+        };
+      })["catch"](function (error) {
+        console.log(error);
+      });
     },
     updateContact: function updateContact() {
       var vm = this;
@@ -43192,7 +43253,18 @@ var render = function () {
                     staticClass:
                       "card-header bg-primary text-white text-uppercase",
                   },
-                  [_vm._v("contacts")]
+                  [
+                    _vm._v("contacts"),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-link btn-sm float-end text-white",
+                        attrs: { type: "button" },
+                        on: { click: _vm.sendMsg },
+                      },
+                      [_vm._v("Send Message")]
+                    ),
+                  ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
@@ -43591,6 +43663,131 @@ var render = function () {
                     ]),
                   ])
                 : _vm._e(),
+            ]),
+          ]),
+        ]),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade in",
+        attrs: {
+          id: "sendMsg",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-hidden": "false",
+        },
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _c("div", { staticClass: "modal-body" }, [
+              _c("form", [
+                _c("div", { staticClass: "mb-3" }, [
+                  _c(
+                    "label",
+                    { staticClass: "form-label", attrs: { for: "msgContact" } },
+                    [_vm._v("Select Account")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.msg.contactIndex,
+                          expression: "msg.contactIndex",
+                        },
+                      ],
+                      staticClass: "form-select",
+                      attrs: {
+                        id: "msgContact",
+                        disabled: _vm.formSubmitting == true,
+                      },
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.msg,
+                            "contactIndex",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        },
+                      },
+                    },
+                    _vm._l(_vm.accounts, function (account, i) {
+                      return _c("option", { domProps: { value: i } }, [
+                        _vm._v(_vm._s(account.name)),
+                      ])
+                    }),
+                    0
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "mb-3" }, [
+                  _c(
+                    "label",
+                    { staticClass: "form-label", attrs: { for: "msgBody" } },
+                    [_vm._v("Message")]
+                  ),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.msg.body,
+                        expression: "msg.body",
+                      },
+                    ],
+                    staticClass: "form-control",
+                    class: _vm.msg.body !== "" ? "" : "is-invalid",
+                    attrs: {
+                      id: "msgBody",
+                      placeholder: "Message body",
+                      disabled: _vm.formSubmitting == true,
+                    },
+                    domProps: { value: _vm.msg.body },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.msg, "body", $event.target.value)
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-12" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-success",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.validateForm3()
+                        },
+                      },
+                    },
+                    [_vm._v("Send Message")]
+                  ),
+                ]),
+              ]),
             ]),
           ]),
         ]),
@@ -44228,7 +44425,22 @@ var render = function () {
                     staticClass:
                       "card-header bg-primary text-white text-uppercase",
                   },
-                  [_vm._v(_vm._s(env.name))]
+                  [
+                    _vm._v(_vm._s(env.name)),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-link btn-sm float-end text-white",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.addService(env.name)
+                          },
+                        },
+                      },
+                      [_vm._v("Add Service +")]
+                    ),
+                  ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
@@ -44420,6 +44632,17 @@ var render = function () {
                 ]),
               ])
             }),
+        _vm._v(" "),
+        _vm.servToAddEnv != ""
+          ? _c("add-service-modal", {
+              attrs: {
+                branch: _vm.envList.branch,
+                env: _vm.servToAddEnv,
+                servp: _vm.serv,
+              },
+              on: { update: _vm.fetchData, close: _vm.clearService },
+            })
+          : _vm._e(),
         _vm._v(" "),
         _vm.serv != ""
           ? _c("show-service-modal", {
@@ -44869,7 +45092,22 @@ var render = function () {
                     staticClass:
                       "card-header bg-primary text-white text-uppercase",
                   },
-                  [_vm._v(_vm._s(env.name))]
+                  [
+                    _vm._v(_vm._s(env.name)),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-link btn-sm float-end text-white",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function ($event) {
+                            return _vm.addService(env.name)
+                          },
+                        },
+                      },
+                      [_vm._v("Add Service +")]
+                    ),
+                  ]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "card-body" }, [
@@ -45061,6 +45299,17 @@ var render = function () {
                 ]),
               ])
             }),
+        _vm._v(" "),
+        _vm.servToAddEnv != ""
+          ? _c("add-service-modal", {
+              attrs: {
+                branch: _vm.envList.branch,
+                env: _vm.servToAddEnv,
+                servp: _vm.serv,
+              },
+              on: { update: _vm.fetchData, close: _vm.clearService },
+            })
+          : _vm._e(),
         _vm._v(" "),
         _vm.serv != ""
           ? _c("show-service-modal", {
@@ -45344,7 +45593,7 @@ var render = function () {
                           },
                         },
                       },
-                      [_vm._v("add service +")]
+                      [_vm._v("Add Service +")]
                     ),
                   ]
                 ),

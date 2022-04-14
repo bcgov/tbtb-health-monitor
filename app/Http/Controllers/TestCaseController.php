@@ -165,7 +165,6 @@ class TestCaseController extends Controller
                             if($contact->mute == false && $contact->status == 'active'){
                                 $send_sms = $this->smsUser($contact->cell_number, $contact->name, $test->cmd, "FAILED on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt_total);
                             }
-
                         }
                         $test->attempt = 0;
                     }else{
@@ -395,5 +394,14 @@ class TestCaseController extends Controller
     {
         $accounts = Contact::orderBy('name')->get();
         return Response::json(['accounts' => $accounts], 200);
+    }
+
+    public function messageContact(AjaxRequest $request){
+        $contact = Contact::where('id', $request->contact)->first();
+        if(!is_null($contact)){
+            $this->customSms($contact->cell_number, $contact->name, $request->msg);
+            return Response::json(['status' => "Message sent!"], 200);
+        }
+        return Response::json(['status' => "Failed"], 403);
     }
 }

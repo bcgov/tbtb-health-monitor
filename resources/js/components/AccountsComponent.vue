@@ -33,7 +33,7 @@
             <h1 v-if="accounts === []">Loading</h1>
             <template v-else>
                     <div class="card mb-3">
-                        <div class="card-header bg-primary text-white text-uppercase">contacts</div>
+                        <div class="card-header bg-primary text-white text-uppercase">contacts<button @click="sendMsg" type="button" class="btn btn-link btn-sm float-end text-white">Send Message</button></div>
                         <div class="card-body">
                             <table class="table" aria-label="accounts table">
                                 <thead>
@@ -120,6 +120,31 @@
             </div>
         </div>
 
+        <div class="modal fade in" id="sendMsg" tabindex="-1" role="dialog" aria-hidden="false">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="msgContact" class="form-label">Select Account</label>
+                                <select id="msgContact" class="form-select" v-model="msg.contactIndex" :disabled="formSubmitting == true">
+                                    <option v-for="(account,i) in accounts" :value="i">{{ account.name }}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="msgBody" class="form-label">Message</label>
+                                <textarea id="msgBody" class="form-control" :class="msg.body !== '' ? '' : 'is-invalid'" placeholder="Message body" v-model="msg.body" :disabled="formSubmitting == true"></textarea>
+                            </div>
+
+                            <div class="col-12">
+                                <button @click="validateForm3()" class="btn btn-success" type="button">Send Message</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 <style scoped>
@@ -161,6 +186,7 @@ export default {
             'lvl': {'txt': '', 'required': true, 'valid': true},
             'service': {'txt': '', 'required': true, 'valid': true},
         },
+        msg: { contactIndex: '', body: '' },
         accounts: [],
         formSubmitting: false,
         contact: ''
@@ -170,6 +196,17 @@ export default {
         showContact: function(con){
             this.contact = con;
             $('#showContact').modal('toggle');
+        },
+        sendMsg: function (){
+            $('#sendMsg').modal('toggle');
+        },
+        validateForm3: function (){
+            this.msg.body = this.msg.body.trim();
+
+            if(this.msg.body == '' || this.msg.contactIndex == ''){
+                return false;
+            }
+            this.submitMsg();
         },
         validateForm2: function (){
             this.contact.name = this.contact.name.trim();
@@ -210,13 +247,29 @@ export default {
             }
             this.frm.lvl.valid = true;
 
-            // if(this.frm.service.txt === ''){
-            //     this.frm.service.valid = false;
-            //     return false;
-            // }
-            // this.frm.service.valid = true;
-
             this.submitForm();
+        },
+        submitMsg: function (){
+            let vm = this;
+            vm.formSubmitting = true;
+
+            let formData = new FormData();
+            formData.append('msg', this.msg.body);
+            formData.append('contact', this.accounts[this.msg.contactIndex].id);
+            axios({
+                url: '/send-message',
+                data: formData,
+                method: 'post',
+                headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
+            })
+                .then(function (response) {
+                    vm.formSubmitting = false;
+                    $('#sendMsg').modal('toggle');
+                    vm.msg = { contactIndex: '', body: '' };
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
         updateContact: function (){
             let vm = this;

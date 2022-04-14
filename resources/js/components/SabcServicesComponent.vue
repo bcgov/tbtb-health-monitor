@@ -4,7 +4,7 @@
             <h1 v-if="envList === ''">Loading</h1>
             <template v-else>
                 <div v-for="env in envList.env" class="card mb-3">
-                    <div class="card-header bg-primary text-white text-uppercase">{{ env.name }}<button @click="addService(env.name)" type="button" class="btn btn-link btn-sm float-end text-white">add service +</button></div>
+                    <div class="card-header bg-primary text-white text-uppercase">{{ env.name }}<button @click="addService(env.name)" type="button" class="btn btn-link btn-sm float-end text-white">Add Service +</button></div>
                     <div class="card-body">
                         <ul class="list-group">
 
