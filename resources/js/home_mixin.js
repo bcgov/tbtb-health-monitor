@@ -88,6 +88,22 @@ export default {
                     let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
                     let dateTime = date+' '+time;
                     vm.lastUpdate = dateTime;
+
+                    let envs = {};
+                    if(vm.envList.env.production != null){
+                        envs.production = vm.envList.env.production;
+                    }
+                    if(vm.envList.env.test != null){
+                        envs.test = vm.envList.env.test;
+                    }
+                    if(vm.envList.env.uat != null){
+                        envs.uat = vm.envList.env.uat;
+                    }
+                    if(vm.envList.env.dev != null){
+                        envs.dev = vm.envList.env.dev;
+                    }
+                    vm.envList.env = envs;
+
                     vm.timeoutVar = setTimeout(function (){
                         vm.fetchData(branch);
                     }, 30000); //every 30s
