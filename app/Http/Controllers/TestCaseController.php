@@ -39,7 +39,7 @@ class TestCaseController extends Controller
             $request->merge(['group' => Str::upper($request->group)]);
         }
         $validated = $request->validate([
-            'group' => 'required|in:PTIB,JIRA,SABC',
+            'group' => 'required|in:PTIB,JIRA,SABC,WDST',
         ]);
 
         $tests = [
@@ -75,7 +75,6 @@ class TestCaseController extends Controller
             $response = $this->makeApiCall($test->url, $test->post_data);
             if($response['curl_error'] == ''){
                 $obj = json_decode($response['body']);
-//                var_dump($obj);
                 if($obj->res->fail){
                     $result['status'] = 500;
                     $result['result'] = $obj->res->faultstring;
@@ -374,8 +373,11 @@ class TestCaseController extends Controller
         $jira_tests = $this->fetchTests($request);
         $request->merge(['group' => 'ptib']);
         $ptib_tests = $this->fetchTests($request);
+        $request->merge(['group' => 'wdst']);
+        $wdst_tests = $this->fetchTests($request);
 
         $lists = [
+            'wdst' => $wdst_tests->original['tests'],
             'sabc' => $sabc_tests->original['tests'],
             'jira' => $jira_tests->original['tests'],
             'ptib' => $ptib_tests->original['tests']

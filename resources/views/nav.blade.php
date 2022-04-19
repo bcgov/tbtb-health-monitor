@@ -1,11 +1,11 @@
 @if(isset($page) && $page == 'home')
-<div class="col-4">
+<div class="col-md-4">
     Legend: <span class="badge bg-warning rounded-pill mr-4">Loading</span>&nbsp;<span class="badge bg-success rounded-pill mr-4">Running</span>&nbsp;<span class="badge bg-danger rounded-pill mr-4">Down</span>&nbsp;<span class="badge bg-primary rounded-pill mr-4">Paused</span>
 </div>
 @else
-    <div class="col-4"></div>
+    <div class="col-md-4"></div>
 @endif
-<div class="col-8">
+<div class="col-md-8">
     <ul class="nav justify-content-end nav-pills">
         @if(Auth::check())
             <li class="nav-item">

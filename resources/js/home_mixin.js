@@ -25,7 +25,7 @@ export default {
         timeoutVar: '',
         lastTestRun: '',
     }),
-    props: [],
+    props: ['group'],
     methods: {
         headerClass: function(env){
             switch (env) {
@@ -103,7 +103,7 @@ export default {
                         envs.dev = vm.envList.env.dev;
                     }
                     vm.envList.env = envs;
-
+                    clearTimeout(vm.timeoutVar);
                     vm.timeoutVar = setTimeout(function (){
                         vm.fetchData(branch);
                     }, 30000); //every 30s

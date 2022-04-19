@@ -22,17 +22,10 @@ const VueRouter = require('vue-router').default;
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('main-component', require('./components/MainComponent.vue').default);
+Vue.component('main-group-component', require('./components/MainGroupComponent.vue').default);
+
 Vue.component('services-component', require('./components/ServicesComponent.vue').default);
-
-Vue.component('sabc-component', require('./components/SabcComponent.vue').default);
-Vue.component('ptib-component', require('./components/PtibComponent.vue').default);
-Vue.component('jira-component', require('./components/JiraComponent.vue').default);
-Vue.component('sharepoint-component', require('./components/SharePointComponent.vue').default);
-
-Vue.component('sabc-services-component', require('./components/SabcServicesComponent.vue').default);
-Vue.component('ptib-services-component', require('./components/PtibServicesComponent.vue').default);
-Vue.component('jira-services-component', require('./components/JiraServicesComponent.vue').default);
-Vue.component('sharepoint-services-component', require('./components/SharePointServicesComponent.vue').default);
+Vue.component('services-group-component', require('./components/ServicesGroupComponent.vue').default);
 
 Vue.component('service-contacts-component', require('./components/ServiceContactsComponent.vue').default);
 Vue.component('accounts-component', require('./components/AccountsComponent.vue').default);

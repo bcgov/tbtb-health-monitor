@@ -24,7 +24,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
                 <img src="https://www2.gov.bc.ca/StaticWebResources/static/gov3/images/gov_bc_logo.svg" alt="Government of B.C." width="175px" height="47" class="d-inline-block align-text-top" title="Government of B.C." />
-                <span class="ms-3 mt-3 text-white float-end">TBTB Services Status Monitor</span>
+                <span class="ms-3 mt-3 text-white float-end d-none d-md-inline">TBTB Services Status Monitor</span>
             </a>
 
             @if (Route::has('login'))

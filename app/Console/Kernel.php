@@ -6,6 +6,7 @@ use App\Jobs\ProcessCleanTest;
 use App\Jobs\ProcessSabcTest;
 use App\Jobs\ProcessPtibTest;
 use App\Jobs\ProcessJiraTest;
+use App\Jobs\ProcessWdstTest;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->job(new ProcessWdstTest)->everyThreeMinutes();
         $schedule->job(new ProcessSabcTest)->everyFourMinutes();
         $schedule->job(new ProcessPtibTest)->everyTenMinutes();
         $schedule->job(new ProcessJiraTest)->everyFifteenMinutes();

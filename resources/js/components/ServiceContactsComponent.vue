@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-3">
+        <div class="col-md-3 mb-3">
             <div class="card mb-3">
                 <div class="card-header bg-primary text-white text-uppercase">Add User TO SERVICE</div>
                 <div class="card-body">
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-9">
+        <div class="col-md-9">
             <h1 v-if="lists === ''">Loading</h1>
             <template v-else>
                 <div v-for="(envList, grop) in lists">

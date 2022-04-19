@@ -3,6 +3,10 @@
         <div class="col-12">
             <h1 v-if="envList === ''">Loading</h1>
             <template v-else>
+                <div v-if="envList.env == null" class="h-100 p-5  bg-warning rounded-3">
+                    <h2 class="text-white text-center">No Services</h2>
+                    <add-service-modal :branch="envList.branch" :env="servToAddEnv" :servp="serv" @update="fetchData" @close="clearService"></add-service-modal>
+                </div>
                 <div v-for="env in envList.env" class="card mb-3">
                     <div class="card-header bg-primary text-white text-uppercase">{{ env.name }}<button @click="addService(env.name)" type="button" class="btn btn-link btn-sm float-end text-white">Add Service +</button></div>
                     <div class="card-body">
@@ -51,7 +55,12 @@ import shared from '../services_mixin';
 export default {
     mixins: [shared],
     mounted: function () {
-        this.fetchData('ptib');
+        this.fetchData(this.group);
+    },
+    watch:{
+        group: function (newVal, oldVal){
+            this.fetchData(newVal);
+        }
     }
 }
 

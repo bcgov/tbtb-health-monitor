@@ -8,10 +8,20 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form v-if="env != '' && newService != ''">
+                    <form v-if="newService != ''">
                         <div class="mb-3">
                             <label for="service_name" class="form-label">Service Name <em class="text-danger">*</em></label>
                             <input id="service_name" type="text" class="form-control" :class="newService.name.cls" placeholder="Service Name" v-model="newService.name.val" :disabled="formSubmitting == true">
+                        </div>
+                        <div v-if="env == ''" class="mb-3">
+                            <label for="service_env" class="form-label">Environment <em class="text-danger">*</em></label>
+                            <select id="service_env" class="form-select" :class="newService.env.cls" v-model="newService.env.val" :disabled="formSubmitting == true">
+                                <option value="">Select Environment</option>
+                                <option value="production">PRODUCTION</option>
+                                <option value="dev">DEV</option>
+                                <option value="uat">UAT</option>
+                                <option value="test">TEST</option>
+                            </select>
                         </div>
 
                         <div class="mb-3">

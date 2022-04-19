@@ -63,10 +63,16 @@ import shared from '../home_mixin';
 export default {
     mixins: [shared],
     mounted: function () {
-        this.fetchData('sabc');
+        this.fetchData(this.group);
     },
     beforeDestroy() {
-        this.clearTimeout(this.timeoutVar);
+        clearTimeout(this.timeoutVar);
+    },
+    watch:{
+        group: function (newVal, oldVal){
+            clearTimeout(this.timeoutVar);
+            this.fetchData(newVal);
+        }
     }
 }
 

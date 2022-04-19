@@ -17,7 +17,7 @@ export default {
         serv: '',
         servToAddEnv: '',
     }),
-    props: [],
+    props: ['group'],
     methods: {
         showService: function(serv){
             this.serv = serv;

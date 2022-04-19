@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-3">
+        <div class="col-md-3 mb-3">
             <div class="card mb-3">
                 <div class="card-header bg-primary text-white text-uppercase">Add New User</div>
                 <div class="card-body">
@@ -29,7 +29,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-9">
+        <div class="col-md-9">
             <h1 v-if="accounts === []">Loading</h1>
             <template v-else>
                     <div class="card mb-3">
