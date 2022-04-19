@@ -14,18 +14,19 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class ProcessJiraTest implements ShouldQueue
+class ProcessGroupTest implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $group;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($group)
     {
-        //
+        $this->group = $group;
     }
 
     /**
@@ -35,20 +36,19 @@ class ProcessJiraTest implements ShouldQueue
      */
     public function handle()
     {
-        Log::debug('Starting JIRA Tests: ' . time());
+        Log::debug('Starting ' . $this->group . ' Tests: ' . time());
         $t = new TestCaseController();
         $request = new Request();
 
-        $tests = TbtbTest::where('group', 'JIRA')->where('paused', false)->get();
+        $tests = TbtbTest::where('group', $this->group)->where('paused', false)->get();
         foreach ($tests as $test){
-            Log::debug('Starting JIRA Process: ' . $test->cmd);
+            Log::debug('Starting ' . $this->group . ' Process: ' . $test->cmd);
             $process = $t->runServiceTest($request, $test);
-//            Log::debug($process['status'] . " " . $process['result']);
             Log::debug($process['status']);
-            Log::debug('End JIRA Process: ' . $test->cmd);
+            Log::debug('End ' . $this->group . ' Process: ' . $test->cmd);
         }
 
         Log::debug('############## ' . time() . ' ###############');
-        Log::debug('Finished JIRA Tests');
+        Log::debug('Finished ' . $this->group . ' Tests');
     }
 }
