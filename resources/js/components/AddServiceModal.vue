@@ -13,7 +13,7 @@
                             <label for="service_name" class="form-label">Service Name <em class="text-danger">*</em></label>
                             <input id="service_name" type="text" class="form-control" :class="newService.name.cls" placeholder="Service Name" v-model="newService.name.val" :disabled="formSubmitting == true">
                         </div>
-                        <div v-if="env == ''" class="mb-3">
+                        <div class="mb-3">
                             <label for="service_env" class="form-label">Environment <em class="text-danger">*</em></label>
                             <select id="service_env" class="form-select" :class="newService.env.cls" v-model="newService.env.val" :disabled="formSubmitting == true">
                                 <option value="">Select Environment</option>
@@ -79,7 +79,7 @@ export default {
         newService: '',
         formSubmitting: false,
     }),
-    props: ['env', 'branch'],
+    props: ['branch'],
     methods: {
         resetService: function(){
             this.newService = {
@@ -130,12 +130,28 @@ export default {
                     console.log(error);
                 });
         },
+        fetchData: function(branch){
+            let vm = this;
+            axios({
+                url: '/fetch-tests?group=' + branch,
+                method: 'get',
+                headers: {'Accept': 'application/json'}
+            })
+
+                .then(function (response) {
+                    vm.envList = response.data.tests;
+                    document.refreshTooltips();
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        },
     },
     mounted: function () {
         $('#addService').modal('toggle');
         this.resetService();
-        this.newService.env.val = this.env;
         this.newService.group.val = this.branch;
+        this.fetchData(this.branch);
 
         let vm = this;
         jQuery("#addService").on("hidden.bs.modal", function () {

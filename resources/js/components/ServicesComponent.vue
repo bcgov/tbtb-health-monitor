@@ -2,11 +2,44 @@
     <div class="row">
         <div class="col-md-3 mb-3">
             <div class="list-group" role="tablist" aria-orientation="vertical">
-                <a @click="switchActiveTab(0)" href="#v-pills-sabc" class="list-group-item list-group-item-action" :class="activeTab === 0 ? 'active' : ''" id="v-pills-sabc-tab" data-bs-toggle="pill" data-bs-target="#v-pills-sabc" type="button" role="tab" aria-controls="v-pills-sabc" aria-selected="true">SABC</a>
-                <a @click="switchActiveTab(1)" href="#v-pills-ptib" class="list-group-item list-group-item-action" :class="activeTab === 1 ? 'active' : ''" id="v-pills-ptib-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ptib" type="button" role="tab" aria-controls="v-pills-ptib" aria-selected="false">PTIB</a>
-                <a @click="switchActiveTab(2)" href="#v-pills-jira" class="list-group-item list-group-item-action" :class="activeTab === 2 ? 'active' : ''" id="v-pills-jira-tab" data-bs-toggle="pill" data-bs-target="#v-pills-jira" type="button" role="tab" aria-controls="v-pills-jira" aria-selected="false">JIRA</a>
-<!--                <a @click="switchActiveTab(3)" href="#v-pills-sharepoint" class="list-group-item list-group-item-action" :class="activeTab === 3 ? 'active' : ''" id="v-pills-sharepoint-tab" data-bs-toggle="pill" data-bs-target="#v-pills-sharepoint" type="button" role="tab" aria-controls="v-pills-sharepoint" aria-selected="false">SHAREPOINT</a>-->
-                <a @click="switchActiveTab(4)" href="#v-pills-wdst" class="list-group-item list-group-item-action" :class="activeTab === 4 ? 'active' : ''" id="v-pills-wdst-tab" data-bs-toggle="pill" data-bs-target="#v-pills-wdst" type="button" role="tab" aria-controls="v-pills-wdst" aria-selected="false">WDST</a>
+                <a @click="switchActiveTab(0)" href="#v-pills-sabc" class="list-group-item list-group-item-action" :class="activeTab === 0 ? 'active' : ''" id="v-pills-sabc-tab" data-bs-toggle="pill" data-bs-target="#v-pills-sabc" type="button" role="tab" aria-controls="v-pills-sabc" aria-selected="true">SABC
+                    <svg v-if="activeTab === 0" @click="addService" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;width: 20px;height: 20px;" xml:space="preserve" class="float-end">
+                        <g>
+                            <g id="plus_x5F_alt">
+                                <path d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+                <a @click="switchActiveTab(1)" href="#v-pills-ptib" class="list-group-item list-group-item-action" :class="activeTab === 1 ? 'active' : ''" id="v-pills-ptib-tab" data-bs-toggle="pill" data-bs-target="#v-pills-ptib" type="button" role="tab" aria-controls="v-pills-ptib" aria-selected="false">PTIB
+                    <svg v-if="activeTab === 1" @click="addService" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;width: 20px;height: 20px;" xml:space="preserve" class="float-end">
+                        <g>
+                            <g id="plus_x5F_alt">
+                                <path d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z"></path>
+                            </g>
+                        </g>
+                    </svg>
+
+                </a>
+                <a @click="switchActiveTab(2)" href="#v-pills-jira" class="list-group-item list-group-item-action" :class="activeTab === 2 ? 'active' : ''" id="v-pills-jira-tab" data-bs-toggle="pill" data-bs-target="#v-pills-jira" type="button" role="tab" aria-controls="v-pills-jira" aria-selected="false">JIRA
+                    <svg v-if="activeTab === 2" @click="addService" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;width: 20px;height: 20px;" xml:space="preserve" class="float-end">
+                        <g>
+                            <g id="plus_x5F_alt">
+                                <path d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
+
+                <a @click="switchActiveTab(4)" href="#v-pills-wdst" class="list-group-item list-group-item-action" :class="activeTab === 4 ? 'active' : ''" id="v-pills-wdst-tab" data-bs-toggle="pill" data-bs-target="#v-pills-wdst" type="button" role="tab" aria-controls="v-pills-wdst" aria-selected="false">WDST
+                    <svg v-if="activeTab === 4" @click="addService" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;width: 20px;height: 20px;" xml:space="preserve" class="float-end">
+                        <g>
+                            <g id="plus_x5F_alt">
+                                <path d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
             </div>
         </div>
         <div class="col-md-9">
@@ -28,11 +61,17 @@
                 </div>
             </div>
         </div>
+        <add-service-modal v-if="branch != ''" :branch="branch" @update="refresh" @close="clearService"></add-service-modal>
 
     </div>
 </template>
 <style scoped>
-
+svg{
+    cursor: pointer;
+}
+svg path{
+    fill: #fff;
+}
 </style>
 <script>
 import axios from 'axios';
@@ -50,7 +89,7 @@ export default {
 
     data: () => ({
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        envList: '',
+        branch: '',
         activeTab: 0,
     }),
     props: [],
@@ -58,9 +97,27 @@ export default {
         switchActiveTab: function (tabIndex){
             this.activeTab = tabIndex;
         },
-
-    },
-    mounted: function () {
+        refresh: function (){
+            var a = this.activeTab;
+            let vm = this;
+            this.activeTab = -1;
+            setTimeout(function (){
+                vm.activeTab = a;
+            }, 500);
+        },
+        addService: function (){
+            switch (this.activeTab) {
+                case 0: this.branch = 'SABC'; break;
+                case 1: this.branch = 'PTIB'; break;
+                case 2: this.branch = 'JIRA'; break;
+                case 3: this.branch = 'SHAREPOINT'; break;
+                case 4: this.branch = 'WDST'; break;
+                default: this.branch = '';
+            }
+        },
+        clearService: function (){
+            this.branch = '';
+        },
 
     },
 }

@@ -5808,7 +5808,7 @@ __webpack_require__.r(__webpack_exports__);
       formSubmitting: false
     };
   },
-  props: ['env', 'branch'],
+  props: ['branch'],
   methods: {
     resetService: function resetService() {
       this.newService = {
@@ -5881,13 +5881,28 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    fetchData: function fetchData(branch) {
+      var vm = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/fetch-tests?group=' + branch,
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {
+        vm.envList = response.data.tests;
+        document.refreshTooltips();
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
     $('#addService').modal('toggle');
     this.resetService();
-    this.newService.env.val = this.env;
     this.newService.group.val = this.branch;
+    this.fetchData(this.branch);
     var vm = this;
     jQuery("#addService").on("hidden.bs.modal", function () {
       vm.$emit("close");
@@ -6349,6 +6364,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -6361,7 +6415,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-      envList: '',
+      branch: '',
       activeTab: 0
     };
   },
@@ -6369,9 +6423,45 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     switchActiveTab: function switchActiveTab(tabIndex) {
       this.activeTab = tabIndex;
+    },
+    refresh: function refresh() {
+      var a = this.activeTab;
+      var vm = this;
+      this.activeTab = -1;
+      setTimeout(function () {
+        vm.activeTab = a;
+      }, 500);
+    },
+    addService: function addService() {
+      switch (this.activeTab) {
+        case 0:
+          this.branch = 'SABC';
+          break;
+
+        case 1:
+          this.branch = 'PTIB';
+          break;
+
+        case 2:
+          this.branch = 'JIRA';
+          break;
+
+        case 3:
+          this.branch = 'SHAREPOINT';
+          break;
+
+        case 4:
+          this.branch = 'WDST';
+          break;
+
+        default:
+          this.branch = '';
+      }
+    },
+    clearService: function clearService() {
+      this.branch = '';
     }
-  },
-  mounted: function mounted() {}
+  }
 });
 
 /***/ }),
@@ -6388,8 +6478,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _services_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services_mixin */ "./resources/js/services_mixin.js");
-//
-//
 //
 //
 //
@@ -6954,9 +7042,6 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
-    },
-    addService: function addService(env) {
-      this.servToAddEnv = env;
     }
   }
 });
@@ -22948,6 +23033,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, "\n.list-group-item small.retest[data-v-f5485ec0]{\n    visibility: hidden;\n    cursor: pointer;\n}\n.list-group-item:hover small.retest[data-v-f5485ec0]{\n    visibility: visible;\n}\n.alert.alert-danger.collapsed[data-v-f5485ec0] {\n    height: 90px;\n    overflow: hidden;\n}\n.alert.alert-danger strong[data-v-f5485ec0]{\n    cursor: pointer;\n}\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js */ "./node_modules/laravel-mix/node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "\nsvg[data-v-1e616838]{\n    cursor: pointer;\n}\nsvg path[data-v-1e616838]{\n    fill: #fff;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40563,6 +40672,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ServicesComponent_vue_vue_type_style_index_0_id_1e616838_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css& */ "./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css&");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ServicesComponent_vue_vue_type_style_index_0_id_1e616838_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ServicesComponent_vue_vue_type_style_index_0_id_1e616838_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesGroupComponent.vue?vue&type=style&index=0&id=28542f67&scoped=true&lang=css&":
 /*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesGroupComponent.vue?vue&type=style&index=0&id=28542f67&scoped=true&lang=css& ***!
@@ -41086,15 +41225,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _ServicesComponent_vue_vue_type_template_id_1e616838_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ServicesComponent.vue?vue&type=template&id=1e616838&scoped=true& */ "./resources/js/components/ServicesComponent.vue?vue&type=template&id=1e616838&scoped=true&");
 /* harmony import */ var _ServicesComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ServicesComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ServicesComponent.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _ServicesComponent_vue_vue_type_style_index_0_id_1e616838_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css& */ "./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
+;
 
 
 /* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _ServicesComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _ServicesComponent_vue_vue_type_template_id_1e616838_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
   _ServicesComponent_vue_vue_type_template_id_1e616838_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
@@ -41355,6 +41496,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ServiceContactsComponent_vue_vue_type_style_index_0_id_f5485ec0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ServiceContactsComponent.vue?vue&type=style&index=0&id=f5485ec0&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServiceContactsComponent.vue?vue&type=style&index=0&id=f5485ec0&scoped=true&lang=css&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css&":
+/*!****************************************************************************************************************!*\
+  !*** ./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css& ***!
+  \****************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_9_0_rules_0_use_2_node_modules_vue_loader_lib_index_js_vue_loader_options_ServicesComponent_vue_vue_type_style_index_0_id_1e616838_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css& */ "./node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[1]!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-9[0].rules[0].use[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ServicesComponent.vue?vue&type=style&index=0&id=1e616838&scoped=true&lang=css&");
 
 
 /***/ }),
@@ -42353,71 +42507,69 @@ var render = function () {
                     }),
                   ]),
                   _vm._v(" "),
-                  _vm.env == ""
-                    ? _c("div", { staticClass: "mb-3" }, [
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _c(
-                          "select",
+                  _c("div", { staticClass: "mb-3" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c(
+                      "select",
+                      {
+                        directives: [
                           {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.newService.env.val,
-                                expression: "newService.env.val",
-                              },
-                            ],
-                            staticClass: "form-select",
-                            class: _vm.newService.env.cls,
-                            attrs: {
-                              id: "service_env",
-                              disabled: _vm.formSubmitting == true,
-                            },
-                            on: {
-                              change: function ($event) {
-                                var $$selectedVal = Array.prototype.filter
-                                  .call($event.target.options, function (o) {
-                                    return o.selected
-                                  })
-                                  .map(function (o) {
-                                    var val = "_value" in o ? o._value : o.value
-                                    return val
-                                  })
-                                _vm.$set(
-                                  _vm.newService.env,
-                                  "val",
-                                  $event.target.multiple
-                                    ? $$selectedVal
-                                    : $$selectedVal[0]
-                                )
-                              },
-                            },
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.newService.env.val,
+                            expression: "newService.env.val",
                           },
-                          [
-                            _c("option", { attrs: { value: "" } }, [
-                              _vm._v("Select Environment"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "production" } }, [
-                              _vm._v("PRODUCTION"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "dev" } }, [
-                              _vm._v("DEV"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "uat" } }, [
-                              _vm._v("UAT"),
-                            ]),
-                            _vm._v(" "),
-                            _c("option", { attrs: { value: "test" } }, [
-                              _vm._v("TEST"),
-                            ]),
-                          ]
-                        ),
-                      ])
-                    : _vm._e(),
+                        ],
+                        staticClass: "form-select",
+                        class: _vm.newService.env.cls,
+                        attrs: {
+                          id: "service_env",
+                          disabled: _vm.formSubmitting == true,
+                        },
+                        on: {
+                          change: function ($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function (o) {
+                                return o.selected
+                              })
+                              .map(function (o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.newService.env,
+                              "val",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                        },
+                      },
+                      [
+                        _c("option", { attrs: { value: "" } }, [
+                          _vm._v("Select Environment"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "production" } }, [
+                          _vm._v("PRODUCTION"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "dev" } }, [
+                          _vm._v("DEV"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "uat" } }, [
+                          _vm._v("UAT"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "test" } }, [
+                          _vm._v("TEST"),
+                        ]),
+                      ]
+                    ),
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "mb-3" }, [
                     _vm._m(3),
@@ -43414,206 +43566,378 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-3 mb-3" }, [
-      _c(
-        "div",
-        {
-          staticClass: "list-group",
-          attrs: { role: "tablist", "aria-orientation": "vertical" },
-        },
-        [
-          _c(
-            "a",
-            {
-              staticClass: "list-group-item list-group-item-action",
-              class: _vm.activeTab === 0 ? "active" : "",
-              attrs: {
-                href: "#v-pills-sabc",
-                id: "v-pills-sabc-tab",
-                "data-bs-toggle": "pill",
-                "data-bs-target": "#v-pills-sabc",
-                type: "button",
-                role: "tab",
-                "aria-controls": "v-pills-sabc",
-                "aria-selected": "true",
-              },
-              on: {
-                click: function ($event) {
-                  return _vm.switchActiveTab(0)
+  return _c(
+    "div",
+    { staticClass: "row" },
+    [
+      _c("div", { staticClass: "col-md-3 mb-3" }, [
+        _c(
+          "div",
+          {
+            staticClass: "list-group",
+            attrs: { role: "tablist", "aria-orientation": "vertical" },
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item list-group-item-action",
+                class: _vm.activeTab === 0 ? "active" : "",
+                attrs: {
+                  href: "#v-pills-sabc",
+                  id: "v-pills-sabc-tab",
+                  "data-bs-toggle": "pill",
+                  "data-bs-target": "#v-pills-sabc",
+                  type: "button",
+                  role: "tab",
+                  "aria-controls": "v-pills-sabc",
+                  "aria-selected": "true",
                 },
-              },
-            },
-            [_vm._v("SABC")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "list-group-item list-group-item-action",
-              class: _vm.activeTab === 1 ? "active" : "",
-              attrs: {
-                href: "#v-pills-ptib",
-                id: "v-pills-ptib-tab",
-                "data-bs-toggle": "pill",
-                "data-bs-target": "#v-pills-ptib",
-                type: "button",
-                role: "tab",
-                "aria-controls": "v-pills-ptib",
-                "aria-selected": "false",
-              },
-              on: {
-                click: function ($event) {
-                  return _vm.switchActiveTab(1)
-                },
-              },
-            },
-            [_vm._v("PTIB")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "list-group-item list-group-item-action",
-              class: _vm.activeTab === 2 ? "active" : "",
-              attrs: {
-                href: "#v-pills-jira",
-                id: "v-pills-jira-tab",
-                "data-bs-toggle": "pill",
-                "data-bs-target": "#v-pills-jira",
-                type: "button",
-                role: "tab",
-                "aria-controls": "v-pills-jira",
-                "aria-selected": "false",
-              },
-              on: {
-                click: function ($event) {
-                  return _vm.switchActiveTab(2)
-                },
-              },
-            },
-            [_vm._v("JIRA")]
-          ),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "list-group-item list-group-item-action",
-              class: _vm.activeTab === 4 ? "active" : "",
-              attrs: {
-                href: "#v-pills-wdst",
-                id: "v-pills-wdst-tab",
-                "data-bs-toggle": "pill",
-                "data-bs-target": "#v-pills-wdst",
-                type: "button",
-                role: "tab",
-                "aria-controls": "v-pills-wdst",
-                "aria-selected": "false",
-              },
-              on: {
-                click: function ($event) {
-                  return _vm.switchActiveTab(4)
-                },
-              },
-            },
-            [_vm._v("WDST")]
-          ),
-        ]
-      ),
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-9" }, [
-      _c(
-        "div",
-        { staticClass: "tab-content", attrs: { id: "v-pills-tabContent" } },
-        [
-          _vm.activeTab === 0
-            ? _c(
-                "div",
-                {
-                  staticClass: "tab-pane fade show active",
-                  attrs: {
-                    id: "v-pills-sabc",
-                    role: "tabpanel",
-                    "aria-labelledby": "v-pills-sabc-tab",
+                on: {
+                  click: function ($event) {
+                    return _vm.switchActiveTab(0)
                   },
                 },
-                [_c("services-group-component", { attrs: { group: "sabc" } })],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.activeTab === 1
-            ? _c(
-                "div",
-                {
-                  staticClass: "tab-pane fade show active",
-                  attrs: {
-                    id: "v-pills-ptib",
-                    role: "tabpanel",
-                    "aria-labelledby": "v-pills-ptib-tab",
+              },
+              [
+                _vm._v("SABC\n                "),
+                _vm.activeTab === 0
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "float-end",
+                        staticStyle: {
+                          "enable-background": "new 0 0 32 32",
+                          width: "20px",
+                          height: "20px",
+                        },
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                          version: "1.1",
+                          x: "0px",
+                          y: "0px",
+                          viewBox: "0 0 32 32",
+                          "xml:space": "preserve",
+                        },
+                        on: { click: _vm.addService },
+                      },
+                      [
+                        _c("g", [
+                          _c("g", { attrs: { id: "plus_x5F_alt" } }, [
+                            _c("path", {
+                              attrs: {
+                                d: "M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z",
+                              },
+                            }),
+                          ]),
+                        ]),
+                      ]
+                    )
+                  : _vm._e(),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item list-group-item-action",
+                class: _vm.activeTab === 1 ? "active" : "",
+                attrs: {
+                  href: "#v-pills-ptib",
+                  id: "v-pills-ptib-tab",
+                  "data-bs-toggle": "pill",
+                  "data-bs-target": "#v-pills-ptib",
+                  type: "button",
+                  role: "tab",
+                  "aria-controls": "v-pills-ptib",
+                  "aria-selected": "false",
+                },
+                on: {
+                  click: function ($event) {
+                    return _vm.switchActiveTab(1)
                   },
                 },
-                [_c("services-group-component", { attrs: { group: "ptib" } })],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.activeTab === 2
-            ? _c(
-                "div",
-                {
-                  staticClass: "tab-pane fade show active",
-                  attrs: {
-                    id: "v-pills-jira",
-                    role: "tabpanel",
-                    "aria-labelledby": "v-pills-jira-tab",
+              },
+              [
+                _vm._v("PTIB\n                "),
+                _vm.activeTab === 1
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "float-end",
+                        staticStyle: {
+                          "enable-background": "new 0 0 32 32",
+                          width: "20px",
+                          height: "20px",
+                        },
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                          version: "1.1",
+                          x: "0px",
+                          y: "0px",
+                          viewBox: "0 0 32 32",
+                          "xml:space": "preserve",
+                        },
+                        on: { click: _vm.addService },
+                      },
+                      [
+                        _c("g", [
+                          _c("g", { attrs: { id: "plus_x5F_alt" } }, [
+                            _c("path", {
+                              attrs: {
+                                d: "M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z",
+                              },
+                            }),
+                          ]),
+                        ]),
+                      ]
+                    )
+                  : _vm._e(),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item list-group-item-action",
+                class: _vm.activeTab === 2 ? "active" : "",
+                attrs: {
+                  href: "#v-pills-jira",
+                  id: "v-pills-jira-tab",
+                  "data-bs-toggle": "pill",
+                  "data-bs-target": "#v-pills-jira",
+                  type: "button",
+                  role: "tab",
+                  "aria-controls": "v-pills-jira",
+                  "aria-selected": "false",
+                },
+                on: {
+                  click: function ($event) {
+                    return _vm.switchActiveTab(2)
                   },
                 },
-                [_c("services-group-component", { attrs: { group: "jira" } })],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.activeTab === 3
-            ? _c(
-                "div",
-                {
-                  staticClass: "tab-pane fade show active",
-                  attrs: {
-                    id: "v-pills-sharepoint",
-                    role: "tabpanel",
-                    "aria-labelledby": "v-pills-sharepoint-tab",
+              },
+              [
+                _vm._v("JIRA\n                "),
+                _vm.activeTab === 2
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "float-end",
+                        staticStyle: {
+                          "enable-background": "new 0 0 32 32",
+                          width: "20px",
+                          height: "20px",
+                        },
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                          version: "1.1",
+                          x: "0px",
+                          y: "0px",
+                          viewBox: "0 0 32 32",
+                          "xml:space": "preserve",
+                        },
+                        on: { click: _vm.addService },
+                      },
+                      [
+                        _c("g", [
+                          _c("g", { attrs: { id: "plus_x5F_alt" } }, [
+                            _c("path", {
+                              attrs: {
+                                d: "M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z",
+                              },
+                            }),
+                          ]),
+                        ]),
+                      ]
+                    )
+                  : _vm._e(),
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item list-group-item-action",
+                class: _vm.activeTab === 4 ? "active" : "",
+                attrs: {
+                  href: "#v-pills-wdst",
+                  id: "v-pills-wdst-tab",
+                  "data-bs-toggle": "pill",
+                  "data-bs-target": "#v-pills-wdst",
+                  type: "button",
+                  role: "tab",
+                  "aria-controls": "v-pills-wdst",
+                  "aria-selected": "false",
+                },
+                on: {
+                  click: function ($event) {
+                    return _vm.switchActiveTab(4)
                   },
                 },
-                [
-                  _c("services-group-component", {
-                    attrs: { group: "sharepoint" },
-                  }),
-                ],
-                1
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.activeTab === 4
-            ? _c(
-                "div",
-                {
-                  staticClass: "tab-pane fade show active",
-                  attrs: {
-                    id: "v-pills-wdst",
-                    role: "tabpanel",
-                    "aria-labelledby": "v-pills-wdst-tab",
+              },
+              [
+                _vm._v("WDST\n                "),
+                _vm.activeTab === 4
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "float-end",
+                        staticStyle: {
+                          "enable-background": "new 0 0 32 32",
+                          width: "20px",
+                          height: "20px",
+                        },
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                          version: "1.1",
+                          x: "0px",
+                          y: "0px",
+                          viewBox: "0 0 32 32",
+                          "xml:space": "preserve",
+                        },
+                        on: { click: _vm.addService },
+                      },
+                      [
+                        _c("g", [
+                          _c("g", { attrs: { id: "plus_x5F_alt" } }, [
+                            _c("path", {
+                              attrs: {
+                                d: "M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z",
+                              },
+                            }),
+                          ]),
+                        ]),
+                      ]
+                    )
+                  : _vm._e(),
+              ]
+            ),
+          ]
+        ),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-9" }, [
+        _c(
+          "div",
+          { staticClass: "tab-content", attrs: { id: "v-pills-tabContent" } },
+          [
+            _vm.activeTab === 0
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade show active",
+                    attrs: {
+                      id: "v-pills-sabc",
+                      role: "tabpanel",
+                      "aria-labelledby": "v-pills-sabc-tab",
+                    },
                   },
-                },
-                [_c("services-group-component", { attrs: { group: "wdst" } })],
-                1
-              )
-            : _vm._e(),
-        ]
-      ),
-    ]),
-  ])
+                  [
+                    _c("services-group-component", {
+                      attrs: { group: "sabc" },
+                    }),
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.activeTab === 1
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade show active",
+                    attrs: {
+                      id: "v-pills-ptib",
+                      role: "tabpanel",
+                      "aria-labelledby": "v-pills-ptib-tab",
+                    },
+                  },
+                  [
+                    _c("services-group-component", {
+                      attrs: { group: "ptib" },
+                    }),
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.activeTab === 2
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade show active",
+                    attrs: {
+                      id: "v-pills-jira",
+                      role: "tabpanel",
+                      "aria-labelledby": "v-pills-jira-tab",
+                    },
+                  },
+                  [
+                    _c("services-group-component", {
+                      attrs: { group: "jira" },
+                    }),
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.activeTab === 3
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade show active",
+                    attrs: {
+                      id: "v-pills-sharepoint",
+                      role: "tabpanel",
+                      "aria-labelledby": "v-pills-sharepoint-tab",
+                    },
+                  },
+                  [
+                    _c("services-group-component", {
+                      attrs: { group: "sharepoint" },
+                    }),
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.activeTab === 4
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade show active",
+                    attrs: {
+                      id: "v-pills-wdst",
+                      role: "tabpanel",
+                      "aria-labelledby": "v-pills-wdst-tab",
+                    },
+                  },
+                  [
+                    _c("services-group-component", {
+                      attrs: { group: "wdst" },
+                    }),
+                  ],
+                  1
+                )
+              : _vm._e(),
+          ]
+        ),
+      ]),
+      _vm._v(" "),
+      _vm.branch != ""
+        ? _c("add-service-modal", {
+            attrs: { branch: _vm.branch },
+            on: { update: _vm.refresh, close: _vm.clearService },
+          })
+        : _vm._e(),
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -43654,17 +43978,7 @@ var render = function () {
                       _c("h2", { staticClass: "text-white text-center" }, [
                         _vm._v("No Services"),
                       ]),
-                      _vm._v(" "),
-                      _c("add-service-modal", {
-                        attrs: {
-                          branch: _vm.envList.branch,
-                          env: _vm.servToAddEnv,
-                          servp: _vm.serv,
-                        },
-                        on: { update: _vm.fetchData, close: _vm.clearService },
-                      }),
-                    ],
-                    1
+                    ]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -43676,23 +43990,7 @@ var render = function () {
                       staticClass:
                         "card-header bg-primary text-white text-uppercase",
                     },
-                    [
-                      _vm._v(_vm._s(env.name)),
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "btn btn-link btn-sm float-end text-white",
-                          attrs: { type: "button" },
-                          on: {
-                            click: function ($event) {
-                              return _vm.addService(env.name)
-                            },
-                          },
-                        },
-                        [_vm._v("Add Service +")]
-                      ),
-                    ]
+                    [_vm._v(_vm._s(env.name))]
                   ),
                   _vm._v(" "),
                   _c("div", { staticClass: "card-body" }, [
@@ -43888,17 +44186,6 @@ var render = function () {
                 ])
               }),
             ],
-        _vm._v(" "),
-        _vm.servToAddEnv != ""
-          ? _c("add-service-modal", {
-              attrs: {
-                branch: _vm.envList.branch,
-                env: _vm.servToAddEnv,
-                servp: _vm.serv,
-              },
-              on: { update: _vm.fetchData, close: _vm.clearService },
-            })
-          : _vm._e(),
         _vm._v(" "),
         _vm.serv != ""
           ? _c("show-service-modal", {

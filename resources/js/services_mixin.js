@@ -81,9 +81,7 @@ export default {
                     console.log(error);
                 });
         },
-        addService: function (env){
-            this.servToAddEnv = env;
-        }
+
 
     }
 }
