@@ -5792,6 +5792,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -5928,6 +5929,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
 //
 //
 //
@@ -6403,6 +6408,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -6452,6 +6470,10 @@ __webpack_require__.r(__webpack_exports__);
 
         case 4:
           this.branch = 'WDST';
+          break;
+
+        case 5:
+          this.branch = 'INFRASTRUCTURE';
           break;
 
         default:
@@ -6555,6 +6577,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
 //
 //
 //
@@ -42631,6 +42655,10 @@ var render = function () {
                         _c("option", { attrs: { value: "html" } }, [
                           _vm._v("HTML"),
                         ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "sftp" } }, [
+                          _vm._v("sFTP"),
+                        ]),
                       ]
                     ),
                   ]),
@@ -42980,6 +43008,30 @@ var render = function () {
             },
             [_vm._v("WDST")]
           ),
+          _vm._v(" "),
+          _c(
+            "a",
+            {
+              staticClass: "list-group-item list-group-item-action",
+              class: _vm.activeTab === 5 ? "active" : "",
+              attrs: {
+                href: "#v-pills-wdst",
+                id: "v-pills-infrastructure-tab",
+                "data-bs-toggle": "pill",
+                "data-bs-target": "#v-pills-infrastructure",
+                type: "button",
+                role: "tab",
+                "aria-controls": "v-pills-infrastructure",
+                "aria-selected": "false",
+              },
+              on: {
+                click: function ($event) {
+                  return _vm.switchActiveTab(5)
+                },
+              },
+            },
+            [_vm._v("INFRASTRUCTURE")]
+          ),
         ]
       ),
     ]),
@@ -43069,6 +43121,26 @@ var render = function () {
                   },
                 },
                 [_c("main-group-component", { attrs: { group: "wdst" } })],
+                1
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.activeTab === 5
+            ? _c(
+                "div",
+                {
+                  staticClass: "tab-pane fade show active",
+                  attrs: {
+                    id: "v-pills-infrastructure",
+                    role: "tabpanel",
+                    "aria-labelledby": "v-pills-infrastructure-tab",
+                  },
+                },
+                [
+                  _c("main-group-component", {
+                    attrs: { group: "infrastructure" },
+                  }),
+                ],
                 1
               )
             : _vm._e(),
@@ -43817,6 +43889,66 @@ var render = function () {
                   : _vm._e(),
               ]
             ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "list-group-item list-group-item-action",
+                class: _vm.activeTab === 5 ? "active" : "",
+                attrs: {
+                  href: "#v-pills-infrastructure",
+                  id: "v-pills-infrastructure-tab",
+                  "data-bs-toggle": "pill",
+                  "data-bs-target": "#v-pills-infrastructure",
+                  type: "button",
+                  role: "tab",
+                  "aria-controls": "v-pills-infrastructure",
+                  "aria-selected": "false",
+                },
+                on: {
+                  click: function ($event) {
+                    return _vm.switchActiveTab(5)
+                  },
+                },
+              },
+              [
+                _vm._v("INFRASTRUCTURE\n                "),
+                _vm.activeTab === 5
+                  ? _c(
+                      "svg",
+                      {
+                        staticClass: "float-end",
+                        staticStyle: {
+                          "enable-background": "new 0 0 32 32",
+                          width: "20px",
+                          height: "20px",
+                        },
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          "xmlns:xlink": "http://www.w3.org/1999/xlink",
+                          version: "1.1",
+                          x: "0px",
+                          y: "0px",
+                          viewBox: "0 0 32 32",
+                          "xml:space": "preserve",
+                        },
+                        on: { click: _vm.addService },
+                      },
+                      [
+                        _c("g", [
+                          _c("g", { attrs: { id: "plus_x5F_alt" } }, [
+                            _c("path", {
+                              attrs: {
+                                d: "M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z",
+                              },
+                            }),
+                          ]),
+                        ]),
+                      ]
+                    )
+                  : _vm._e(),
+              ]
+            ),
           ]
         ),
       ]),
@@ -43920,6 +44052,26 @@ var render = function () {
                   [
                     _c("services-group-component", {
                       attrs: { group: "wdst" },
+                    }),
+                  ],
+                  1
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.activeTab === 5
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade show active",
+                    attrs: {
+                      id: "v-pills-infrastructure",
+                      role: "tabpanel",
+                      "aria-labelledby": "v-pills-infrastructure-tab",
+                    },
+                  },
+                  [
+                    _c("services-group-component", {
+                      attrs: { group: "infrastructure" },
                     }),
                   ],
                   1
@@ -44333,6 +44485,10 @@ var render = function () {
                         _c("option", { attrs: { value: "WDST" } }, [
                           _vm._v("WDST"),
                         ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "INFRASTRUCTURE" } }, [
+                          _vm._v("INFRASTRUCTURE"),
+                        ]),
                       ]
                     ),
                   ]),
@@ -44464,6 +44620,10 @@ var render = function () {
                         _vm._v(" "),
                         _c("option", { attrs: { value: "crawl" } }, [
                           _vm._v("Crawl"),
+                        ]),
+                        _vm._v(" "),
+                        _c("option", { attrs: { value: "sftp" } }, [
+                          _vm._v("sFTP"),
                         ]),
                       ]
                     ),

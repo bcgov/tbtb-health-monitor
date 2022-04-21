@@ -32,6 +32,7 @@
                                 <option value="curl">cURL</option>
                                 <option value="db">Database</option>
                                 <option value="html">HTML</option>
+                                <option value="sftp">sFTP</option>
                             </select>
                         </div>
                         <div class="mb-3">

@@ -21,6 +21,7 @@
                                 <option value="PTIB">PTIB</option>
                                 <option value="JIRA">JIRA</option>
                                 <option value="WDST">WDST</option>
+                                <option value="INFRASTRUCTURE">INFRASTRUCTURE</option>
                             </select>
                         </div>
                         <div class="mb-3">
@@ -42,6 +43,7 @@
                                 <option value="db">Database</option>
                                 <option value="html">HTML</option>
                                 <option value="crawl">Crawl</option>
+                                <option value="sftp">sFTP</option>
                             </select>
                             <p v-if="serv.test_type == 'crawl'" class="alert alert-warning mt-3">Crawl services require Unit Tests being created under tests/Browser</p>
                         </div>

@@ -7,6 +7,7 @@
                 <a @click="switchActiveTab(2)" href="#v-pills-jira" class="list-group-item list-group-item-action" :class="activeTab === 2 ? 'active' : ''" id="v-pills-jira-tab" data-bs-toggle="pill" data-bs-target="#v-pills-jira" type="button" role="tab" aria-controls="v-pills-jira" aria-selected="false">JIRA</a>
 <!--                <a @click="switchActiveTab(3)" href="#v-pills-sharepoint" class="list-group-item list-group-item-action" :class="activeTab === 3 ? 'active' : ''" id="v-pills-sharepoint-tab" data-bs-toggle="pill" data-bs-target="#v-pills-sharepoint" type="button" role="tab" aria-controls="v-pills-sharepoint" aria-selected="false">SHAREPOINT</a>-->
                 <a @click="switchActiveTab(4)" href="#v-pills-wdst" class="list-group-item list-group-item-action" :class="activeTab === 4 ? 'active' : ''" id="v-pills-wdst-tab" data-bs-toggle="pill" data-bs-target="#v-pills-wdst" type="button" role="tab" aria-controls="v-pills-wdst" aria-selected="false">WDST</a>
+                <a @click="switchActiveTab(5)" href="#v-pills-wdst" class="list-group-item list-group-item-action" :class="activeTab === 5 ? 'active' : ''" id="v-pills-infrastructure-tab" data-bs-toggle="pill" data-bs-target="#v-pills-infrastructure" type="button" role="tab" aria-controls="v-pills-infrastructure" aria-selected="false">INFRASTRUCTURE</a>
             </div>
         </div>
         <div class="col-md-9">
@@ -25,6 +26,9 @@
                 </div>
                 <div v-if="activeTab === 4" class="tab-pane fade show active" id="v-pills-wdst" role="tabpanel" aria-labelledby="v-pills-wdst-tab">
                     <main-group-component :group="'wdst'"></main-group-component>
+                </div>
+                <div v-if="activeTab === 5" class="tab-pane fade show active" id="v-pills-infrastructure" role="tabpanel" aria-labelledby="v-pills-infrastructure-tab">
+                    <main-group-component :group="'infrastructure'"></main-group-component>
                 </div>
             </div>
         </div>

@@ -40,6 +40,16 @@
                         </g>
                     </svg>
                 </a>
+
+                <a @click="switchActiveTab(5)" href="#v-pills-infrastructure" class="list-group-item list-group-item-action" :class="activeTab === 5 ? 'active' : ''" id="v-pills-infrastructure-tab" data-bs-toggle="pill" data-bs-target="#v-pills-infrastructure" type="button" role="tab" aria-controls="v-pills-infrastructure" aria-selected="false">INFRASTRUCTURE
+                    <svg v-if="activeTab === 5" @click="addService" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;width: 20px;height: 20px;" xml:space="preserve" class="float-end">
+                        <g>
+                            <g id="plus_x5F_alt">
+                                <path d="M16,0C7.164,0,0,7.164,0,16s7.164,16,16,16s16-7.164,16-16S24.836,0,16,0z M24,18h-6v6h-4v-6H8v-4    h6V8h4v6h6V18z"></path>
+                            </g>
+                        </g>
+                    </svg>
+                </a>
             </div>
         </div>
         <div class="col-md-9">
@@ -58,6 +68,9 @@
                 </div>
                 <div v-if="activeTab === 4" class="tab-pane fade show active" id="v-pills-wdst" role="tabpanel" aria-labelledby="v-pills-wdst-tab">
                     <services-group-component :group="'wdst'"></services-group-component>
+                </div>
+                <div v-if="activeTab === 5" class="tab-pane fade show active" id="v-pills-infrastructure" role="tabpanel" aria-labelledby="v-pills-infrastructure-tab">
+                    <services-group-component :group="'infrastructure'"></services-group-component>
                 </div>
             </div>
         </div>
@@ -112,6 +125,7 @@ export default {
                 case 2: this.branch = 'JIRA'; break;
                 case 3: this.branch = 'SHAREPOINT'; break;
                 case 4: this.branch = 'WDST'; break;
+                case 5: this.branch = 'INFRASTRUCTURE'; break;
                 default: this.branch = '';
             }
         },

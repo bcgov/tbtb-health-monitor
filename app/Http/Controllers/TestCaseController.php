@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
+use League\Flysystem\Filesystem;
+use League\Flysystem\Sftp\SftpAdapter;
+
 class TestCaseController extends Controller
 {
 
@@ -39,7 +42,7 @@ class TestCaseController extends Controller
             $request->merge(['group' => Str::upper($request->group)]);
         }
         $validated = $request->validate([
-            'group' => 'required|in:PTIB,JIRA,SABC,WDST',
+            'group' => 'required|in:PTIB,JIRA,SABC,WDST,INFRASTRUCTURE',
         ]);
 
         $tests = [
@@ -69,6 +72,29 @@ class TestCaseController extends Controller
 
         $test->status = 'Pending';
         $test->save();
+
+
+        if($test->test_type == 'sftp'){
+
+            $json = json_decode($test->post_data);
+            try{
+                $adapter = new SftpAdapter(['host' => $json->url, 'port' => $json->port, 'timeout' => 10]);
+                $filesystem = new Filesystem($adapter);
+                $adapter->connect();
+                if ($adapter->isConnected()) {
+                    $result['status'] = 200;
+                    $result['result'] = 'Success';
+                }
+            }catch (\Exception $e){
+                if(strpos($e->getMessage(), "Could not login with username") !== false){
+                    $result['status'] = 200;
+                    $result['result'] = "Success";
+                }else {
+
+                    $result['result'] = $e->getMessage();
+                }
+            }
+        }
 
 
         if($test->test_type == 'wsdl'){
@@ -375,12 +401,15 @@ class TestCaseController extends Controller
         $ptib_tests = $this->fetchTests($request);
         $request->merge(['group' => 'wdst']);
         $wdst_tests = $this->fetchTests($request);
+        $request->merge(['group' => 'infrastructure']);
+        $infra_tests = $this->fetchTests($request);
 
         $lists = [
             'wdst' => $wdst_tests->original['tests'],
             'sabc' => $sabc_tests->original['tests'],
             'jira' => $jira_tests->original['tests'],
-            'ptib' => $ptib_tests->original['tests']
+            'ptib' => $ptib_tests->original['tests'],
+            'infrastructure' => $infra_tests->original['tests']
         ];
         $all_tests = [];
         $tests = TbtbTest::select('id', 'name', 'env', 'group')->orderBy('name')->get();
