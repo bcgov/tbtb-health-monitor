@@ -43,7 +43,6 @@
                                 <option value="db">Database</option>
                                 <option value="html">HTML</option>
                                 <option value="crawl">Crawl</option>
-                                <option value="sftp">sFTP</option>
                             </select>
                             <p v-if="serv.test_type == 'crawl'" class="alert alert-warning mt-3">Crawl services require Unit Tests being created under tests/Browser</p>
                         </div>

@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->job(new ProcessCleanTest)->everyTenMinutes();
         $schedule->job(new ProcessGroupTest('WDST'))->everyThreeMinutes();
+        $schedule->job(new ProcessGroupTest('INFRASTRUCTURE'))->everyThreeMinutes();
         $schedule->job(new ProcessGroupTest('SABC'))->everyFourMinutes();
         $schedule->job(new ProcessGroupTest('PTIB'))->everyTenMinutes();
         $schedule->job(new ProcessGroupTest('JIRA'))->everyFifteenMinutes();
