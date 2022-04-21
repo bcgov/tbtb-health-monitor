@@ -14,8 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-use League\Flysystem\Filesystem;
-use League\Flysystem\Sftp\SftpAdapter;
 
 class TestCaseController extends Controller
 {
@@ -72,30 +70,6 @@ class TestCaseController extends Controller
 
         $test->status = 'Pending';
         $test->save();
-
-
-        if($test->test_type == 'sftp'){
-
-            $json = json_decode($test->post_data);
-            try{
-                $adapter = new SftpAdapter(['host' => $json->url, 'port' => $json->port, 'timeout' => 10]);
-                $filesystem = new Filesystem($adapter);
-                $adapter->connect();
-                if ($adapter->isConnected()) {
-                    $result['status'] = 200;
-                    $result['result'] = 'Success';
-                }
-            }catch (\Exception $e){
-                if(strpos($e->getMessage(), "Could not login with username") !== false){
-                    $result['status'] = 200;
-                    $result['result'] = "Success";
-                }else {
-
-                    $result['result'] = $e->getMessage();
-                }
-            }
-        }
-
 
         if($test->test_type == 'wsdl'){
             $response = $this->makeApiCall($test->url, $test->post_data);
