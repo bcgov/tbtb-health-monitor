@@ -3,6 +3,7 @@
 /public/.htaccess
 /public/hot
 /public/storage
+/public/screenshots
 /storage/*.key
 /vendor
 .env
