@@ -36,19 +36,19 @@ class ProcessGroupTest implements ShouldQueue
      */
     public function handle()
     {
-        Log::debug('Starting ' . $this->group . ' Tests: ' . time());
+        Log::channel('daily')->debug('Starting ' . $this->group . ' Tests: ' . time());
         $t = new TestCaseController();
         $request = new Request();
 
         $tests = TbtbTest::where('group', $this->group)->where('paused', false)->get();
         foreach ($tests as $test){
-            Log::debug('Starting ' . $this->group . ' Process: ' . $test->cmd);
+            Log::channel('daily')->debug('Starting ' . $this->group . ' Process: ' . $test->cmd);
             $process = $t->runServiceTest($request, $test);
-            Log::debug($process['status']);
-            Log::debug('End ' . $this->group . ' Process: ' . $test->cmd);
+            Log::channel('daily')->debug($process['status']);
+            Log::channel('daily')->debug('End ' . $this->group . ' Process: ' . $test->cmd);
         }
 
-        Log::debug('############## ' . time() . ' ###############');
-        Log::debug('Finished ' . $this->group . ' Tests');
+        Log::channel('daily')->debug('############## ' . time() . ' ###############');
+        Log::channel('daily')->debug('Finished ' . $this->group . ' Tests');
     }
 }

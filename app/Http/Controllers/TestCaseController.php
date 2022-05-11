@@ -147,18 +147,19 @@ class TestCaseController extends Controller
             $test->response = $result['result'];
 
             if($result['status'] != 200){
-                Log::channel('monitor')->info(" ");
+//                Log::channel('monitor')->info(" ");
                 $attempt = $test->attempt+1;
-                Log::channel('monitor')->info($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
-                Log::channel('monitor')->info($result['result']);
-                Log::channel('monitor')->info(" ");
+                Log::channel('database')->notice($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
+                Log::channel('database')->notice($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
+                Log::channel('database')->notice($result['result']);
+                Log::channel('database')->notice(" ");
 
                 if( $test->mute == false ){
                     //if test failed 5+ times and testing is not paused
                     if($test->attempt >= 5){
                         //get Contact info related to the test for notification
 
-                        Log::debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. SMS User.");
+                        Log::channel('daily')->debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. SMS User.");
                         $t = TbtbTest::where('id', $test->id)->with('contacts')->first();
                         foreach($t->contacts as $contact){
                             if($contact->mute == false && $contact->status == 'active'){
@@ -167,11 +168,11 @@ class TestCaseController extends Controller
                         }
                         $test->attempt = 0;
                     }else{
-                        Log::debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. ");
+                        Log::channel('daily')->debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. ");
                         $test->attempt += 1;
                     }
                 }else{
-                    Log::debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. Service Muted");
+                    Log::channel('daily')->debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. Service Muted");
                     $test->attempt += 1;
                 }
                 $test->attempt_total += 1;

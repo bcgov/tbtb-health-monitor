@@ -31,8 +31,8 @@ class ProcessCleanTest implements ShouldQueue
      */
     public function handle()
     {
-        Log::debug(' ');
-        Log::debug('Starting Clean Tests: ' . time());
+//        Log::debug(' ');
+        Log::channel('daily')->debug('Starting Clean Tests: ' . time());
 //        echo "\n\rStarting Clean Tests\n\r";
 
 
@@ -55,7 +55,7 @@ class ProcessCleanTest implements ShouldQueue
 //        $this->killall('[php]');
 
         exec('/usr/sbin/apache2ctl restart');
-        Log::debug('Finished Clean Tests: ' . time());
+        Log::channel('daily')->debug('Finished Clean Tests: ' . time());
 
         if($this->touchPs('artisan queue:listen') == false)
             exec('/var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=400 --tries=3 > /dev/null &');

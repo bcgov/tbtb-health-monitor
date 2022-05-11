@@ -50,7 +50,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['single', 'database'],
             'ignore_exceptions' => false,
         ],
 
@@ -119,6 +119,20 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        'database' => [
+            'driver' => 'custom',
+            'via' => danielme85\LaravelLogToDB\LogToDbHandler::class,
+            'level' => env('APP_LOG_LEVEL', 'debug'),
+            'connection' => 'default',
+            'collection' => 'log',
+            'detailed' => true,
+            'queue' => false,
+            'queue_name' => 'logQueue',
+            'queue_connection' => 'redis',
+            'max_records' => false,
+            'max_hours' => 24*7*4
         ],
     ],
 
