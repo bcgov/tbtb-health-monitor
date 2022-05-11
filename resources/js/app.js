@@ -24,6 +24,8 @@ const VueRouter = require('vue-router').default;
 Vue.component('main-component', require('./components/MainComponent.vue').default);
 Vue.component('main-group-component', require('./components/MainGroupComponent.vue').default);
 
+Vue.component('logs-component', require('./components/LogsComponent.vue').default);
+
 Vue.component('services-component', require('./components/ServicesComponent.vue').default);
 Vue.component('services-group-component', require('./components/ServicesGroupComponent.vue').default);
 

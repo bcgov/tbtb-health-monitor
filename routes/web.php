@@ -43,6 +43,8 @@ Route::middleware(['auth'])->group(function () {
             return view('logs');
         });
 
+
+        Route::get('/fetch-logs', [App\Http\Controllers\HomeController::class, 'fetchLogs'])->name('fetch-logs');
         Route::get('/rerun-single-test/{group}/{environment}/{service}', [App\Http\Controllers\TestCaseController::class, 'rerunSingleTest'])->name('rerun-single-test');
 
         Route::get('/unpause-test/{test}', [App\Http\Controllers\TestCaseController::class, 'unpauseTest'])->name('unpause-single-test');

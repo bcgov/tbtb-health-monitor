@@ -116,6 +116,6 @@ return [
      | Specify the datetime format storing into the log record
      |
      */
-    'datetime_format' => env('LOG_DB_DATETIME_FORMAT', 'Y-m-d H:i:s:ms')
+    'datetime_format' => env('LOG_DB_DATETIME_FORMAT', 'Y-m-d H:i:s')
 
 ];

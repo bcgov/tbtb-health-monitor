@@ -152,7 +152,7 @@ class TestCaseController extends Controller
                 Log::channel('database')->notice($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
                 Log::channel('database')->notice($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
                 Log::channel('database')->notice($result['result']);
-                Log::channel('database')->notice(" ");
+//                Log::channel('database')->notice(" ");
 
                 if( $test->mute == false ){
                     //if test failed 5+ times and testing is not paused
