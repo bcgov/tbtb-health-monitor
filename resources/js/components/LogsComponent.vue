@@ -13,7 +13,7 @@
                     <div :id="'collapse' + i" class="accordion-collapse collapse" :class="i == 0 ? 'show' : ''" data-bs-parent="#logsAccordion">
                         <div class="accordion-body">
                             <ul v-for="l in log" class="list-group">
-                                <li v-if="l.message != ''" class="list-group-item"><strong>({{ l.datetime }})</strong> {{l.message}}</li>
+                                <li v-if="l.message != ''" class="list-group-item"><small class="text-muted">({{ l.datetime }})</small> {{l.message}}</li>
                             </ul>
                         </div>
                     </div>
@@ -25,11 +25,8 @@
     </div>
 </template>
 <style scoped>
-svg{
-    cursor: pointer;
-}
-svg path{
-    fill: #fff;
+li{
+    overflow-wrap: break-word;
 }
 </style>
 <script>
@@ -57,24 +54,24 @@ export default {
         },
 
         fetchData: function(){
+            let vm = this;
+            axios({
+                url: '/fetch-logs',
+                method: 'get',
+                headers: {'Accept': 'application/json'}
+            })
 
+                .then(function (response) {
+                    vm.logs = response.data.logs;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
 
     },
     mounted() {
-        let vm = this;
-        axios({
-            url: '/fetch-logs',
-            method: 'get',
-            headers: {'Accept': 'application/json'}
-        })
-
-            .then(function (response) {
-                vm.logs = response.data.logs;
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        this.fetchData();
     }
 }
 

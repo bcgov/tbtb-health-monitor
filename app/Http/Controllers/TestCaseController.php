@@ -27,11 +27,8 @@ class TestCaseController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
-
         return redirect('/');
     }
 
@@ -55,7 +52,6 @@ class TestCaseController extends Controller
         }
 
         return Response::json(['status' => true, 'tests' => $tests, 'user_auth' => Auth::check()], 200); // Status code here
-
     }
 
     public function runServiceTest(Request $request, $test)
@@ -140,19 +136,13 @@ class TestCaseController extends Controller
             $result['result'] = $response['error'];
         }
 
-
         //DUSK tests must be updated in the dusk test file
         if($test->test_type !== 'crawl') {
             $test->status = $result['status'] == 200 ? 'Pass' : 'Fail';
             $test->response = $result['result'];
 
             if($result['status'] != 200){
-//                Log::channel('monitor')->info(" ");
                 $attempt = $test->attempt+1;
-                Log::channel('database')->notice($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
-                Log::channel('database')->notice($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
-                Log::channel('database')->notice($result['result']);
-//                Log::channel('database')->notice(" ");
 
                 if( $test->mute == false ){
                     //if test failed 5+ times and testing is not paused
@@ -166,6 +156,9 @@ class TestCaseController extends Controller
                                 $send_sms = $this->smsUser($contact->cell_number, $contact->name, $test->cmd, "FAILED on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt_total);
                             }
                         }
+                        Log::channel('database')->notice($test->group . " Test: " . $test->cmd . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
+                        Log::channel('database')->notice($result['result']);
+
                         $test->attempt = 0;
                     }else{
                         Log::channel('daily')->debug($test->group . " Test: " . $test->cmd . " failed " . $test->attempt . " times. ");
