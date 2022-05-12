@@ -1,13 +1,25 @@
 <template>
     <div class="row">
-        <div class="col-md-3 mb-3">
-        </div>
-        <div class="col-md-9">
-            <ul v-if="logs != ''" class="list-group">
-                <template v-for="l in logs">
-                    <li v-if="l.message != ''" class="list-group-item"><strong>({{ l.datetime }})</strong> {{l.message}}</li>
-                </template>
-            </ul>
+
+        <div v-if="logs != ''" class="col-md-12">
+
+            <div class="accordion" id="logsAccordion">
+                <div v-for="(log, key, i) in logs" class="accordion-item">
+                    <h2 @click="toggleCollapse(i)" class="accordion-header" :id="'heading' + i">
+                        <button class="accordion-button" type="button" :aria-expanded="i == 0" :aria-controls="'collapse' + i">
+                            {{ key }}
+                        </button>
+                    </h2>
+                    <div :id="'collapse' + i" class="accordion-collapse collapse" :class="i == 0 ? 'show' : ''" data-bs-parent="#logsAccordion">
+                        <div class="accordion-body">
+                            <ul v-for="l in log" class="list-group">
+                                <li v-if="l.message != ''" class="list-group-item"><strong>({{ l.datetime }})</strong> {{l.message}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -40,7 +52,9 @@ export default {
     }),
     props: [],
     methods: {
-
+        toggleCollapse: function (i){
+            $("#logsAccordion #collapse" + i).collapse('toggle');
+        },
 
         fetchData: function(){
 

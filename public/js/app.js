@@ -5950,6 +5950,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -5967,6 +5979,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   props: [],
   methods: {
+    toggleCollapse: function toggleCollapse(i) {
+      $("#logsAccordion #collapse" + i).collapse('toggle');
+    },
     fetchData: function fetchData() {}
   },
   mounted: function mounted() {
@@ -43113,29 +43128,82 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-3 mb-3" }),
-    _vm._v(" "),
-    _c("div", { staticClass: "col-md-9" }, [
-      _vm.logs != ""
-        ? _c(
-            "ul",
-            { staticClass: "list-group" },
-            [
-              _vm._l(_vm.logs, function (l) {
-                return [
-                  l.message != ""
-                    ? _c("li", { staticClass: "list-group-item" }, [
-                        _c("strong", [_vm._v("(" + _vm._s(l.datetime) + ")")]),
-                        _vm._v(" " + _vm._s(l.message)),
-                      ])
-                    : _vm._e(),
-                ]
-              }),
-            ],
-            2
-          )
-        : _vm._e(),
-    ]),
+    _vm.logs != ""
+      ? _c("div", { staticClass: "col-md-12" }, [
+          _c(
+            "div",
+            { staticClass: "accordion", attrs: { id: "logsAccordion" } },
+            _vm._l(_vm.logs, function (log, key, i) {
+              return _c("div", { staticClass: "accordion-item" }, [
+                _c(
+                  "h2",
+                  {
+                    staticClass: "accordion-header",
+                    attrs: { id: "heading" + i },
+                    on: {
+                      click: function ($event) {
+                        return _vm.toggleCollapse(i)
+                      },
+                    },
+                  },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "accordion-button",
+                        attrs: {
+                          type: "button",
+                          "aria-expanded": i == 0,
+                          "aria-controls": "collapse" + i,
+                        },
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(key) +
+                            "\n                    "
+                        ),
+                      ]
+                    ),
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "accordion-collapse collapse",
+                    class: i == 0 ? "show" : "",
+                    attrs: {
+                      id: "collapse" + i,
+                      "data-bs-parent": "#logsAccordion",
+                    },
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "accordion-body" },
+                      _vm._l(log, function (l) {
+                        return _c("ul", { staticClass: "list-group" }, [
+                          l.message != ""
+                            ? _c("li", { staticClass: "list-group-item" }, [
+                                _c("strong", [
+                                  _vm._v("(" + _vm._s(l.datetime) + ")"),
+                                ]),
+                                _vm._v(" " + _vm._s(l.message)),
+                              ])
+                            : _vm._e(),
+                        ])
+                      }),
+                      0
+                    ),
+                  ]
+                ),
+              ])
+            }),
+            0
+          ),
+        ])
+      : _vm._e(),
   ])
 }
 var staticRenderFns = []
