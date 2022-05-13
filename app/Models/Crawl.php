@@ -105,11 +105,7 @@ class Crawl extends Model
         $test = TbtbTest::where('id', $test_case->id)->with('contacts')->first();
         $service = $test->cmd;
         if($test->status == 'Fail'){
-//            Log::channel('database')->notice(" ");
             $attempt = $test->attempt+1;
-            Log::channel('database')->notice($test->group . " Test: " . $service . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
-            Log::channel('database')->notice($test->response);
-//            Log::channel('monitor')->info(" ");
             if( $test->mute == false ){
                 //if test failed 5+ times and testing is not paused
                 if($test->attempt >= 5){
@@ -120,6 +116,8 @@ class Crawl extends Model
                             $send_sms = $controller->smsUser($contact->cell_number, $contact->name, $test->cmd, "FAILED on " . $test->env . " for 15+ minutes. Attempts " . $test->attempt_total);
                         }
                     }
+                    Log::channel('database')->notice($test->group . " Test: " . $service . " on the env (" . $test->env . ") failed. Number of attempts: " . $attempt);
+                    Log::channel('database')->notice($test->response);
                     $test->attempt = 0;
                 }else{
                     Log::channel('daily')->debug("SABC Dusk Test: " . $test->cmd . " failed " . $test->attempt . " times. ");
