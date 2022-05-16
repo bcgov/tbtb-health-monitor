@@ -120,10 +120,10 @@ export default {
                 headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
             })
                 .then(function (response) {
+                    vm.$emit("update", vm.newService.group.val);
                     vm.formSubmitting = false;
                     vm.resetService();
                     $('#addService').modal('toggle');
-                    vm.$emit("update", vm.newService.group.val);
 
                 })
                 .catch(function (error) {

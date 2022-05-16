@@ -134,10 +134,10 @@ export default {
                 headers: {'Accept': 'application/json', 'Content-Type': 'multipart/form-data'}
             })
                 .then(function (response) {
+                    vm.$emit("update", vm.serv.group);
                     vm.formSubmitting = false;
                     vm.serv = '';
                     $('#showService').modal('toggle');
-                    vm.$emit("update", vm.serv.group);
                 })
                 .catch(function (error) {
                     console.log(error);

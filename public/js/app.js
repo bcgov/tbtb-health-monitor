@@ -5874,10 +5874,10 @@ __webpack_require__.r(__webpack_exports__);
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (response) {
+        vm.$emit("update", vm.newService.group.val);
         vm.formSubmitting = false;
         vm.resetService();
         $('#addService').modal('toggle');
-        vm.$emit("update", vm.newService.group.val);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -5959,9 +5959,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   filters: {
@@ -5982,21 +5979,23 @@ __webpack_require__.r(__webpack_exports__);
     toggleCollapse: function toggleCollapse(i) {
       $("#logsAccordion #collapse" + i).collapse('toggle');
     },
-    fetchData: function fetchData() {}
+    fetchData: function fetchData() {
+      var vm = this;
+      axios__WEBPACK_IMPORTED_MODULE_0___default()({
+        url: '/fetch-logs',
+        method: 'get',
+        headers: {
+          'Accept': 'application/json'
+        }
+      }).then(function (response) {
+        vm.logs = response.data.logs;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   },
   mounted: function mounted() {
-    var vm = this;
-    axios__WEBPACK_IMPORTED_MODULE_0___default()({
-      url: '/fetch-logs',
-      method: 'get',
-      headers: {
-        'Accept': 'application/json'
-      }
-    }).then(function (response) {
-      vm.logs = response.data.logs;
-    })["catch"](function (error) {
-      console.log(error);
-    });
+    this.fetchData();
   }
 });
 
@@ -6093,6 +6092,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _home_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../home_mixin */ "./resources/js/home_mixin.js");
+//
+//
 //
 //
 //
@@ -6798,10 +6799,10 @@ __webpack_require__.r(__webpack_exports__);
           'Content-Type': 'multipart/form-data'
         }
       }).then(function (response) {
+        vm.$emit("update", vm.serv.group);
         vm.formSubmitting = false;
         vm.serv = '';
         $('#showService').modal('toggle');
-        vm.$emit("update", vm.serv.group);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -23118,7 +23119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\nsvg[data-v-0c5c5e9a]{\n    cursor: pointer;\n}\nsvg path[data-v-0c5c5e9a]{\n    fill: #fff;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\nli[data-v-0c5c5e9a]{\n    overflow-wrap: break-word;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -43186,7 +43187,7 @@ var render = function () {
                         return _c("ul", { staticClass: "list-group" }, [
                           l.message != ""
                             ? _c("li", { staticClass: "list-group-item" }, [
-                                _c("strong", [
+                                _c("small", { staticClass: "text-muted" }, [
                                   _vm._v("(" + _vm._s(l.datetime) + ")"),
                                 ]),
                                 _vm._v(" " + _vm._s(l.message)),
@@ -43528,153 +43529,162 @@ var render = function () {
                     "ul",
                     { staticClass: "list-group" },
                     _vm._l(env.cases, function (value, test) {
-                      return _c("li", { staticClass: "list-group-item" }, [
-                        _vm._v(
-                          "\n                                " +
-                            _vm._s(test) +
-                            "\n"
-                        ),
-                        _vm._v(" "),
-                        value.paused == false &&
-                        (value.status === 0 || value.status === "Pending")
-                          ? _c(
-                              "span",
-                              {
-                                staticClass:
-                                  "badge bg-warning rounded-pill float-end",
-                              },
-                              [_vm._v(" ")]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        value.paused == false &&
-                        value.status === "Pass" &&
-                        value.response !== false
-                          ? _c(
-                              "span",
-                              {
-                                staticClass:
-                                  "badge bg-success rounded-pill float-end",
-                              },
-                              [_vm._v(" ")]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        value.paused == false &&
-                        value.status === "Pass" &&
-                        value.response === false
-                          ? _c(
-                              "span",
-                              {
-                                staticClass:
-                                  "badge bg-danger rounded-pill float-end",
-                              },
-                              [_vm._v(" ")]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        value.paused == false && value.status === "Fail"
-                          ? _c(
-                              "span",
-                              {
-                                staticClass:
-                                  "badge bg-danger rounded-pill float-end",
-                              },
-                              [_vm._v(" ")]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        value.paused == true
-                          ? _c(
-                              "span",
-                              {
-                                staticClass:
-                                  "badge bg-primary rounded-pill float-end",
-                              },
-                              [_vm._v(" ")]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        value.paused == false && _vm.userAuth != false
-                          ? _c(
-                              "small",
-                              {
-                                staticClass:
-                                  "float-end retest pe-2 text-primary",
-                                on: {
-                                  click: function ($event) {
-                                    return _vm.reTest(
-                                      env.name,
-                                      value,
-                                      _vm.envList.branch
-                                    )
+                      return _c(
+                        "li",
+                        { staticClass: "list-group-item" },
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(test) +
+                              "\n"
+                          ),
+                          _vm._v(" "),
+                          value.paused == false &&
+                          (value.status === 0 || value.status === "Pending")
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "badge bg-warning rounded-pill float-end",
+                                },
+                                [_vm._v(" ")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          value.paused == false &&
+                          value.status === "Pass" &&
+                          value.response !== false
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "badge bg-success rounded-pill float-end",
+                                },
+                                [_vm._v(" ")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          value.paused == false &&
+                          value.status === "Pass" &&
+                          value.response === false
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "badge bg-danger rounded-pill float-end",
+                                },
+                                [_vm._v(" ")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          value.paused == false && value.status === "Fail"
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "badge bg-danger rounded-pill float-end",
+                                },
+                                [_vm._v(" ")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          value.paused == true
+                            ? _c(
+                                "span",
+                                {
+                                  staticClass:
+                                    "badge bg-primary rounded-pill float-end",
+                                },
+                                [_vm._v(" ")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          value.paused == false && _vm.userAuth != false
+                            ? _c(
+                                "small",
+                                {
+                                  staticClass:
+                                    "float-end retest pe-2 text-primary",
+                                  on: {
+                                    click: function ($event) {
+                                      return _vm.reTest(
+                                        env.name,
+                                        value,
+                                        _vm.envList.branch
+                                      )
+                                    },
                                   },
                                 },
-                              },
-                              [_vm._v("re-test")]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        value.paused == false &&
-                        value.status === "Fail" &&
-                        value.response != false
-                          ? _c(
-                              "div",
-                              {
-                                staticClass: "alert alert-danger",
-                                class:
-                                  value.expanded != undefined &&
-                                  value.expanded == true
-                                    ? "expanded"
-                                    : "collapsed",
-                              },
-                              [
+                                [_vm._v("re-test")]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          value.paused == false &&
+                          value.status === "Fail" &&
+                          value.response != false
+                            ? [
                                 value.response.length > 250
-                                  ? [
-                                      value.expanded == true
-                                        ? _c(
-                                            "strong",
-                                            {
-                                              staticClass:
-                                                "float-end text-primary",
-                                              on: {
-                                                click: function ($event) {
-                                                  return _vm.toggleAlert(
-                                                    1,
-                                                    value
-                                                  )
+                                  ? _c(
+                                      "div",
+                                      {
+                                        staticClass: "alert alert-danger",
+                                        class:
+                                          value.expanded != undefined &&
+                                          value.expanded == true
+                                            ? "expanded"
+                                            : "collapsed",
+                                      },
+                                      [
+                                        value.expanded == true
+                                          ? _c(
+                                              "strong",
+                                              {
+                                                staticClass:
+                                                  "float-end text-primary",
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.toggleAlert(
+                                                      1,
+                                                      value
+                                                    )
+                                                  },
                                                 },
                                               },
-                                            },
-                                            [_vm._v("Read less")]
-                                          )
-                                        : _c(
-                                            "strong",
-                                            {
-                                              staticClass:
-                                                "float-end text-primary",
-                                              on: {
-                                                click: function ($event) {
-                                                  return _vm.toggleAlert(
-                                                    0,
-                                                    value
-                                                  )
+                                              [_vm._v("Read less")]
+                                            )
+                                          : _c(
+                                              "strong",
+                                              {
+                                                staticClass:
+                                                  "float-end text-primary",
+                                                on: {
+                                                  click: function ($event) {
+                                                    return _vm.toggleAlert(
+                                                      0,
+                                                      value
+                                                    )
+                                                  },
                                                 },
                                               },
-                                            },
-                                            [_vm._v("Read more")]
-                                          ),
-                                    ]
-                                  : _vm._e(),
-                                _vm._v(
-                                  "\n                                    " +
-                                    _vm._s(value.response)
-                                ),
-                              ],
-                              2
-                            )
-                          : _vm._e(),
-                      ])
+                                              [_vm._v("Read more")]
+                                            ),
+                                        _vm._v(
+                                          "\n                                        " +
+                                            _vm._s(value.response) +
+                                            "\n                                    "
+                                        ),
+                                      ]
+                                    )
+                                  : _c(
+                                      "div",
+                                      { staticClass: "alert alert-danger" },
+                                      [_vm._v(_vm._s(value.response))]
+                                    ),
+                              ]
+                            : _vm._e(),
+                        ],
+                        2
+                      )
                     }),
                     0
                   ),

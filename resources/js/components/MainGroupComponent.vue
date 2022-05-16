@@ -23,12 +23,14 @@
                                 <small v-if="value.paused == false && userAuth != false" @click="reTest(env.name, value, envList.branch)" class="float-end retest pe-2 text-primary">re-test</small>
 
                                 <!-- if the response failed (500) and an error message set then show it -->
-                                <div v-if="value.paused == false && value.status === 'Fail' && value.response != false" class="alert alert-danger" :class="value.expanded != undefined && value.expanded == true ? 'expanded' : 'collapsed'">
-                                    <template v-if="value.response.length > 250">
+                                <template v-if="value.paused == false && value.status === 'Fail' && value.response != false">
+                                    <div v-if="value.response.length > 250" class="alert alert-danger" :class="value.expanded != undefined && value.expanded == true ? 'expanded' : 'collapsed'">
                                         <strong v-if="value.expanded == true" class="float-end text-primary" @click="toggleAlert(1, value)">Read less</strong>
                                         <strong v-else class="float-end text-primary" @click="toggleAlert(0, value)">Read more</strong>
-                                    </template>
-                                    {{value.response}}</div>
+                                        {{value.response}}
+                                    </div>
+                                    <div v-else class="alert alert-danger">{{value.response}}</div>
+                                </template>
                             </li>
 
                         </ul>

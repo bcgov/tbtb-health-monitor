@@ -73,7 +73,7 @@ class TestCaseController extends Controller
                 $obj = json_decode($response['body']);
                 if($obj->res->fail){
                     $result['status'] = 500;
-                    $result['result'] = $obj->res->faultstring;
+                    $result['result'] = $obj->res->faultstring ?? "Failed to complete action.";
                 }else{
                     $result['status'] = $response['http_code'];
                     $result['result'] = $response['body'];
