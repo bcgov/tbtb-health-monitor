@@ -36,6 +36,6 @@ echo "Starting apache:"
 echo "ReStarting apache:"
 /usr/sbin/apache2ctl restart
 
-while true; do
-    sleep 1;
+while :; do
+    sleep 300;
 done

@@ -213,6 +213,8 @@ class TestCaseController extends Controller
     public function pauseTest(Request $request, TbtbTest $test)
     {
         $test->paused = true;
+        $test->attempt = 0;
+        $test->attempt_total = 0;
         $test->save();
         return Response::json(['status' => $test->status, 'response' => $test->response], 200);
     }
