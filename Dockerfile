@@ -44,15 +44,13 @@ RUN apt-get -y install libmcrypt-dev libsqlite3-dev libsqlite3-0 mysql-client-* 
 # Install Postgre PDO
 RUN apt-get install -y libpq-dev libonig-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql
-
-
-RUN docker-php-ext-install -j$(nproc) iconv gettext
-RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
-RUN docker-php-ext-install -j$(nproc) gd
-RUN docker-php-ext-install opcache
-RUN docker-php-ext-install -j$(nproc) intl
-RUN docker-php-ext-install pdo_mysql pdo_sqlite mysqli curl tokenizer json mbstring zip soap
+    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
+    && docker-php-ext-install -j$(nproc) iconv gettext \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install opcache \
+    && docker-php-ext-install -j$(nproc) intl \
+    && docker-php-ext-install pdo_mysql pdo_sqlite mysqli curl tokenizer json mbstring zip soap
 
 
 
@@ -98,8 +96,7 @@ RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com
 RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 RUN apt-get install -y nodejs
 
-RUN npm config list
-RUN npm config ls -l
+RUN npm config list && npm config ls -l
 
 RUN apt-get autoclean
 RUN apt-get autoremove
@@ -113,13 +110,11 @@ RUN echo ${TEST_ARG}
 ENV TZ=${TZ}
 
 #RUN mkdir -p /etc/php/7.4/cli/conf.d
-RUN mkdir -p /var/log/php
-RUN printf 'error_log=/var/log/php/error.log\nlog_errors=1\nerror_reporting=E_ALL\n' > /usr/local/etc/php/conf.d/custom.ini
+RUN mkdir -p /var/log/php && printf 'error_log=/var/log/php/error.log\nlog_errors=1\nerror_reporting=E_ALL\n' > /usr/local/etc/php/conf.d/custom.ini
 #RUN printf "date.timezone = \"${TZ}\"\n" > /usr/local/etc/php/conf.d/tzone.ini
 
 # Composer
-RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
-RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+RUN curl -sS https://getcomposer.org/installer -o composer-setup.php && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /
 COPY openshift/apache-oc/image-files/ /
@@ -178,7 +173,7 @@ DB_DATABASE=${ENV_DB_DATABASE}\n\
 DB_USERNAME=${ENV_DB_USERNAME}\n\
 DB_PASSWORD=${ENV_DB_PASSWORD}\n" >> /var/www/html/.env
 
-RUN mkdir -p storage && mkdir -p bootstrap/cache &&chmod -R ug+rwx storage bootstrap/cache
+RUN mkdir -p storage && mkdir -p bootstrap/cache && chmod -R ug+rwx storage bootstrap/cache
 RUN cd /var/www && chown -R ${USER_ID}:root html && chmod -R ug+rw html
 
 RUN cd ~ && chown -R ${USER_ID}:root .npm && chmod -R 766 .npm
@@ -187,21 +182,17 @@ RUN cd ~ && chown -R ${USER_ID}:root .npm && chmod -R 766 .npm
 #RUN npm config ls -l
 
 
-RUN npm cache clean --force
-RUN npm cache verify
+RUN npm cache clean --force && npm cache verify
 
 #now install npm
-RUN cd /var/www/html && npm install
-RUN cd /var/www/html && chmod -R a+w node_modules
+RUN cd /var/www/html && npm install && chmod -R a+w node_modules
 
 #Error: EACCES: permission denied, open '/var/www/html/public/mix-manifest.json'
 RUN cd /var/www/html/public && chmod 766 mix-manifest.json
 RUN cd /var/www/html && npm run dev
 
 #Writing to directory /.config/psysh is not allowed.
-RUN mkdir -p /.config/psysh
-RUN chown -R ${USER_ID}:root /.config && chmod -R 755 /.config
-RUN echo "<?php return ['runtimeDir' => '/tmp'];" >> /.config/psysh/config.php
+RUN mkdir -p /.config/psysh && chown -R ${USER_ID}:root /.config && chmod -R 755 /.config && echo "<?php return ['runtimeDir' => '/tmp'];" >> /.config/psysh/config.php
 
 #openshift will complaine about permission
 RUN chmod +x /sbin/entrypoint.sh
