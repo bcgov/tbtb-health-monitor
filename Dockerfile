@@ -71,7 +71,7 @@ RUN alien -i /tmp/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
 RUN alien -i /tmp/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
 ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
 ENV ORACLE_HOME /usr/lib/oracle/12.2/client64
-RUN pear download pecl/oci8 && cd /var/www/html && tar xvzf oci8-3.2.1.tgz && cd oci8-3.2.1 && phpize && ./configure --with-oci8=shared,instantclient,/usr/lib/oracle/12.2/client64/lib/ && make
+RUN pear download pecl/oci8 && tar xvzf oci8-3.2.1.tgz && cd oci8-3.2.1 && phpize && ./configure --with-oci8=shared,instantclient,/usr/lib/oracle/12.2/client64/lib/ && make
 RUN printf "shared,instantclient,/usr/lib/oracle/12.2/client64/lib" | pecl install oci8
 
 ENV APACHE_REMOTE_IP_HEADER=X-Forwarded-For
