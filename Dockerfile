@@ -39,7 +39,7 @@ RUN apt-get install -y lynx
 RUN apt-get -y install xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio
 
 # Other PHP7 Extensions
-RUN apt-get -y install libmcrypt-dev libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
+RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
 
 # Install Postgre PDO
 RUN apt-get install -y libpq-dev libonig-dev \
