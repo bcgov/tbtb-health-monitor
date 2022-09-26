@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.1-apache
 ARG DEBIAN_VERSION=20.04
 ARG APACHE_OPENIDC_VERSION=2.4.10
 ARG USER_ID=1009370000
@@ -20,59 +20,50 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /
 
+
+
+WORKDIR /
+
 RUN apt-get -y update --fix-missing
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
-RUN apt-get install -y \
-    alien \
+#php setup, install extensions, setup configs
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    libzip-dev \
+    libxml2-dev \
+    zip \
     unzip \
-    libfreetype6-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* && pecl install zip pcov && docker-php-ext-enable zip \
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-install soap \
+    && docker-php-source delete
+
+#disable exposing server information
+RUN sed -ri -e 's!expose_php = On!expose_php = Off!g' $PHP_INI_DIR/php.ini-production \
+    && sed -ri -e 's!ServerTokens OS!ServerTokens Prod!g' /etc/apache2/conf-available/security.conf \
+    && sed -ri -e 's!ServerSignature On!ServerSignature Off!g' /etc/apache2/conf-available/security.conf \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+RUN apt-get update -qq \
+    && apt-get install -yq apt-utils zlib1g-dev g++ libicu-dev unzip libzip-dev zip libpq-dev git nano netcat curl apache2 dialog locate libcurl4 libcurl3-dev psmisc \
+	libfreetype6-dev \
     libjpeg62-turbo-dev \
-    libmcrypt-dev \
-    libpng-dev \
-    git nano \
-    gnupg yarn \
-    netcat curl apache2 dialog locate \
-    libcurl4 libcurl3-dev zip psmisc \
-    lynx \
-    xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio \
-    libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
+        libmcrypt-dev \
+        libpng-dev \
+        libmcrypt-dev \
+        libpng-dev \
 
-
-#resolve /usr/sbin/apache2ctl: 113: www-browser: not found
-#RUN apt-get install -y lynx
-
-#TO BE ABLE TO RUN DUSK FROM DOCKER SETUP AND INSTALL CHROMIUM
-#RUN apt-get -y install xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio
-
-# Other PHP7 Extensions
-#RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
+    && pecl install apcu \
+    && docker-php-ext-enable apcu \
+    && docker-php-ext-install intl opcache\
+    && docker-php-ext-configure zip \
+    && docker-php-ext-install zip
 
 # Install Postgre PDO
-RUN apt-get install -y libpq-dev libonig-dev \
+RUN apt-get install -y libonig-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
-    && docker-php-ext-install pdo pdo_pgsql pgsql \
-    && docker-php-ext-install -j$(nproc) iconv gettext \
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install opcache \
-    && docker-php-ext-install -j$(nproc) intl \
-    && docker-php-ext-install pdo_mysql pdo_sqlite mysqli curl tokenizer json mbstring zip soap
+    && docker-php-ext-install pdo pdo_pgsql pgsql && docker-php-ext-install curl && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && docker-php-ext-install -j$(nproc) gd && a2enmod rewrite
 
 
-#https://pecl.php.net/package/oci8
-# Oracle instantclient
-RUN apt-get install apt-utils
-RUN apt-get -y install wget alien
-ADD /oci/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm /tmp/
-ADD /oci/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm /tmp/
-ADD /oci/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm /tmp/
-RUN alien -i /tmp/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
-RUN alien -i /tmp/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
-RUN alien -i /tmp/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
-ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
-ENV ORACLE_HOME /usr/lib/oracle/12.2/client64
-RUN pear download pecl/oci8 && tar xvzf oci8-3.2.1.tgz && cd oci8-3.2.1 && phpize && ./configure --with-oci8=shared,instantclient,/usr/lib/oracle/12.2/client64/lib/ && make
-RUN printf "shared,instantclient,/usr/lib/oracle/12.2/client64/lib" | pecl install oci8
 
 ENV APACHE_REMOTE_IP_HEADER=X-Forwarded-For
 ENV APACHE_REMOTE_IP_TRUSTED_PROXY="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 10.97.6.0/16 10.97.6.1"
@@ -111,26 +102,27 @@ RUN sed -i -e 's/^ServerTokens OS$/ServerTokens Prod/g' \
 RUN a2enmod rewrite headers
 
 # Install NPM
-RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null
-RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
-RUN apt-get install -y nodejs
+RUN curl --location https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
+#RUN chown -R ${USER_ID}:root /root/.npm && chmod -R 766 /root/.npm
 
-#RUN npm config list && npm config ls -l
+# Install Yarn
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com/debian stable main" | tee /etc/apt/sources.list.d/yarn.list
+
+
+#RUN npm config list
+#RUN npm config ls -l
 
 RUN apt-get autoclean && apt-get autoremove
 
 #fix Action '-D FOREGROUND' failed.
 RUN a2enmod lbmethod_byrequests
 
-RUN echo ${TEST_ARG}
 
 # System - Set default timezone
 ENV TZ=${TZ}
 
-#RUN mkdir -p /etc/php/7.4/cli/conf.d
+
 RUN mkdir -p /var/log/php && printf 'error_log=/var/log/php/error.log\nlog_errors=1\nerror_reporting=E_ALL\n' > /usr/local/etc/php/conf.d/custom.ini
-#RUN printf "date.timezone = \"${TZ}\"\n" > /usr/local/etc/php/conf.d/tzone.ini
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer -o composer-setup.php && php composer-setup.php --install-dir=/usr/local/bin --filename=composer
@@ -166,12 +158,31 @@ RUN sed -i -e 's/80/8080/g' -e 's/443/8443/g' -e 's/25/2525/g' /etc/apache2/port
     && a2query -M \
     && a2query -m \
     && chmod a+rx /docker-bin/*.sh \
-    && /docker-bin/docker-build.sh
+    && /docker-bin/docker-build.sh && export COMPOSER_HOME="$HOME/.config/composer";
+
+
+
+#TO BE ABLE TO RUN DUSK FROM DOCKER SETUP AND INSTALL CHROMIUM
+RUN apt-get -y install xvfb gtk2-engines-pixbuf
+RUN apt-get -y install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable && \
+  apt-get -y install imagemagick x11-apps wget
+RUN apt-get -y install python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio
+COPY chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
+RUN dpkg -i ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
+
+
+# Install Postgre PDO
+RUN apt-get install -y libpq-dev libonig-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
+RUN docker-php-ext-install curl
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+RUN docker-php-ext-install -j$(nproc) gd
 
 COPY chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
 RUN dpkg -i ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
 
-RUN export COMPOSER_HOME="$HOME/.config/composer";
 
 COPY entrypoint.sh /sbin/entrypoint.sh
 
