@@ -30,12 +30,12 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
 | into the script here so we don't need to manually load our classes.
 |
 */
-if(!file_exists(__DIR__.'/../vendor/autoload.php')){
+if(!file_exists(__DIR__ . '/../vendor/autoload.php')){
     http_response_code(500);
     echo "No vendor installed.";
     exit();
 }
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
