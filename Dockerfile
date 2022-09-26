@@ -23,29 +23,34 @@ WORKDIR /
 RUN apt-get -y update --fix-missing
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 RUN apt-get install -y \
-        alien \
-        unzip \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        libpng-dev \
-        git nano \
-		gnupg yarn \
-		netcat curl apache2 dialog locate \
-		libcurl4 libcurl3-dev zip psmisc
+    alien \
+    unzip \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libmcrypt-dev \
+    libpng-dev \
+    git nano \
+    gnupg yarn \
+    netcat curl apache2 dialog locate \
+    libcurl4 libcurl3-dev zip psmisc \
+    lynx \
+    xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio \
+    install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev \
+    libpq-dev libonig-dev \
+
 
 #resolve /usr/sbin/apache2ctl: 113: www-browser: not found
-RUN apt-get install -y lynx
+#RUN apt-get install -y lynx
 
 #TO BE ABLE TO RUN DUSK FROM DOCKER SETUP AND INSTALL CHROMIUM
-RUN apt-get -y install xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio
+#RUN apt-get -y install xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio
 
 # Other PHP7 Extensions
-RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
+#RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
 
 # Install Postgre PDO
-RUN apt-get install -y libpq-dev libonig-dev \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+#RUN apt-get install -y libpq-dev libonig-dev \
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-install -j$(nproc) iconv gettext \
@@ -98,10 +103,9 @@ RUN echo "deb [signed-by=/usr/share/keyrings/yarnkey.gpg] https://dl.yarnpkg.com
 RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash -
 RUN apt-get install -y nodejs
 
-RUN npm config list && npm config ls -l
+#RUN npm config list && npm config ls -l
 
-RUN apt-get autoclean
-RUN apt-get autoremove
+RUN apt-get autoclean && apt-get autoremove
 
 #fix Action '-D FOREGROUND' failed.
 RUN a2enmod lbmethod_byrequests
@@ -167,8 +171,7 @@ COPY / /var/www/html/
 
 WORKDIR /var/www/html/
 
-RUN touch .env && echo ${ENV_ARG} >> /var/www/html/.env
-RUN echo "\n\
+RUN touch .env && echo ${ENV_ARG} >> /var/www/html/.env && echo "\n\
 DB_CONNECTION=${ENV_DB_CONNECTION}\n\
 DB_HOST=${ENV_DB_HOST}\n\
 DB_PORT=${ENV_DB_PORT}\n\

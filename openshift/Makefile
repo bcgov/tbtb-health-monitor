@@ -48,6 +48,7 @@ print-status:
 	@echo " | BUILD_ID: 	$(BUILD_ID) "
 	@echo " | BUILD_TAG: 	$(BUILD_TAG) "
 	@echo " | HOST NAME: 	$(HOST) "
+	@echo " | HOST PREFIX: 	$(HOST_PREFIX) "
 	@echo " +---------------------------------------------------------+ "
 
 # init-artifactory-secret-credential:
