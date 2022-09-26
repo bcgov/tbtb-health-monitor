@@ -35,7 +35,7 @@ RUN apt-get install -y \
     libcurl4 libcurl3-dev zip psmisc \
     lynx \
     xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio \
-    install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
+    libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
 
 
 #resolve /usr/sbin/apache2ctl: 113: www-browser: not found
@@ -59,6 +59,20 @@ RUN apt-get install -y libpq-dev libonig-dev \
     && docker-php-ext-install pdo_mysql pdo_sqlite mysqli curl tokenizer json mbstring zip soap
 
 
+#https://pecl.php.net/package/oci8
+# Oracle instantclient
+RUN apt-get install apt-utils
+RUN apt-get -y install wget alien
+ADD /oci/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm /tmp/
+ADD /oci/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm /tmp/
+ADD /oci/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm /tmp/
+RUN alien -i /tmp/oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
+RUN alien -i /tmp/oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
+RUN alien -i /tmp/oracle-instantclient12.2-devel-12.2.0.1.0-1.x86_64.rpm
+ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib
+ENV ORACLE_HOME /usr/lib/oracle/12.2/client64
+RUN pear download pecl/oci8 && cd /var/www/html && tar xvzf oci8-3.2.1.tgz && cd oci8-3.2.1 && phpize && ./configure --with-oci8=shared,instantclient,/usr/lib/oracle/12.2/client64/lib/ && make
+RUN printf "shared,instantclient,/usr/lib/oracle/12.2/client64/lib" | pecl install oci8
 
 ENV APACHE_REMOTE_IP_HEADER=X-Forwarded-For
 ENV APACHE_REMOTE_IP_TRUSTED_PROXY="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 10.97.6.0/16 10.97.6.1"
