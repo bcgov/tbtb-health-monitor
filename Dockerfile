@@ -35,8 +35,7 @@ RUN apt-get install -y \
     libcurl4 libcurl3-dev zip psmisc \
     lynx \
     xvfb gtk2-engines-pixbuf xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable imagemagick x11-apps wget python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio \
-    install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev \
-    libpq-dev libonig-dev \
+    install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
 
 
 #resolve /usr/sbin/apache2ctl: 113: www-browser: not found
@@ -49,8 +48,8 @@ RUN apt-get install -y \
 #RUN apt-get -y install libsqlite3-dev libsqlite3-0 mysql-client-* zlib1g-dev libzip-dev libicu-dev libxml2-dev
 
 # Install Postgre PDO
-#RUN apt-get install -y libpq-dev libonig-dev \
-RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+RUN apt-get install -y libpq-dev libonig-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install pdo pdo_pgsql pgsql \
     && docker-php-ext-install -j$(nproc) iconv gettext \
