@@ -20,10 +20,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /
 
-
-
-WORKDIR /
-
 RUN apt-get -y update --fix-missing
 RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 #php setup, install extensions, setup configs
@@ -171,19 +167,6 @@ COPY chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb ./chromium_97.0.4692.99_l
 RUN dpkg -i ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
 
 
-# Install Postgre PDO
-RUN apt-get install -y libpq-dev libonig-dev \
-    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
-    && docker-php-ext-install pdo pdo_pgsql pgsql
-
-RUN docker-php-ext-install curl
-RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
-RUN docker-php-ext-install -j$(nproc) gd
-
-COPY chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
-RUN dpkg -i ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
-
-
 COPY entrypoint.sh /sbin/entrypoint.sh
 
 
@@ -206,13 +189,15 @@ DB_PASSWORD=${ENV_DB_PASSWORD}\n" >> /var/www/html/.env
 RUN mkdir -p storage && mkdir -p bootstrap/cache && chmod -R ug+rwx storage bootstrap/cache
 RUN cd /var/www && chown -R ${USER_ID}:root html && chmod -R ug+rw html
 
-RUN cd ~ && chown -R ${USER_ID}:root .npm && chmod -R 766 .npm
+#RUN cd ~ && chown -R ${USER_ID}:root .npm && chmod -R 766 .npm
 
 #RUN npm config list
 #RUN npm config ls -l
 
 
-RUN npm cache clean --force && npm cache verify
+#RUN npm cache clean --force && npm cache verify
+
+RUN chmod 764 /var/www/html/artisan
 
 #now install npm
 RUN cd /var/www/html && npm install && chmod -R a+w node_modules
