@@ -14,6 +14,8 @@ ARG ENV_DB_DATABASE
 ARG ENV_DB_USERNAME
 ARG ENV_DB_PASSWORD
 
+ARG ENV_DEFAULT_CONF
+
 ARG DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /
@@ -120,6 +122,7 @@ WORKDIR /
 COPY openshift/apache-oc/image-files/ /
 RUN mkdir -p /etc/apache2/sites-enabled
 COPY openshift/apache-oc/image-files/etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+RUN echo "${ENV_DEFAULT_CONF}\n" >> /etc/apache2/sites-enabled/000-default.conf
 
 ENV APACHE_SERVER_NAME=__default__
 
