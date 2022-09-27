@@ -30,6 +30,8 @@ echo "End schedule 2:"
 
 chmod 766 /var/www/html/probe-check.sh
 
+npm run --prefix /var/www/html/ dev
+
 echo "Starting apache:"
 /usr/sbin/apache2ctl start
 

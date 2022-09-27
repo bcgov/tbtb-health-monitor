@@ -204,7 +204,7 @@ RUN cd /var/www/html && npm install && chmod -R a+w node_modules
 
 #Error: EACCES: permission denied, open '/var/www/html/public/mix-manifest.json'
 RUN cd /var/www/html/public && chmod 766 mix-manifest.json
-RUN cd /var/www/html && npm run dev
+#RUN cd /var/www/html && npm run dev
 
 #Writing to directory /.config/psysh is not allowed.
 RUN mkdir -p /.config/psysh && chown -R ${USER_ID}:root /.config && chmod -R 755 /.config && echo "<?php return ['runtimeDir' => '/tmp'];" >> /.config/psysh/config.php
@@ -214,4 +214,5 @@ RUN chmod +x /sbin/entrypoint.sh
 USER ${USER_ID}
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
-CMD /usr/sbin/apache2ctl start && /usr/sbin/apache2ctl restart && /sbin/entrypoint.sh
+#CMD /usr/sbin/apache2ctl start && /usr/sbin/apache2ctl restart && /sbin/entrypoint.sh
+CMD ["apache2-foreground"]
