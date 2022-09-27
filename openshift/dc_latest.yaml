@@ -38,7 +38,7 @@ objects:
               namespace: ${BUILD_NAMESPACE}
             containerNames:
               - ${NAME}
-      replicas: 2
+      replicas: 1
       revisionHistoryLimit: 5
       selector:
         deploymentconfig: ${NAME}
