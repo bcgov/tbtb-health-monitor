@@ -30,6 +30,7 @@ echo "End schedule 2:"
 
 chmod 766 /var/www/html/probe-check.sh
 
+echo "Run NPM:"
 npm run --prefix /var/www/html/ dev
 
 echo "Starting apache:"

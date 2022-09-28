@@ -79,7 +79,7 @@ objects:
                   - /bin/sh
                   - -c
                   - /var/www/html/probe-check.sh
-                initialDelaySeconds: 45
+                initialDelaySeconds: 500
                 periodSeconds: 15
                 timeoutSeconds: 5
                 successThreshold: 1
