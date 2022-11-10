@@ -30,7 +30,9 @@ class SabcLoginTest extends DuskTestCase
             $browser->type('input[id="user_id"]', env('PROD_SABC_ACCESS_LOGIN_USERID'));
             $browser->type('input[id="password"]', env('PROD_SABC_ACCESS_LOGIN_PASS'));
             $browser->press('Login with StudentAid BC User ID');
-            $browser->waitFor("div[id='myTabContent']", 5);
+            $browser->waitFor("div[id='require_bcsc']", 10);
+            $browser->click('#require_bcsc > div > div > div.modal-footer > button');
+            $browser->waitFor("div[id='myTabContent']", 10);
             $browser->screenshot(time() . "-testProdSabcAccessLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
 
@@ -64,7 +66,7 @@ class SabcLoginTest extends DuskTestCase
             $browser->type('input[id="user_id"]', env('DEV_SABC_ACCESS_LOGIN_USERID'));
             $browser->type('input[id="password"]', env('DEV_SABC_ACCESS_LOGIN_PASS'));
             $browser->press('Login with StudentAid BC User ID');
-            $browser->waitFor("div[id='myTabContent']", 5);
+            $browser->waitFor("div[id='myTabContent']", 2);
             $browser->screenshot(time() . "-testDevAccessLoginPage-screenshot");
             $test = $browser->driver->getPageSource();
 
