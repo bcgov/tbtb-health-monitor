@@ -18,6 +18,10 @@ echo "Install composer"
 composer install && composer dump-auto && php artisan key:generate && php artisan cache:clear && php artisan config:clear
 chmod 764 artisan
 
+
+#prevent 'Curl error thrown for http POST to /session/' errors
+chmod -R 0755 vendor/laravel/dusk/bin/
+
 echo "Starting queue 1:"
 php /var/www/html/artisan queue:listen --memory=1028 --sleep=5 --timeout=400 --tries=3 &
 
