@@ -163,8 +163,8 @@ RUN apt-get -y install xvfb gtk2-engines-pixbuf
 RUN apt-get -y install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable && \
   apt-get -y install imagemagick x11-apps wget
 RUN apt-get -y install python3 libgbm1 libgl1-mesa-glx libgtk-3-0 libnss3 libsecret-1-0 libxss1 pulseaudio
-COPY chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
-RUN dpkg -i ./chromium_97.0.4692.99_linuxmint1+debbie_amd64.deb
+COPY chromium_106.0.5249.119_linuxmint1+una_amd64.deb ./chromium_106.0.5249.119_linuxmint1+una_amd64.deb
+RUN dpkg -i ./chromium_106.0.5249.119_linuxmint1+una_amd64.deb
 
 
 COPY entrypoint.sh /sbin/entrypoint.sh
