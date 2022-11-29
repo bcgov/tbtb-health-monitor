@@ -13,5 +13,9 @@ else
     if [ ! -d "/var/www/html/vendor" ]; then
         exit 1
     fi
+
+    if [ $(php /var/www/html/artisan sabc-dusk:check | grep -v grep) -ge 10 ]; then
+      exit 1
+    fi
   exit 0
 fi
